@@ -3,6 +3,16 @@
 set -euo pipefail
 shopt -s dotglob
 
-mkdir -p dist
+# target directory for distributions
+mkdir -p 'dist'
 
-tar -cvpzf 'dist/build.tgz' --directory='home' .
+# setup temporary build directory
+mkdir -p '.tmp'
+cp home/* .tmp/
+cp -r setup .tmp/
+
+# create the tarball
+tar -cvpzf 'dist/build.tgz' --directory '.tmp' .
+
+# clean up temporary build directory
+rm -rf '.tmp'

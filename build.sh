@@ -3,4 +3,6 @@
 set -euo pipefail
 shopt -s dotglob
 
-tar -cvpzf 'build.tgz' --directory='home' .
+mkdir -p dist
+
+tar -cvpzf 'dist/build.tgz' --directory='home' .

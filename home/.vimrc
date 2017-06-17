@@ -18,6 +18,8 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 " Ctrl+p fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
+" Async linting while I type
+Plug 'w0rp/ale'
 " Go language support
 Plug 'fatih/vim-go'
 " Docker support

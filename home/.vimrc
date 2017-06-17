@@ -14,6 +14,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter'
 " Sensible defaults for Vim
 Plug 'tpope/vim-sensible'
+"" Configure vim based on the project
+Plug 'editorconfig/editorconfig-vim'
 " Ctrl+p fuzzy finder
 Plug 'ctrlpvim/ctrlp.vim'
 " Go language support

@@ -21,6 +21,7 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 " fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " Async linting while I type
 Plug 'w0rp/ale'
 " Autocomplete
@@ -28,6 +29,8 @@ Plug 'Valloric/YouCompleteMe'
 
 " Go language support
 Plug 'fatih/vim-go'
+" Python support
+Plug 'python-mode/python-mode'
 " Docker support
 Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 " JSON support
@@ -35,3 +38,6 @@ Plug 'elzr/vim-json'
 
 " Initialize plugin system
 call plug#end()
+
+" Python customizations
+let g:pymode_folding = 0

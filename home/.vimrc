@@ -39,5 +39,10 @@ Plug 'elzr/vim-json'
 " Initialize plugin system
 call plug#end()
 
+" fzf shortcuts
+noremap <c-x> :Files<CR>
+vnoremap <c-x> <Esc>:Files<CR>
+inoremap <c-x> <Esc>:Files<CR>
+
 " Python customizations
 let g:pymode_folding = 0

@@ -19,8 +19,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 "" Configure vim based on the project
 Plug 'editorconfig/editorconfig-vim'
-" Ctrl+p fuzzy finder
-Plug 'ctrlpvim/ctrlp.vim'
+" fuzzy finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Async linting while I type
 Plug 'w0rp/ale'
 " Autocomplete

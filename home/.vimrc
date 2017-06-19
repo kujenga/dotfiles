@@ -10,8 +10,11 @@ set statusline+=%f\ %l\:%c
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 
-" git support
+" git inline support
 Plug 'airblade/vim-gitgutter'
+" git wrapper
+Plug 'tpope/vim-fugitive'
+
 " Sensible defaults for Vim
 Plug 'tpope/vim-sensible'
 "" Configure vim based on the project
@@ -20,6 +23,9 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ctrlpvim/ctrlp.vim'
 " Async linting while I type
 Plug 'w0rp/ale'
+" Autocomplete
+Plug 'Valloric/YouCompleteMe'
+
 " Go language support
 Plug 'fatih/vim-go'
 " Docker support

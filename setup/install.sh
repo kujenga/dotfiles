@@ -24,9 +24,16 @@ case $(uname) in
 	Linux)
 		type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
 
+		SYS_PKG='build-essential'
+
+		for pkg in $SYS_PKG; do
+			echo "installing system package $pkg"
+			sudo apt-get install -y "$pkg"
+		done
+
 		for pkg in $PKGS; do
 			echo "installing: $pkg"
-			apt-get install "$pkg"
+			sudo apt-get install -y "$pkg"
 		done
 
 		;;

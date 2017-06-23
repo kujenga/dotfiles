@@ -53,6 +53,8 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 " Copy and paste using system clipboard
 vnoremap <C-c> "*y
 
+" Use ripgrep for fzf
+let $FZF_DEFAULT_COMMAND = 'rg --files'
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
 command! -bang -nargs=* Rg

@@ -17,6 +17,9 @@ xcuserdata
 DerivedData
 *.xcuserstate
 
+### Vim
+*.swp
+
 ### Emacs
 # -*- mode: gitignore; -*-
 *~

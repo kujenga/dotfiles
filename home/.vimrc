@@ -46,3 +46,18 @@ inoremap <c-x> <Esc>:Files<CR>
 
 " Python customizations
 let g:pymode_folding = 0
+
+" YAML customizations
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" Copy and paste using system clipboard
+vnoremap <C-c> "*y
+
+" Ripgrep support using fzf
+" https://github.com/junegunn/fzf.vim#advanced-customization
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)

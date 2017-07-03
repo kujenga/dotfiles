@@ -1,11 +1,3 @@
-" syntax highlighting
-syntax enable
-" show line numbers
-set number
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=DarkGrey guibg=NONE
-" show line,column in status bar
-set statusline+=%f\ %l\:%c
-
 " vim-plug configuration
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
@@ -30,6 +22,9 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'qpkorr/vim-bufkill'
 " improved status line
 Plug 'vim-airline/vim-airline'
+" tree view of files
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Go language support
 Plug 'fatih/vim-go'
@@ -40,8 +35,19 @@ Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 " JSON support
 Plug 'elzr/vim-json'
 
+" syntax highlighting
+Plug 'kujenga/vim-monokai'
+
 " Initialize plugin system
 call plug#end()
+
+" syntax highlighting
+syntax enable
+colorscheme monokai
+" show line numbers
+set number
+" show line,column in status bar
+set statusline+=%f\ %l\:%c
 
 " fzf shortcuts
 noremap <c-x> :Files<CR>

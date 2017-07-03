@@ -61,6 +61,9 @@ let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --jsx-bracket-same-line'
 
+" JSON
+let g:ale_fixers['json'] = ['prettier']
+
 " Python customizations
 let g:pymode_folding = 0
 " grey column indicator
@@ -85,6 +88,3 @@ command! -bang -nargs=* Rg
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
-
-" JSON
-command! FormatJSON %!python -m json.tool

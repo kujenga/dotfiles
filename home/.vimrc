@@ -9,8 +9,10 @@ Plug 'tpope/vim-fugitive'
 
 " Sensible defaults for Vim
 Plug 'tpope/vim-sensible'
-"" Configure vim based on the project
+" Configure vim based on the project
 Plug 'editorconfig/editorconfig-vim'
+" Guess indentation from current buffer
+Plug 'ciaranm/detectindent'
 " fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -48,6 +50,8 @@ colorscheme monokai
 set number
 " show line,column in status bar
 set statusline+=%f\ %l\:%c
+" allow buffers with unsaved changes
+set hidden
 
 " fzf shortcuts
 noremap <c-x> :Files<CR>
@@ -72,11 +76,12 @@ let g:ale_fixers['json'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
-" grey column indicator
-hi ColorColumn ctermbg=8
 
 " YAML customizations
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" sh/bash customizations
+let g:ale_sh_shellcheck_options = '-x'
 
 " Copy and paste using system clipboard
 vnoremap <C-c> "*y
@@ -85,7 +90,7 @@ vnoremap <C-c> "*y
 au FocusGained,BufEnter * :silent! !
 
 " Use ripgrep for fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files'
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
 command! -bang -nargs=* Rg

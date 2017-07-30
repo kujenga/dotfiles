@@ -90,7 +90,7 @@ vnoremap <C-c> "*y
 au FocusGained,BufEnter * :silent! !
 
 " Use ripgrep for fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob !.git/*'
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
 command! -bang -nargs=* Rg

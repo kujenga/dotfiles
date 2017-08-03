@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh
+. "$HOME/.carge/env"
+# Install ripgrep from source
+cargo install ripgrep
+
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

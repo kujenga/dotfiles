@@ -12,6 +12,12 @@ cargo install ripgrep
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
+# Configure git
+git config --global alias.st "status"
+git config --global alias.br "branch"
+git config --global alias.co "checkout"
+git config --global alias.pushf "push --force-with-lease"
+
 # desired packages to install
 PKGS='tree'
 

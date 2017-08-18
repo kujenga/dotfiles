@@ -27,6 +27,8 @@ Plug 'vim-airline/vim-airline'
 " tree view of files
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+" commenting
+Plug 'scrooloose/nerdcommenter'
 
 " Go language support
 Plug 'fatih/vim-go'
@@ -36,6 +38,8 @@ Plug 'python-mode/python-mode'
 Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 " JSON support
 Plug 'elzr/vim-json'
+" Rust support
+Plug 'rust-lang/rust.vim'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
@@ -62,7 +66,8 @@ vnoremap <c-b> <Esc>:Buffers<CR>
 inoremap <c-b> <Esc>:Buffers<CR>
 
 " Go customizations
-let g:go_fmt_command = "goimports"
+" This is disabled because it can block for a lengthy period of time.
+" let g:go_fmt_command = "goimports"
 
 " JS customizations
 " let g:neoformat_enabled_javascript = ['prettier']
@@ -89,13 +94,28 @@ vnoremap <C-c> "*y
 " Trigger autoread on focus change
 au FocusGained,BufEnter * :silent! !
 
+" utility function for calling RipGrep with parameters
+function! RipGrep(option, args, bang)
+  call fzf#vim#grep(
+    \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
+    \       a:option, shellescape(a:args)], ' '),
+    \ 1,
+    \ a:bang ? fzf#vim#with_preview('up:60%')
+    \        : fzf#vim#with_preview('right:50%:hidden', '?'),
+    \ a:bang)
+endfunction
+
 " Use ripgrep for fzf
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob !.git/*'
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+  \ call RipGrep('', <q-args>, <bang>0)
+command! -bang -nargs=* Rgi
+  \ call RipGrep('--ignore-case', <q-args>, <bang>0)
+
+""" Commenting the right way
+" proper alignment instead of following the code
+let g:NERDDefaultAlign = 'left'
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1

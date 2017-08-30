@@ -4,7 +4,7 @@ set -euo pipefail
 
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh
-. "$HOME/.carge/env"
+. "$HOME/.cargo/env"
 # Install ripgrep from source
 cargo install ripgrep
 
@@ -16,7 +16,10 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 git config --global alias.st "status"
 git config --global alias.br "branch"
 git config --global alias.co "checkout"
-git config --global alias.pushf "push --force-with-lease"
+git config --global alias.fpush "push --force-with-lease"
+git config --global alias.last "log -1 HEAD"
+git config --global alias.sl "stash list --format='%gd (%cr): %gs'"
+git config --global alias.bl "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:short)%(color:reset))'"
 
 # desired packages to install
 PKGS='tree'

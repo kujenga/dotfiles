@@ -40,6 +40,8 @@ Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 Plug 'elzr/vim-json'
 " Rust support
 Plug 'rust-lang/rust.vim'
+" HTML Support
+Plug 'mattn/emmet-vim'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
@@ -64,6 +66,9 @@ inoremap <c-x> <Esc>:Files<CR>
 noremap <c-b> :Buffers<CR>
 vnoremap <c-b> <Esc>:Buffers<CR>
 inoremap <c-b> <Esc>:Buffers<CR>
+
+" hidden characters
+nmap <leader>l :set list!<CR>
 
 " Go customizations
 " This is disabled because it can block for a lengthy period of time.
@@ -98,6 +103,7 @@ au FocusGained,BufEnter * :silent! !
 function! RipGrep(option, args, bang)
   call fzf#vim#grep(
     \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
+    \       '--hidden', '--glob', '!.git/*',
     \       a:option, shellescape(a:args)], ' '),
     \ 1,
     \ a:bang ? fzf#vim#with_preview('up:60%')

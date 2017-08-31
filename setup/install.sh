@@ -18,6 +18,8 @@ git config --global alias.br "branch"
 git config --global alias.co "checkout"
 git config --global alias.fpush "push --force-with-lease"
 git config --global alias.last "log -1 HEAD"
+git config --global alias.recent "log --pretty=medium --stat -5 HEAD"
+git config --global alias.hist "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 git config --global alias.sl "stash list --format='%gd (%cr): %gs'"
 git config --global alias.bl "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:short)%(color:reset))'"
 

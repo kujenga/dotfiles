@@ -20,8 +20,13 @@ git config --global alias.fpush "push --force-with-lease"
 git config --global alias.last "log -1 HEAD"
 git config --global alias.recent "log --pretty=medium --stat -5 HEAD"
 git config --global alias.hist "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+# https://stackoverflow.com/a/31687960
 git config --global alias.sl "stash list --format='%gd (%cr): %gs'"
+# https://stackoverflow.com/a/5188364
 git config --global alias.bl "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:short)%(color:reset))'"
+# allow "go get" to fetch private repos with ssh keys
+# https://gist.github.com/shurcooL/6927554
+git config --global url."git@github.com:".insteadOf "https://github.com/"
 
 # desired packages to install
 PKGS='tree'

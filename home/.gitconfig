@@ -1,6 +1,0 @@
-# This causes `go get` to use SSH keys
-[url "git@github.com:"]
-        insteadOf = https://github.com/
-[alias]
-        br = branch
-        st = status

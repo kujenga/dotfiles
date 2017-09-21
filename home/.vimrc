@@ -120,6 +120,10 @@ command! -bang -nargs=* Rg
 command! -bang -nargs=* Rgi
   \ call RipGrep('--ignore-case', <q-args>, <bang>0)
 
+" auto-close vim when NERDTree is the last one standing
+" https://github.com/scrooloose/nerdtree/issues/21#issuecomment-157212312
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 """ Commenting the right way
 " proper alignment instead of following the code
 let g:NERDDefaultAlign = 'left'

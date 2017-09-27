@@ -19,6 +19,9 @@ DerivedData
 
 ### Vim
 *.swp
+# other swap files: https://unix.stackexchange.com/q/326707
+*.swo
+*.swn
 
 ### Emacs
 # -*- mode: gitignore; -*-

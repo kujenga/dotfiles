@@ -8,6 +8,18 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 
-[*.{sh,sql}]
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[*.{sh,bash}]
+indent_style = space
+indent_size = 4
+
+[*.sql]
+indent_style = space
+indent_size = 2
+
+[*.apib]
 indent_style = space
 indent_size = 4

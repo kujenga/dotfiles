@@ -2,11 +2,6 @@
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 
-" git inline support
-Plug 'airblade/vim-gitgutter'
-" git wrapper
-Plug 'tpope/vim-fugitive'
-
 " Sensible defaults for Vim
 Plug 'tpope/vim-sensible'
 " Configure vim based on the project
@@ -29,6 +24,13 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " commenting
 Plug 'scrooloose/nerdcommenter'
+" hardo mode
+Plug 'wikitopian/hardmode'
+
+" git inline support
+Plug 'airblade/vim-gitgutter'
+" git wrapper
+Plug 'tpope/vim-fugitive'
 
 " Go language support
 Plug 'fatih/vim-go'
@@ -40,14 +42,25 @@ Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 Plug 'elzr/vim-json'
 " Rust support
 Plug 'rust-lang/rust.vim'
-" HTML Support
+" HTML support
 Plug 'mattn/emmet-vim'
+" Apiary support
+Plug 'kylef/apiblueprint.vim'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
 
 " Initialize plugin system
 call plug#end()
+
+" Edit this config file
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" toggle hard mode
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+" enable hard mode by default
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
 
 " syntax highlighting
 syntax enable
@@ -72,7 +85,7 @@ nmap <leader>l :set list!<CR>
 
 " Go customizations
 " This is disabled because it can block for a lengthy period of time.
-" let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "goimports"
 
 " JS customizations
 " let g:neoformat_enabled_javascript = ['prettier']
@@ -84,11 +97,15 @@ let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --j
 " JSON
 let g:ale_fixers['json'] = ['prettier']
 
+" always keep gutter open to avoid bouncing
+let g:ale_sign_column_always = 1
+" ale in status line
+let g:airline#extensions#ale#enabled = 1
+" delay after which linters run in millis
+let g:ale_lint_delay = 500
+
 " Python customizations
 let g:pymode_folding = 0
-
-" YAML customizations
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
 " sh/bash customizations
 let g:ale_sh_shellcheck_options = '-x'
@@ -99,7 +116,8 @@ vnoremap <C-c> "*y
 " Trigger autoread on focus change
 au FocusGained,BufEnter * :silent! !
 
-" utility function for calling RipGrep with parameters
+" Utility function for calling RipGrep with parameters. Supports similar
+" functionality to the :Ag command which exists by default.
 function! RipGrep(option, args, bang)
   call fzf#vim#grep(
     \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
@@ -113,16 +131,33 @@ endfunction
 
 " Use ripgrep for fzf
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob !.git/*'
+
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
 command! -bang -nargs=* Rg
   \ call RipGrep('', <q-args>, <bang>0)
 command! -bang -nargs=* Rgi
   \ call RipGrep('--ignore-case', <q-args>, <bang>0)
+" Add matching files to the args list
+command! -bang -nargs=1 Rga
+  \ execute 'args `rg --files-with-matches ' . shellescape(<q-args>) . '`'
+
+" Copy search matches to clipboard
+" http://vim.wikia.com/wiki/Copy_search_matches
+function! CopyMatches(reg)
+  let hits = []
+  %s//\=len(add(hits, submatch(0))) ? submatch(0) : ''/gne
+  let reg = empty(a:reg) ? '+' : a:reg
+  execute 'let @'.reg.' = join(hits, "\n") . "\n"'
+endfunction
+command! -register CopyMatches call CopyMatches(<q-reg>)
 
 " auto-close vim when NERDTree is the last one standing
 " https://github.com/scrooloose/nerdtree/issues/21#issuecomment-157212312
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" command to refresh NERDTree
+" TODO: make this automatic
+nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>
 
 """ Commenting the right way
 " proper alignment instead of following the code

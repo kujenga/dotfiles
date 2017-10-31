@@ -92,7 +92,7 @@ let g:go_fmt_command = "goimports"
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
-let g:ale_javascript_prettier_options = '--single-quote --trailing-comma es5 --jsx-bracket-same-line'
+let g:ale_javascript_prettier_use_local_config = 1
 
 " JSON
 let g:ale_fixers['json'] = ['prettier']

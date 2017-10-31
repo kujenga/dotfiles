@@ -1,0 +1,5 @@
+# Default configuration options when no project options are specified.
+
+singleQuote: true
+trailingComma: 'es5'
+jsxBracketSameLine: true

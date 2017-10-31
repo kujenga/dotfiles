@@ -46,6 +46,10 @@ Plug 'rust-lang/rust.vim'
 Plug 'mattn/emmet-vim'
 " Apiary support
 Plug 'kylef/apiblueprint.vim'
+" TOML support
+Plug 'cespare/vim-toml'
+" Caddyfile support
+Plug 'isobit/vim-caddyfile'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'

@@ -1,0 +1,11 @@
+{
+    "libs": [
+        "browser",
+	"ecmascript",
+	"react"
+    ],
+    "plugins": {
+        "doc_comment": null,
+        "node": {}
+    }
+}

@@ -12,6 +12,7 @@ HOME_FILES='
 .gitignore_global
 .editorconfig
 .prettierrc.yaml
+.tern-config
 '
 
 for f in $HOME_FILES; do

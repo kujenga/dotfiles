@@ -38,6 +38,8 @@ Plug 'fatih/vim-go'
 Plug 'python-mode/python-mode'
 " Docker support
 Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
+" Javascript support
+Plug 'pangloss/vim-javascript'
 " JSON support
 Plug 'elzr/vim-json'
 " Rust support

@@ -94,7 +94,6 @@ nmap <leader>l :set list!<CR>
 let g:go_fmt_command = "goimports"
 
 " JS customizations
-" let g:neoformat_enabled_javascript = ['prettier']
 let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
@@ -112,9 +111,6 @@ let g:ale_lint_delay = 500
 
 " Python customizations
 let g:pymode_folding = 0
-
-" sh/bash customizations
-let g:ale_sh_shellcheck_options = '-x'
 
 " Copy and paste using system clipboard
 vnoremap <C-c> "*y

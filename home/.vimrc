@@ -2,36 +2,45 @@
 " https://github.com/junegunn/vim-plug
 call plug#begin('~/.vim/plugged')
 
+""" Improved Vim behaviors
 " Sensible defaults for Vim
 Plug 'tpope/vim-sensible'
 " Configure vim based on the project
 Plug 'editorconfig/editorconfig-vim'
 " Guess indentation from current buffer
 Plug 'ciaranm/detectindent'
-" fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
-" Async linting while I type, fixing on save when I want
-Plug 'w0rp/ale'
-" Autocomplete
-Plug 'Valloric/YouCompleteMe'
 " sensible buffer close
 Plug 'qpkorr/vim-bufkill'
 " improved status line
 Plug 'vim-airline/vim-airline'
-" tree view of files
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 " commenting
 Plug 'scrooloose/nerdcommenter'
 " hardo mode
 Plug 'wikitopian/hardmode'
+" Distraction free mode
+Plug 'junegunn/goyo.vim'
 
+" syntax highlighting
+Plug 'kujenga/vim-monokai'
+
+""" Additional UI Capabilities
 " git inline support
 Plug 'airblade/vim-gitgutter'
 " git wrapper
 Plug 'tpope/vim-fugitive'
+" fuzzy finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" tree view of files, with git status
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Async linting while I type, fixing on save when I want
+Plug 'w0rp/ale'
+" Autocomplete
+Plug 'Valloric/YouCompleteMe'
+
+""" Language Syntax Support
 " Go language support
 Plug 'fatih/vim-go'
 " Python support
@@ -52,9 +61,8 @@ Plug 'kylef/apiblueprint.vim'
 Plug 'cespare/vim-toml'
 " Caddyfile support
 Plug 'isobit/vim-caddyfile'
-
-" syntax highlighting
-Plug 'kujenga/vim-monokai'
+" Pug template language
+Plug 'digitaltoad/vim-pug'
 
 " Initialize plugin system
 call plug#end()
@@ -65,7 +73,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " toggle hard mode
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-" enable hard mode by default
+" enable hard mode by default (I'm not up to snuff yet...)
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
 
 " syntax highlighting

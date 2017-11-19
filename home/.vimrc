@@ -63,6 +63,8 @@ Plug 'cespare/vim-toml'
 Plug 'isobit/vim-caddyfile'
 " Pug template language
 Plug 'digitaltoad/vim-pug'
+" Hashicorp Terraform
+Plug 'hashivim/vim-terraform'
 
 " Initialize plugin system
 call plug#end()

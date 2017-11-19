@@ -100,7 +100,6 @@ inoremap <c-b> <Esc>:Buffers<CR>
 nmap <leader>l :set list!<CR>
 
 " Go customizations
-" This is disabled because it can block for a lengthy period of time.
 let g:go_fmt_command = "goimports"
 
 " JS customizations
@@ -150,6 +149,8 @@ command! -bang -nargs=* Rg
   \ call RipGrep('', <q-args>, <bang>0)
 command! -bang -nargs=* Rgi
   \ call RipGrep('--ignore-case', <q-args>, <bang>0)
+command! -bang -nargs=* Rga
+  \ call RipGrep('--no-ignore', <q-args>, <bang>0)
 " Add matching files to the args list
 command! -bang -nargs=1 Rga
   \ execute 'args `rg --files-with-matches ' . shellescape(<q-args>) . '`'

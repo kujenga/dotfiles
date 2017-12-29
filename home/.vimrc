@@ -65,6 +65,8 @@ Plug 'isobit/vim-caddyfile'
 Plug 'digitaltoad/vim-pug'
 " Hashicorp Terraform
 Plug 'hashivim/vim-terraform'
+" Template highlighting
+Plug 'mustache/vim-mustache-handlebars'
 
 " Initialize plugin system
 call plug#end()
@@ -163,6 +165,8 @@ command! -bang -nargs=* Rgi
   \ call RipGrep('--ignore-case', <q-args>, <bang>0)
 command! -bang -nargs=* Rga
   \ call RipGrep('--no-ignore', <q-args>, <bang>0)
+command! -bang -nargs=* RgF
+  \ call RipGrep('--fixed-strings', <q-args>, <bang>0)
 " Add matching files to the args list
 command! -bang -nargs=1 Rga
   \ execute 'args `rg --files-with-matches ' . shellescape(<q-args>) . '`'
@@ -183,6 +187,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " command to refresh NERDTree
 " TODO: make this automatic
 nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>
+" Ignore certain files
+let NERDTreeIgnore = ['\.pyc$']
 
 """ Commenting the right way
 " proper alignment instead of following the code

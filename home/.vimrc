@@ -99,8 +99,20 @@ inoremap <c-b> <Esc>:Buffers<CR>
 " hidden characters
 nmap <leader>l :set list!<CR>
 
+" Setup for ALE customizations.
+let g:ale_linters = {}
+let g:ale_fixers = {}
+
 " Go customizations
 let g:go_fmt_command = "goimports"
+
+" Rust customization
+let g:rustfmt_autosave = 1
+" Working errors for binaries.
+let g:ale_rust_cargo_check_all_targets = 0
+" Linting with RLS
+let g:ale_linters['rust'] = ['rls']
+let g:ale_rust_rls_toolchain = 'stable'
 
 " JS customizations
 let g:ale_fixers = {}

@@ -67,6 +67,8 @@ Plug 'digitaltoad/vim-pug'
 Plug 'hashivim/vim-terraform'
 " Template highlighting
 Plug 'mustache/vim-mustache-handlebars'
+" Improved markdown syntax
+Plug 'gabrielelana/vim-markdown'
 
 " Initialize plugin system
 call plug#end()
@@ -89,6 +91,9 @@ set number
 set statusline+=%f\ %l\:%c
 " allow buffers with unsaved changes
 set hidden
+
+" Disable spell checking
+let g:markdown_enable_spell_checking = 0
 
 " fzf shortcuts
 noremap <c-x> :Files<CR>

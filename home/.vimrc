@@ -38,7 +38,11 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Async linting while I type, fixing on save when I want
 Plug 'w0rp/ale'
 " Autocomplete
-Plug 'Valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+" for Go
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 """ Language Syntax Support
 " Go language support
@@ -92,9 +96,6 @@ set statusline+=%f\ %l\:%c
 " allow buffers with unsaved changes
 set hidden
 
-" Disable spell checking
-let g:markdown_enable_spell_checking = 0
-
 " fzf shortcuts
 noremap <c-x> :Files<CR>
 vnoremap <c-x> <Esc>:Files<CR>
@@ -102,6 +103,15 @@ inoremap <c-x> <Esc>:Files<CR>
 noremap <c-b> :Buffers<CR>
 vnoremap <c-b> <Esc>:Buffers<CR>
 inoremap <c-b> <Esc>:Buffers<CR>
+
+" Use deoplete for auto-completion.
+let g:deoplete#enable_at_startup = 1
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+" use tab to forward cycle
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" use tab to backward cycle
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 " hidden characters
 nmap <leader>l :set list!<CR>
@@ -139,6 +149,9 @@ let g:ale_lint_delay = 500
 
 " Python customizations
 let g:pymode_folding = 0
+
+" Disable spell checking
+let g:markdown_enable_spell_checking = 0
 
 " Copy and paste using system clipboard
 vnoremap <C-c> "*y

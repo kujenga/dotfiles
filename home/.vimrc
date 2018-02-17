@@ -53,6 +53,8 @@ Plug 'python-mode/python-mode'
 Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 " Javascript support
 Plug 'pangloss/vim-javascript'
+" JSX support
+Plug 'mxw/vim-jsx'
 " JSON support
 Plug 'elzr/vim-json'
 " Rust support
@@ -136,6 +138,7 @@ let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
+let g:javascript_plugin_flow = 1
 
 " JSON
 let g:ale_fixers['json'] = ['prettier']

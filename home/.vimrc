@@ -43,6 +43,8 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 " for Go
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+" for Rust
+Plug 'sebastianmarkow/deoplete-rust'
 
 """ Language Syntax Support
 " Go language support
@@ -114,6 +116,12 @@ let g:deoplete#enable_smart_case = 1
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" deoplete Go customizations, boosting rank
+call deoplete#custom#set('go', 'rank', 1000)
+" deoplete Rust settings
+let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
+" ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
+let g:deoplete#sources#rust#rust_source_path=systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
 
 " hidden characters
 nmap <leader>l :set list!<CR>

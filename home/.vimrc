@@ -173,6 +173,8 @@ let g:pymode_folding = 0
 
 " Disable spell checking
 let g:markdown_enable_spell_checking = 0
+" markdown line width
+au BufRead,BufNewFile *.md setlocal textwidth=80
 
 " Copy and paste using system clipboard
 vnoremap <C-c> "*y

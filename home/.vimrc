@@ -45,6 +45,10 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 " for Rust
 Plug 'sebastianmarkow/deoplete-rust'
+" for JS (flow-based)
+" Plug 'wokalski/autocomplete-flow'
+Plug 'carlitux/deoplete-ternjs'
+
 
 """ Language Syntax Support
 " Go language support
@@ -55,6 +59,8 @@ Plug 'python-mode/python-mode'
 Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 " Javascript support
 Plug 'pangloss/vim-javascript'
+" Flow support
+Plug 'flowtype/vim-flow'
 " JSX support
 Plug 'mxw/vim-jsx'
 " JSON support
@@ -122,6 +128,8 @@ call deoplete#custom#set('go', 'rank', 1000)
 let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
 " ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
 let g:deoplete#sources#rust#rust_source_path=systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
+" JS Customizations
+let g:deoplete#sources#ternjs#types = 1
 
 " hidden characters
 nmap <leader>l :set list!<CR>
@@ -147,6 +155,8 @@ let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:javascript_plugin_flow = 1
+" disable flow checking, using ale instead
+" let g:flow#enable = 0
 
 " JSON
 let g:ale_fixers['json'] = ['prettier']

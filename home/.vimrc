@@ -182,6 +182,10 @@ vnoremap <C-c> "*y
 " Trigger autoread on focus change
 au FocusGained,BufEnter * :silent! !
 
+" Better update time for git gutter
+set updatetime=100
+let g:gitgutter_terminal_reports_focus=0
+
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.
 function! RipGrep(option, args, bang)

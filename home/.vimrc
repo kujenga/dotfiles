@@ -138,8 +138,8 @@ nmap <leader>l :set list!<CR>
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-" Go customizations
-let g:go_fmt_command = "goimports"
+" Go customizations. Disabled due to slowness.
+" let g:go_fmt_command = "goimports"
 
 " Rust customization
 let g:rustfmt_autosave = 1
@@ -149,8 +149,12 @@ let g:ale_rust_cargo_check_all_targets = 0
 let g:ale_linters['rust'] = ['rls']
 let g:ale_rust_rls_toolchain = 'stable'
 
+" Disable rope because is is horrendously slow with big projects
+let g:pymode_rope = 0
+let g:pymode_rope_autoimport = 0
+let g:pymode_rope_lookup_project = 0
+
 " JS customizations
-let g:ale_fixers = {}
 let g:ale_fixers['javascript'] = ['prettier']
 let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
@@ -170,6 +174,17 @@ let g:ale_lint_delay = 500
 
 " Python customizations
 let g:pymode_folding = 0
+
+" Bazel
+" Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22
+" TODO: Contribute this back to ALE.
+function! BuildifierFix(buffer) abort
+  return {
+  \ 'command': 'buildifier -showlog -mode=fix %t',
+  \ 'read_temporary_file': 1,
+  \}
+endfunction
+let g:ale_fixers['bzl'] = ['BuildifierFix']
 
 " Disable spell checking
 let g:markdown_enable_spell_checking = 0

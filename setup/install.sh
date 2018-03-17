@@ -36,7 +36,9 @@ case $(uname) in
 	Darwin)
 		type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-		for pkg in $PKGS; do
+        BREW_PKGS="$PKGS bash bash-completions@2"
+
+		for pkg in $BREW_PKGS; do
 			echo "installing: $pkg"
 			brew install "$pkg"
 		done

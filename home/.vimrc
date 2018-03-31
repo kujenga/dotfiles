@@ -8,7 +8,7 @@ Plug 'tpope/vim-sensible'
 " Configure vim based on the project
 Plug 'editorconfig/editorconfig-vim'
 " Guess indentation from current buffer
-Plug 'ciaranm/detectindent'
+Plug 'tpope/vim-sleuth'
 " sensible buffer close
 Plug 'qpkorr/vim-bufkill'
 " improved status line
@@ -19,6 +19,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'wikitopian/hardmode'
 " Distraction free mode
 Plug 'junegunn/goyo.vim'
+" Navigation helpers
+Plug 'tpope/vim-unimpaired'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
@@ -28,6 +30,8 @@ Plug 'kujenga/vim-monokai'
 Plug 'airblade/vim-gitgutter'
 " git wrapper
 Plug 'tpope/vim-fugitive'
+" Helper for GitHub
+Plug 'tpope/vim-rhubarb'
 " fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -43,12 +47,13 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 " for Go
 Plug 'zchee/deoplete-go', { 'do': 'make'}
+" for Python (hopefully better than rope)
+Plug 'zchee/deoplete-jedi'
 " for Rust
 Plug 'sebastianmarkow/deoplete-rust'
 " for JS (flow-based)
 " Plug 'wokalski/autocomplete-flow'
 Plug 'carlitux/deoplete-ternjs'
-
 
 """ Language Syntax Support
 " Go language support
@@ -83,6 +88,8 @@ Plug 'hashivim/vim-terraform'
 Plug 'mustache/vim-mustache-handlebars'
 " Improved markdown syntax
 Plug 'gabrielelana/vim-markdown'
+" Ethereum Solidity
+Plug 'tomlion/vim-solidity'
 
 " Initialize plugin system
 call plug#end()

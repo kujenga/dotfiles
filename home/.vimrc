@@ -21,6 +21,8 @@ Plug 'wikitopian/hardmode'
 Plug 'junegunn/goyo.vim'
 " Navigation helpers
 Plug 'tpope/vim-unimpaired'
+" Text insertion surrounding words
+Plug 'tpope/vim-surround'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'

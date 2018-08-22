@@ -26,16 +26,37 @@ UNDERLINE="$(tput smul)"
 
 # Default editor
 export EDITOR=vim
+# Editor aliases
+alias v='vim'
+alias vi='vim'
+
+# Kubernetes
+alias k=kubectl
+# setup bash completion (kinda slow so commented out)
+# source <(kubectl completion bash)
+# source <(helm completion bash)
 
 # Allow the watching of aliased commands: https://unix.stackexchange.com/a/25329
 alias watch='watch '
+
+# Utility commands
+alias recwc='find . -type f | xargs wc -l'
+alias ll='ls -l'
+alias ds='du -hs * | gsort -h'
+alias showports='sudo lsof -iTCP -sTCP:LISTEN -n -P'
 
 # Smart pwd command. References:
 # shorten path: https://superuser.com/a/180267/669334
 # sed for vars with slashes: https://stackoverflow.com/a/16790859/2528719
 # Git working directory: https://stackoverflow.com/a/39923104/2528719
 # Trim trailing chars: https://stackoverflow.com/a/5074995/2528719
-smart_pwd() {
+smart_pwd_fn() {
+    if hash smart-pwd 2>/dev/null; then
+        # Use the much faster Go program if available, which does the same thing.
+        # https://github.com/kujenga/gash
+        smart-pwd
+        return
+    fi
     # set -x
     # git prefix with repo name or pwd.
     GIT=$(git rev-parse --show-prefix 2> /dev/null)
@@ -59,5 +80,5 @@ smart_pwd() {
 # PS1="$GRAY\h$NC:$LIGHT_PURPLE\w$NC \u\$(__git_ps1)$NC \$ "
 # PS1="\h:\W \u\$(__git_ps1) \$ "
 # PS1="\h:\$(smart_pwd) \u\$(__git_ps1) \$ "
-PS1="\[$GRAY\]\h\[$NC\]:\[$LIGHT_PURPLE\]\$(smart_pwd)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
+PS1="\[$GRAY\]\h\[$NC\]:\[$LIGHT_PURPLE\]\$(smart_pwd_fn)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
 # PS1="\t \h:\W \u\$(__git_ps1) \$ "

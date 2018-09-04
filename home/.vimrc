@@ -99,14 +99,7 @@ Plug 'keith/swift.vim'
 " Initialize plugin system
 call plug#end()
 
-" Edit this config file
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" toggle hard mode
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-" enable hard mode by default (I'm not up to snuff yet...)
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
+""" General Vim Configurations
 
 " syntax highlighting
 syntax enable
@@ -123,6 +116,31 @@ set nojoinspaces
 " Why fold when you have search?
 set nofoldenable
 
+" color customizations
+hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
+hi TabLine ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
+" hi TabLineSel ctermfg=Red ctermbg=Yellow
+
+" Edit this config file
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" toggle hard mode
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+" enable hard mode by default (I'm not up to snuff yet...)
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
+
+" hidden characters
+nmap <leader>l :set list!<CR>
+
+" Copy and paste using system clipboard
+vnoremap <C-c> "*y
+
+" Trigger autoread on focus change
+au FocusGained,BufEnter * :silent! !
+
+""" General Plugin Configurations
+
 " fzf shortcuts
 noremap <c-x> :Files<CR>
 vnoremap <c-x> <Esc>:Files<CR>
@@ -131,6 +149,7 @@ noremap <c-b> :Buffers<CR>
 vnoremap <c-b> <Esc>:Buffers<CR>
 inoremap <c-b> <Esc>:Buffers<CR>
 
+"" Deoplete
 " Use deoplete for auto-completion.
 let g:deoplete#enable_at_startup = 1
 " Use smartcase.
@@ -140,7 +159,7 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 " deoplete Go customizations, boosting rank
-call deoplete#custom#set('go', 'rank', 1000)
+call deoplete#custom#source('go', 'rank', 1000)
 " deoplete Rust settings
 let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
 " ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
@@ -148,18 +167,44 @@ let g:deoplete#sources#rust#rust_source_path=systemlist('rustc --print sysroot')
 " JS Customizations
 let g:deoplete#sources#ternjs#types = 1
 
-" hidden characters
-nmap <leader>l :set list!<CR>
+"" NERDTree
+" auto-close vim when NERDTree is the last one standing
+" https://github.com/scrooloose/nerdtree/issues/21#issuecomment-157212312
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" command to refresh NERDTree
+" TODO: make this automatic
+nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>
+" Ignore certain files
+let NERDTreeIgnore = ['\.pyc$']
+" Commenting the right way, proper alignment instead of following the code
+let g:NERDDefaultAlign = 'left'
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
 
-" Setup for ALE customizations.
+"" ALE
+" always keep gutter open to avoid bouncing
+let g:ale_sign_column_always = 1
+" ale in status line
+let g:airline#extensions#ale#enabled = 1
+" delay after which linters run in millis
+let g:ale_lint_delay = 500
+" setup for ALE customizations.
 let g:ale_linters = {}
 let g:ale_fixers = {}
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+
+""" Language-Specific Customizations
 
 " Go customizations. Disabled due to slowness.
-" let g:go_fmt_command = "goimports"
+" let g:go_fmt_command = 'goimports'
 
 " Rust customization
 let g:rustfmt_autosave = 1
+if has('macunix')
+  let g:rust_clip_command = 'pbcopy'
+endif
 " Working errors for binaries.
 let g:ale_rust_cargo_check_all_targets = 0
 " Linting with RLS
@@ -183,13 +228,6 @@ let g:flow#showquickfix = 0
 " JSON
 let g:ale_fixers['json'] = ['prettier']
 
-" always keep gutter open to avoid bouncing
-let g:ale_sign_column_always = 1
-" ale in status line
-let g:airline#extensions#ale#enabled = 1
-" delay after which linters run in millis
-let g:ale_lint_delay = 500
-
 " Python customizations
 let g:pymode_folding = 0
 
@@ -207,11 +245,7 @@ let g:ale_fixers['bzl'] = ['BuildifierFix']
 " markdown line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
-" Copy and paste using system clipboard
-vnoremap <C-c> "*y
-
-" Trigger autoread on focus change
-au FocusGained,BufEnter * :silent! !
+""" Custom Commands
 
 " Better update time for git gutter
 set updatetime=100
@@ -256,18 +290,3 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
-
-" auto-close vim when NERDTree is the last one standing
-" https://github.com/scrooloose/nerdtree/issues/21#issuecomment-157212312
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" command to refresh NERDTree
-" TODO: make this automatic
-nmap <Leader>r :NERDTreeFocus<cr>R<c-w><c-p>
-" Ignore certain files
-let NERDTreeIgnore = ['\.pyc$']
-
-""" Commenting the right way
-" proper alignment instead of following the code
-let g:NERDDefaultAlign = 'left'
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1

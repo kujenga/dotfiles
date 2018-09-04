@@ -89,9 +89,12 @@ Plug 'hashivim/vim-terraform'
 " Template highlighting
 Plug 'mustache/vim-mustache-handlebars'
 " Improved markdown syntax
-Plug 'gabrielelana/vim-markdown'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 " Ethereum Solidity
 Plug 'tomlion/vim-solidity'
+" Swift
+Plug 'keith/swift.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -114,6 +117,11 @@ set number
 set statusline+=%f\ %l\:%c
 " allow buffers with unsaved changes
 set hidden
+" I proclaim it to be incorrect to put two spaces after a sentence
+" ref: https://stackoverflow.com/a/4760477/2528719
+set nojoinspaces
+" Why fold when you have search?
+set nofoldenable
 
 " fzf shortcuts
 noremap <c-x> :Files<CR>
@@ -196,8 +204,6 @@ function! BuildifierFix(buffer) abort
 endfunction
 let g:ale_fixers['bzl'] = ['BuildifierFix']
 
-" Disable spell checking
-let g:markdown_enable_spell_checking = 0
 " markdown line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 

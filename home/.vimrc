@@ -130,6 +130,9 @@ nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 " enable hard mode by default (I'm not up to snuff yet...)
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
 
+" toggle mouse mode
+nnoremap <leader>m <Esc>:call ToggleMouse()<CR>
+
 " hidden characters
 nmap <leader>l :set list!<CR>
 
@@ -290,3 +293,16 @@ function! CopyMatches(reg)
   execute 'let @'.reg.' = join(hits, "\n") . "\n"'
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
+
+" Toggle mouse mode
+" ref: https://unix.stackexchange.com/a/156713
+function! ToggleMouse()
+  " check if mouse is enabled
+  if &mouse == 'a'
+    " disable mouse
+    set mouse=
+  else
+    " enable mouse everywhere
+    set mouse=a
+  endif
+endfunc

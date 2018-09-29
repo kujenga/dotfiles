@@ -227,6 +227,8 @@ let g:javascript_plugin_flow = 1
 " disable flow checking, using ale instead
 let g:flow#enable = 0
 let g:flow#showquickfix = 0
+" Only use desired plugins for JS, avoids unwanted use of jshint.
+let g:ale_linters = {'javascript': ['eslint', 'flow']}
 
 " JSON
 let g:ale_fixers['json'] = ['prettier']

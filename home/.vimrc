@@ -15,8 +15,6 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'vim-airline/vim-airline'
 " commenting
 Plug 'scrooloose/nerdcommenter'
-" hardo mode
-Plug 'wikitopian/hardmode'
 " Distraction free mode
 Plug 'junegunn/goyo.vim'
 " Navigation helpers
@@ -48,7 +46,7 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 " for Go
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'zchee/deoplete-go', { 'do': 'make' }
 " for Python (hopefully better than rope)
 Plug 'zchee/deoplete-jedi'
 " for Rust
@@ -59,11 +57,11 @@ Plug 'carlitux/deoplete-ternjs'
 
 """ Language Syntax Support
 " Go language support
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
 " Python support
 Plug 'python-mode/python-mode'
 " Docker support
-Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
+Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
 Plug 'pangloss/vim-javascript'
 " Flow support
@@ -116,7 +114,7 @@ set nojoinspaces
 " Why fold when you have search?
 set nofoldenable
 
-" color customizations
+" color customizations, less garish tab line
 hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
 hi TabLine ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
 " hi TabLineSel ctermfg=Red ctermbg=Yellow
@@ -124,11 +122,6 @@ hi TabLine ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
 " Edit this config file
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-
-" toggle hard mode
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-" enable hard mode by default (I'm not up to snuff yet...)
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()c
 
 " toggle mouse mode
 nnoremap <leader>m <Esc>:call ToggleMouse()<CR>
@@ -233,6 +226,9 @@ let g:ale_linters = {'javascript': ['eslint', 'flow']}
 " JSON
 let g:ale_fixers['json'] = ['prettier']
 
+" CSS
+let g:ale_fixers['css'] = ['prettier']
+
 " Python customizations
 let g:pymode_folding = 0
 
@@ -252,9 +248,9 @@ au BufRead,BufNewFile *.md setlocal textwidth=80
 
 """ Custom Commands
 
-" Better update time for git gutter
+" Faster update time for git gutter (default 4000ms)
 set updatetime=100
-let g:gitgutter_terminal_reports_focus=0
+let g:gitgutter_grep = 'rg'
 
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.

@@ -21,6 +21,8 @@ Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-unimpaired'
 " Text insertion surrounding words
 Plug 'tpope/vim-surround'
+" Better incremental search
+Plug 'haya14busa/incsearch.vim'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
@@ -115,6 +117,11 @@ set hidden
 set nojoinspaces
 " Why fold when you have search?
 set nofoldenable
+
+" Setup incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " color customizations, less garish tab line
 hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27

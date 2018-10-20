@@ -93,6 +93,8 @@ Plug 'plasticboy/vim-markdown'
 Plug 'tomlion/vim-solidity'
 " Swift
 Plug 'keith/swift.vim'
+" Powershell
+Plug 'PProvost/vim-ps1'
 
 " Initialize plugin system
 call plug#end()

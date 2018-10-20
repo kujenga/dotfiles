@@ -260,6 +260,8 @@ au BufRead,BufNewFile *.md setlocal textwidth=80
 " Faster update time for git gutter (default 4000ms)
 set updatetime=100
 let g:gitgutter_grep = 'rg'
+" stubbornly sticking with macOS default terminal
+let g:gitgutter_terminal_reports_focus=0
 
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.

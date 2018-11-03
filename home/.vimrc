@@ -118,11 +118,6 @@ set nojoinspaces
 " Why fold when you have search?
 set nofoldenable
 
-" Setup incsearch
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 " color customizations, less garish tab line
 hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
 hi TabLine ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
@@ -153,6 +148,12 @@ inoremap <c-x> <Esc>:Files<CR>
 noremap <c-b> :Buffers<CR>
 vnoremap <c-b> <Esc>:Buffers<CR>
 inoremap <c-b> <Esc>:Buffers<CR>
+
+" Setup incsearch
+" https://github.com/haya14busa/incsearch.vim#basic-usage
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 "" Deoplete
 " Use deoplete for auto-completion.

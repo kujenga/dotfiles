@@ -164,6 +164,9 @@ let g:deoplete#enable_smart_case = 1
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+" Close preview window after completion
+" https://github.com/Shougo/deoplete.nvim/issues/115#issuecomment-170237485
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " deoplete Go customizations, boosting rank
 call deoplete#custom#source('go', 'rank', 1000)
 " deoplete Rust settings

@@ -206,7 +206,9 @@ nnoremap <leader>ap :ALEPreviousWrap<cr>
 
 """ Language-Specific Customizations
 
-" Go customizations. Disabled due to slowness.
+" Go customizations
+let g:go_mod_fmt_autosave = 1
+" Disabled due to slowness.
 " let g:go_fmt_command = 'goimports'
 
 " Rust customization

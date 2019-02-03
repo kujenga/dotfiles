@@ -73,7 +73,54 @@ smart_pwd_fn() {
     # set +x
 }
 
-# Bash prompt configuration.
+### FZF goodness, ref: https://github.com/junegunn/fzf/wiki/examples
+### - awk-based unique filter from: https://stackoverflow.com/a/11532197/2528719
+
+## cd
+
+# fd - cd to selected directory
+fd() {
+  local dir
+  dir=$(rg --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
+  cd "$dir"
+}
+
+# fda - including hidden directories
+fda() {
+  local dir
+  dir=$(rg --hidden --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
+  cd "$dir"
+}
+
+## Git
+
+# fbr - checkout git branch (including remote branches)
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m --height 40%) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# fco - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
+fco() {
+  local tags branches target
+  tags=$(
+git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+  branches=$(
+git branch --all | grep -v HEAD |
+sed "s/.* //" | sed "s#remotes/[^/]*/##" |
+awk '!x[$0]++' | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+  target=$(
+(echo "$tags"; echo "$branches") |
+    fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
+        --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
+  git checkout $(echo "$target" | awk '{print $2}')
+}
+
+### Bash prompt configuration.
+
 # Reasoning for brackets around colors: https://unix.stackexchange.com/a/28828
 # git branch in the command prompt, dirty state disabled currently.
 # GIT_PS1_SHOWDIRTYSTATE=true

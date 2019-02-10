@@ -94,13 +94,13 @@ fda() {
 
 ## Git
 
-# fbr - checkout git branch (including remote branches)
+# fbr - checkout git branch
 fbr() {
   local branches branch
-  branches=$(git branch --all | grep -v HEAD) &&
+  branches=$(git branch --all --sort=-committerdate) &&
   branch=$(echo "$branches" |
            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m --height 40%) &&
-  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+  git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
 }
 
 # fco - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
@@ -116,7 +116,7 @@ awk '!x[$0]++' | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
 (echo "$tags"; echo "$branches") |
     fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
         --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
-  git checkout $(echo "$target" | awk '{print $2}')
+  git checkout "$(echo "$target" | awk '{print $2}')"
 }
 
 ### Bash prompt configuration.

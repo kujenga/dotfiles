@@ -72,6 +72,8 @@ Plug 'flowtype/vim-flow'
 Plug 'mxw/vim-jsx'
 " JSON support
 Plug 'elzr/vim-json'
+" jsonnet support
+Plug 'google/vim-jsonnet'
 " Rust support
 Plug 'rust-lang/rust.vim'
 " HTML support
@@ -97,6 +99,8 @@ Plug 'tomlion/vim-solidity'
 Plug 'keith/swift.vim'
 " Powershell
 Plug 'PProvost/vim-ps1'
+" Cap'N Proto
+Plug 'cstrahan/vim-capnp'
 
 " Initialize plugin system
 call plug#end()

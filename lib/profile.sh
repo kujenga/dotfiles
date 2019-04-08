@@ -76,47 +76,56 @@ smart_pwd_fn() {
 ### FZF goodness, ref: https://github.com/junegunn/fzf/wiki/examples
 ### - awk-based unique filter from: https://stackoverflow.com/a/11532197/2528719
 
+# NOTE: `history -s` is used to add various commands to the shell history so
+# that the up arrow faciliates their re-use, more like normal commands.
+
 ## cd
 
 # fd - cd to selected directory
 fd() {
-  local dir
-  dir=$(rg --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
-  cd "$dir"
+    local dir
+    dir=$(rg --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
+    history -s cd "$dir" &&
+    cd "$dir"
 }
 
 # fda - including hidden directories
 fda() {
-  local dir
-  dir=$(rg --hidden --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
-  cd "$dir"
+    local dir
+    dir=$(rg --hidden --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
+    history -s cd "$dir" &&
+    cd "$dir"
 }
 
 ## Git
 
 # fbr - checkout git branch
 fbr() {
-  local branches branch
-  branches=$(git branch --all --sort=-committerdate) &&
-  branch=$(echo "$branches" |
-           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m --height 40%) &&
-  git checkout "$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")"
+    local branches branch parsed_branch
+    branches=$(git branch --all --sort=-committerdate) &&
+    branch=$(echo "$branches" |
+             fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m --height 40%) &&
+    parsed_branch="$(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")" &&
+    history -s git checkout "$parsed_branch" &&
+    git checkout "$parsed_branch"
 }
 
 # fco - checkout git branch/tag, with a preview showing the commits between the tag/branch and HEAD
 fco() {
-  local tags branches target
-  tags=$(
-git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
-  branches=$(
-git branch --all | grep -v HEAD |
-sed "s/.* //" | sed "s#remotes/[^/]*/##" |
-awk '!x[$0]++' | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
-  target=$(
-(echo "$tags"; echo "$branches") |
+    local tags branches target result
+    tags=$(
+        git tag | awk '{print "\x1b[31;1mtag\x1b[m\t" $1}') || return
+    branches=$(
+        git branch --all | grep -v HEAD |
+        sed "s/.* //" | sed "s#remotes/[^/]*/##" |
+        awk '!x[$0]++' | awk '{print "\x1b[34;1mbranch\x1b[m\t" $1}') || return
+    target=$(
+        (echo "$tags"; echo "$branches") |
     fzf --no-hscroll --no-multi --delimiter="\t" -n 2 \
         --ansi --preview="git log -200 --pretty=format:%s $(echo {+2..} |  sed 's/$/../' )" ) || return
-  git checkout "$(echo "$target" | awk '{print $2}')"
+    result="$(echo "$target" | awk '{print $2}')"
+    history -s git checkout "$result"
+    git checkout "$result"
 }
 
 ### Bash prompt configuration.

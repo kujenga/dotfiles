@@ -180,6 +180,10 @@ let g:deoplete#sources#rust#rust_source_path=systemlist('rustc --print sysroot')
 " JS Customizations
 let g:deoplete#sources#ternjs#types = 1
 
+"" Airline
+" ale in status line
+let g:airline#extensions#ale#enabled = 1
+
 "" NERDTree
 " auto-close vim when NERDTree is the last one standing
 " https://github.com/scrooloose/nerdtree/issues/21#issuecomment-157212312
@@ -197,23 +201,35 @@ let g:NERDSpaceDelims = 1
 "" ALE
 " always keep gutter open to avoid bouncing
 let g:ale_sign_column_always = 1
-" ale in status line
-let g:airline#extensions#ale#enabled = 1
 " delay after which linters run in millis
 let g:ale_lint_delay = 500
+" enable location list
+let g:ale_set_loclist = 1
+" open loclist when errors are present, usually not needed
+" let g:ale_open_list = 1
+" Run configured fixers on file save.
+let g:ale_fix_on_save = 1
 " setup for ALE customizations.
 let g:ale_linters = {}
 let g:ale_fixers = {}
 " Map keys to navigate between lines with errors and warnings.
 nnoremap <leader>an :ALENextWrap<cr>
 nnoremap <leader>ap :ALEPreviousWrap<cr>
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 
 """ Language-Specific Customizations
 
 " Go customizations
-let g:go_mod_fmt_autosave = 1
-" Disabled due to slowness.
+" ALE handles the fixin'
+" let g:go_mod_fmt_autosave = 1
 " let g:go_fmt_command = 'goimports'
+let g:ale_fixers['go'] = ['goimports']
+" Trying experimental Go language server
+" https://github.com/golang/go/wiki/gopls
+let g:go_def_mode = 'gopls'
+" works more reliably, but slower
+" let g:go_def_mode = 'godef'
 
 " Rust customization
 let g:rustfmt_autosave = 1
@@ -233,7 +249,6 @@ let g:pymode_rope_lookup_project = 0
 
 " JS customizations
 let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:javascript_plugin_flow = 1
 " disable flow checking, using ale instead

@@ -227,11 +227,22 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 " let g:go_mod_fmt_autosave = 1
 " let g:go_fmt_command = 'goimports'
 let g:ale_fixers['go'] = ['goimports']
+" Switch out golint for review
+let g:ale_linters['go'] = ['gofmt', 'revive', 'govet']
 " Trying experimental Go language server
 " https://github.com/golang/go/wiki/gopls
 let g:go_def_mode = 'gopls'
 " works more reliably, but slower
 " let g:go_def_mode = 'godef'
+" faster golint alternative that works with Go modules
+call ale#linter#Define('go', {
+\   'name': 'revive',
+\   'output_stream': 'both',
+\   'executable': 'revive',
+\   'read_buffer': 0,
+\   'command': 'revive %t',
+\   'callback': 'ale#handlers#unix#HandleAsWarning',
+\})
 
 " Rust customization
 let g:rustfmt_autosave = 1
@@ -257,7 +268,7 @@ let g:javascript_plugin_flow = 1
 let g:flow#enable = 0
 let g:flow#showquickfix = 0
 " Only use desired plugins for JS, avoids unwanted use of jshint.
-let g:ale_linters = {'javascript': ['eslint', 'flow']}
+let g:ale_linters['javascript'] = ['eslint', 'flow']
 
 " JSON
 let g:ale_fixers['json'] = ['prettier']

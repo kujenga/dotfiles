@@ -38,8 +38,8 @@ Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " tree view of files, with git status
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
 " Async linting while I type, fixing on save when I want
 Plug 'w0rp/ale'
@@ -59,9 +59,11 @@ Plug 'carlitux/deoplete-ternjs'
 
 """ Language Syntax Support
 " Go language support
-Plug 'fatih/vim-go', { 'tag': '*', 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
 " Python support
-Plug 'python-mode/python-mode'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+" Python requirements.txt
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
 " Docker support
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
@@ -71,17 +73,17 @@ Plug 'flowtype/vim-flow'
 " JSX support
 Plug 'mxw/vim-jsx'
 " JSON support
-Plug 'elzr/vim-json'
+Plug 'elzr/vim-json', { 'for': 'json' }
 " jsonnet support
-Plug 'google/vim-jsonnet'
+Plug 'google/vim-jsonnet', { 'for': 'jsonnet' }
 " Rust support
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " HTML support
-Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim', { 'for': 'html' }
 " Apiary support
-Plug 'kylef/apiblueprint.vim'
+Plug 'kylef/apiblueprint.vim', { 'for': 'apiblueprint' }
 " TOML support
-Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml', { 'for': 'toml' }
 " Caddyfile support
 Plug 'isobit/vim-caddyfile'
 " Pug template language

@@ -24,6 +24,8 @@ git config --global alias.hist "log --graph --pretty=format:'%Cred%h%Creset -%C(
 git config --global alias.sl "stash list --format='%gd (%cr): %gs'"
 # https://stackoverflow.com/a/5188364
 git config --global alias.bl "for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:short)%(color:reset))'"
+# from @jessfraz https://github.com/jessfraz/dotfiles/blob/master/.gitconfig
+git config --global alias.dm "\!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d; git remote -v update -p"
 # allow "go get" to fetch private repos with ssh keys
 # https://gist.github.com/shurcooL/6927554
 git config --global url."git@github.com:".insteadOf "https://github.com/"

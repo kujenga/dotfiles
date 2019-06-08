@@ -130,11 +130,13 @@ fco() {
 
 ### Bash prompt configuration.
 
-# Reasoning for brackets around colors: https://unix.stackexchange.com/a/28828
-# git branch in the command prompt, dirty state disabled currently.
-# GIT_PS1_SHOWDIRTYSTATE=true
-# PS1="$GRAY\h$NC:$LIGHT_PURPLE\w$NC \u\$(__git_ps1)$NC \$ "
-# PS1="\h:\W \u\$(__git_ps1) \$ "
-# PS1="\h:\$(smart_pwd) \u\$(__git_ps1) \$ "
-PS1="\[$GRAY\]\h\[$NC\]:\[$LIGHT_PURPLE\]\$(smart_pwd_fn)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
-# PS1="\t \h:\W \u\$(__git_ps1) \$ "
+if [ -n "$BASH_VERSION" ]; then
+    # Reasoning for brackets around colors: https://unix.stackexchange.com/a/28828
+    # git branch in the command prompt, dirty state disabled currently.
+    # GIT_PS1_SHOWDIRTYSTATE=true
+    # PS1="$GRAY\h$NC:$LIGHT_PURPLE\w$NC \u\$(__git_ps1)$NC \$ "
+    # PS1="\h:\W \u\$(__git_ps1) \$ "
+    # PS1="\h:\$(smart_pwd) \u\$(__git_ps1) \$ "
+    PS1="\[$GRAY\]\h\[$NC\]:\[$LIGHT_PURPLE\]\$(smart_pwd_fn)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
+    # PS1="\t \h:\W \u\$(__git_ps1) \$ "
+fi

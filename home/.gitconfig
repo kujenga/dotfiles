@@ -1,0 +1,70 @@
+[push]
+	default = simple
+
+[diff]
+	tool = vimdiff
+
+[alias]
+	d = difftool
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	#hist = log --graph --pretty=format:\"%h %ad | %s%d [%an]\" --date=short
+	hist = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	type = cat-file -t
+	dump = cat-file -p
+	spush = push --recurse-submodules=on-demand
+	supdate = submodule update --remote --merge
+	sdiff = !git diff && git submodule foreach 'git diff'
+	branches = submodule foreach 'git branch'
+	# from: https://hackernoon.com/lesser-known-git-commands-151a1918a60
+	fpush = push --force-with-lease
+	ffpush = push --force-with-lease --no-verify
+	stsh = stash --keep-index
+	staash = stash --include-untracked
+	staaash = stash --all
+	shorty = status --short --branch
+	last = log -1 HEAD
+	recent = log --pretty=medium --stat -5 HEAD
+	sl = stash list --format='%gd (%cr): %gs'
+	# TODO: add information like we have in the place alias to each of these rows, which may require some kind of shell interpolation.
+	bl = for-each-ref --sort=committerdate refs/heads/ --format='(%(color:green)%(committerdate:short)%(color:reset)) %(HEAD) %(refname:short) - %(color:yellow)%(contents:subject)%(color:reset) - %(color:blue)%(authorname)%(color:reset)'
+	amend = commit --amend --reuse-message=HEAD
+
+	place = "!f() { A=master; B=${1:-$(git rev-parse --abbrev-ref HEAD)}; echo \"$A\t$B\"; git rev-list --left-right --count $A...$B; }; f"
+
+	# from @jessfraz https://github.com/jessfraz/dotfiles/blob/master/.gitconfig
+
+	# Find branches containing commit
+	fb = "!f() { git branch -a --contains $1; }; f"
+
+	# Find tags containing commit
+	ft = "!f() { git describe --always --contains $1; }; f"
+
+	# Find commits by source code
+	fc = "!f() { git log --pretty=format:'%C(yellow)%h	%Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short -S$1; }; f"
+
+	# Find commits by commit message
+	fm = "!f() { git log --pretty=format:'%C(yellow)%h	%Cblue%ad  %Creset%s%Cgreen  [%cn] %Cred%d' --decorate --date=short --grep=$1; }; f"
+
+	# Remove branches that have already been merged with master
+	# a.k.a. ‘delete merged’
+	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d; git remote -v update -p"
+
+	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
+	alias=!git config -l | grep ^alias | cut -c 7- | sort
+
+[core]
+	excludesfile = ~/.gitignore_global
+	# from: https://superuser.com/a/1354221/669334
+	pager = less -FRX
+	# editor = /usr/local/bin/vim
+
+# Behavioral customizations
+[tag]
+	forceSignAnnotated = true
+[pull]
+	ff = only
+[rerere]
+	enabled = true

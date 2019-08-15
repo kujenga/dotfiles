@@ -10,6 +10,7 @@ R="$(dirname "$0")"
 HOME_FILES='
 .zshrc
 .vimrc
+.gitconfig
 .gitignore_global
 .editorconfig
 .prettierrc.yaml

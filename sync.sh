@@ -8,6 +8,7 @@ R="$(dirname "$0")"
 
 # files that are identical between here and the local copy
 HOME_FILES='
+.zshrc
 .vimrc
 .gitignore_global
 .editorconfig

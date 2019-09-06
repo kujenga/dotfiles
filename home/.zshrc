@@ -73,12 +73,13 @@ export ZSH_CUSTOM="$HOME/Developer/personal/init/lib/zsh"
 plugins=(
   # git
   gitfast
-  fzf
   ripgrep
   golang
   rust
   # docs: https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode
   vi-mode
+  # Put this last so that it overrides much worse vim-mode ^r search
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh

@@ -88,5 +88,5 @@ sftp-config.json
 *.iml
 
 ### Python
-env/
+venv/
 .ropeproject/

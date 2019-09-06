@@ -42,7 +42,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
 " Async linting while I type, fixing on save when I want
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 " Autocomplete
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
@@ -228,10 +228,11 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 " let g:go_fmt_command = 'goimports'
 let g:ale_fixers['go'] = ['goimports']
 " Switch out golint for review
-let g:ale_linters['go'] = ['gofmt', 'revive', 'govet']
+let g:ale_linters['go'] = ['gopls', 'revive', 'misspell']
 " Trying experimental Go language server
 " https://github.com/golang/go/wiki/gopls
 let g:go_def_mode = 'gopls'
+let g:go_info_mode='gopls'
 " works more reliably, but slower
 " let g:go_def_mode = 'godef'
 " faster golint alternative that works with Go modules
@@ -241,6 +242,16 @@ call ale#linter#Define('go', {
 \   'executable': 'revive',
 \   'read_buffer': 0,
 \   'command': 'revive %t',
+\   'callback': 'ale#handlers#unix#HandleAsWarning',
+\})
+" Stop misspelling things...
+" wraps: https://github.com/client9/misspell
+call ale#linter#Define('go', {
+\   'name': 'misspell',
+\   'output_stream': 'both',
+\   'executable': 'misspell',
+\   'read_buffer': 0,
+\   'command': 'misspell %t',
 \   'callback': 'ale#handlers#unix#HandleAsWarning',
 \})
 

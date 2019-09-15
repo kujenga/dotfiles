@@ -36,6 +36,11 @@ alias k=kubectl
 # source <(kubectl completion bash)
 # source <(helm completion bash)
 
+# Configure GPG for signing with the current terminal.
+# ref: https://github.com/keybase/keybase-issues/issues/2798
+export GPG_TTY
+GPG_TTY=$(tty)
+
 # Allow the watching of aliased commands: https://unix.stackexchange.com/a/25329
 alias watch='watch '
 

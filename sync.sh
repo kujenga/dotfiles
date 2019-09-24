@@ -15,6 +15,7 @@ HOME_FILES='
 .editorconfig
 .prettierrc.yaml
 .tern-config
+.psqlrc
 '
 
 for f in $HOME_FILES; do

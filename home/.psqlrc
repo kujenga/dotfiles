@@ -1,0 +1,2 @@
+-- Disable the pager, which is not usually helpful: https://serverfault.com/a/967837
+\pset pager off

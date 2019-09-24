@@ -220,6 +220,20 @@ nnoremap <leader>ap :ALEPreviousWrap<cr>
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 
+""" gitgutter
+" Faster update time for git gutter (default 4000ms)
+set updatetime=100
+let g:gitgutter_grep = 'rg'
+" stubbornly sticking with macOS default terminal
+let g:gitgutter_terminal_reports_focus = 0
+" override my color scheme
+let g:gitgutter_override_sign_column_highlight = 1
+" set the original gutter colors
+" ref: https://github.com/airblade/vim-gitgutter#signs-colours-and-symbols
+highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
+highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
+highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
+
 """ Language-Specific Customizations
 
 " Go customizations
@@ -305,12 +319,6 @@ let g:ale_fixers['bzl'] = ['BuildifierFix']
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
 """ Custom Commands
-
-" Faster update time for git gutter (default 4000ms)
-set updatetime=100
-let g:gitgutter_grep = 'rg'
-" stubbornly sticking with macOS default terminal
-let g:gitgutter_terminal_reports_focus=0
 
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.

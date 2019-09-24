@@ -123,6 +123,8 @@ set hidden
 set nojoinspaces
 " Why fold when you have search?
 set nofoldenable
+" always keep open the sign column for consistency
+set signcolumn=yes
 
 " color customizations, less garish tab line
 hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27
@@ -333,8 +335,8 @@ function! RipGrep(option, args, bang)
     \ a:bang)
 endfunction
 
-" Use ripgrep for fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --glob !.git/*'
+" Use ripgrep for fzf, showing hidden files, ignoring git directories.
+let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"
 
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization

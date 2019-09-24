@@ -92,9 +92,6 @@ Plug 'digitaltoad/vim-pug'
 Plug 'hashivim/vim-terraform'
 " Template highlighting
 Plug 'mustache/vim-mustache-handlebars'
-" Improved markdown syntax
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 " Ethereum Solidity
 Plug 'tomlion/vim-solidity'
 " Swift
@@ -305,6 +302,10 @@ let g:ale_fixers['css'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
+
+" Markdown customizations
+" from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
 " Bazel
 " Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22

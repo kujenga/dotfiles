@@ -1,12 +1,16 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
-# Install Rust
-curl https://sh.rustup.rs -sSf | sh
-. "$HOME/.cargo/env"
-# Install ripgrep from source
-cargo install ripgrep
+# Directory containing this script.
+D=$(cd "$(dirname "$0")" && pwd -P)
+# Root of this repository.
+R=$(cd "$D/.." && pwd -P)
+
+# Setup configurations
+if [ ! -f "$HOME/.vimrc" ]; then
+	cp $R/home/.vimrc $HOME/.vimrc
+fi
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -29,6 +33,10 @@ git config --global alias.dm "\!git branch --merged | grep -v '\\*' | xargs -n 1
 # allow "go get" to fetch private repos with ssh keys
 # https://gist.github.com/shurcooL/6927554
 git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+# Python packages
+# For vim
+pip3 install pynvim
 
 # desired packages to install
 PKGS='tree'
@@ -64,3 +72,13 @@ case $(uname) in
 
 		;;
 esac
+
+# Install Rust
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+. "$HOME/.cargo/env"
+# Install ripgrep from source
+cargo install --force ripgrep
+# Install racer from source
+# https://github.com/racer-rust/racer#installation
+rustup toolchain add nightly
+cargo +nightly install racer

@@ -30,19 +30,23 @@ git config --global alias.dm "\!git branch --merged | grep -v '\\*' | xargs -n 1
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 
 # desired packages to install
-PKGS='tree'
+PKGS='tree jq'
 
 # Platform specific setup
 case $(uname) in
 Darwin)
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-    BREW_PKGS="$PKGS ripgrep vim go python fzf"
+    BREW_PKGS="$PKGS ripgrep vim go python fzf tmux"
 
     for pkg in $BREW_PKGS; do
         echo "installing: $pkg"
         brew install "$pkg"
     done
+
+    echo "installing font: inconsolata"
+    brew tap homebrew/cask-fonts
+    brew cask install font-inconsolata
 
     # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
     # configure mac files, since max proc defaults seem reasonable.

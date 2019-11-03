@@ -45,6 +45,12 @@ case $(uname) in
 			brew install "$pkg"
 		done
 
+        # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
+        # configure mac files, since max proc defaults seem reasonable.
+        echo 'Configuring file limits'
+        sudo cp "$DIR/macos/limit.maxfiles.plist" "/Library/LaunchDaemons/limit.maxfiles.plist"
+        sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+
 		;;
 
 	Linux)

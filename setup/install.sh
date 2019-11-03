@@ -9,7 +9,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Configure git
 git config --global alias.st "status"
@@ -34,38 +34,38 @@ PKGS='tree'
 
 # Platform specific setup
 case $(uname) in
-	Darwin)
-		type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
+Darwin)
+    type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-        BREW_PKGS="$PKGS ripgrep vim go python fzf"
+    BREW_PKGS="$PKGS ripgrep vim go python fzf"
 
-		for pkg in $BREW_PKGS; do
-			echo "installing: $pkg"
-			brew install "$pkg"
-		done
+    for pkg in $BREW_PKGS; do
+        echo "installing: $pkg"
+        brew install "$pkg"
+    done
 
-        # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
-        # configure mac files, since max proc defaults seem reasonable.
-        echo 'Configuring file limits'
-        sudo cp "$DIR/macos/limit.maxfiles.plist" "/Library/LaunchDaemons/limit.maxfiles.plist"
-        sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+    # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
+    # configure mac files, since max proc defaults seem reasonable.
+    echo 'Configuring file limits'
+    sudo cp "$DIR/macos/limit.maxfiles.plist" "/Library/LaunchDaemons/limit.maxfiles.plist"
+    sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 
-		;;
+    ;;
 
-	Linux)
-		type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
+Linux)
+    type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
 
-		SYS_PKG='build-essential python3-dev'
+    SYS_PKG='build-essential python3-dev'
 
-		for pkg in $SYS_PKG; do
-			echo "installing system package $pkg"
-			sudo apt-get install -y "$pkg"
-		done
+    for pkg in $SYS_PKG; do
+        echo "installing system package $pkg"
+        sudo apt-get install -y "$pkg"
+    done
 
-		for pkg in $PKGS; do
-			echo "installing: $pkg"
-			sudo apt-get install -y "$pkg"
-		done
+    for pkg in $PKGS; do
+        echo "installing: $pkg"
+        sudo apt-get install -y "$pkg"
+    done
 
-		;;
+    ;;
 esac

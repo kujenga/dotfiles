@@ -2,11 +2,10 @@
 
 set -euo pipefail
 
+DIR=$(dirname "$(readlink -f "$0")")
+
 # Install Rust
-curl https://sh.rustup.rs -sSf | sh
-. "$HOME/.cargo/env"
-# Install ripgrep from source
-cargo install ripgrep
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -38,7 +37,7 @@ case $(uname) in
 	Darwin)
 		type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-        BREW_PKGS="$PKGS bash bash-completions@2"
+        BREW_PKGS="$PKGS ripgrep vim go python fzf"
 
 		for pkg in $BREW_PKGS; do
 			echo "installing: $pkg"
@@ -56,7 +55,7 @@ case $(uname) in
 	Linux)
 		type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
 
-		SYS_PKG='build-essential'
+		SYS_PKG='build-essential python3-dev'
 
 		for pkg in $SYS_PKG; do
 			echo "installing system package $pkg"

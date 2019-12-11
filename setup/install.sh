@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DIR=$(dirname "$(readlink -f "$0")")
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Install Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh

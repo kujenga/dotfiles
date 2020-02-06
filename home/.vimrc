@@ -100,6 +100,8 @@ Plug 'keith/swift.vim'
 Plug 'PProvost/vim-ps1'
 " Cap'N Proto
 Plug 'cstrahan/vim-capnp'
+" Ansible, including .j2 Jinja template support
+Plug 'pearofducks/ansible-vim'
 
 " Initialize plugin system
 call plug#end()

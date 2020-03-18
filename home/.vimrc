@@ -323,6 +323,9 @@ let g:ale_fixers['bzl'] = ['BuildifierFix']
 " markdown line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
+" Terraform
+let g:terraform_fmt_on_save=1
+
 """ Custom Commands
 
 " Use ripgrep for fzf, showing hidden files, ignoring git directories.

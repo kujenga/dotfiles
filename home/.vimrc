@@ -35,7 +35,7 @@ Plug 'tpope/vim-fugitive'
 " Helper for GitHub
 Plug 'tpope/vim-rhubarb'
 " fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " tree view of files, with git status
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -325,35 +325,29 @@ au BufRead,BufNewFile *.md setlocal textwidth=80
 
 """ Custom Commands
 
-" Utility function for calling RipGrep with parameters. Supports similar
-" functionality to the :Ag command which exists by default.
-function! RipGrep(option, args, bang)
-  call fzf#vim#grep(
-    \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
-    \       '--hidden', '--glob', '!.git/*',
-    \       a:option, shellescape(a:args)], ' '),
-    \ 1,
-    \ a:bang ? fzf#vim#with_preview('up:60%')
-    \        : fzf#vim#with_preview('right:50%:hidden', '?'),
-    \ a:bang)
-endfunction
-
 " Use ripgrep for fzf, showing hidden files, ignoring git directories.
 let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"
 
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
+
+" Utility function for calling RipGrep with parameters. Supports similar
+" functionality to the :Ag command which exists by default.
+function! RipGrep(option, args, bang)
+  call fzf#vim#grep(
+    \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
+    \       '--smart-case', '--hidden', '--glob', shellescape('!.git/*'),
+    \       a:option, shellescape(a:args)], ' '),
+    \ 1, fzf#vim#with_preview(), a:bang)
+endfunction
+
+" Specific commands for RipGrep with FZF
 command! -bang -nargs=* Rg
   \ call RipGrep('', <q-args>, <bang>0)
-command! -bang -nargs=* Rgi
-  \ call RipGrep('--ignore-case', <q-args>, <bang>0)
 command! -bang -nargs=* Rga
   \ call RipGrep('--no-ignore', <q-args>, <bang>0)
 command! -bang -nargs=* RgF
   \ call RipGrep('--fixed-strings', <q-args>, <bang>0)
-" Add matching files to the args list
-command! -bang -nargs=1 Rga
-  \ execute 'args `rg --files-with-matches ' . shellescape(<q-args>) . '`'
 
 " Copy search matches to clipboard
 " http://vim.wikia.com/wiki/Copy_search_matches

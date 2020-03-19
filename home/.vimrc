@@ -62,8 +62,8 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-" Python requirements.txt
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
+Plug 'psf/black' " formatting
 " Docker support
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
@@ -304,6 +304,8 @@ let g:ale_fixers['css'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
+" adhere to current line length choices
+let g:black_linelength = 80
 
 " Markdown customizations
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown

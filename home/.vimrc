@@ -102,6 +102,10 @@ Plug 'PProvost/vim-ps1'
 Plug 'cstrahan/vim-capnp'
 " Ansible, including .j2 Jinja template support
 Plug 'pearofducks/ansible-vim'
+" Jenkinsfile, adds some nice bits on top of groovy
+Plug 'martinda/Jenkinsfile-vim-syntax'
+" Helm syntax
+Plug 'towolf/vim-helm'
 
 " Initialize plugin system
 call plug#end()

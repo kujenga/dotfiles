@@ -169,8 +169,11 @@ map g/ <Plug>(incsearch-stay)
 "" Deoplete
 " Use deoplete for auto-completion.
 let g:deoplete#enable_at_startup = 1
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
+" Customize deoplete
+call deoplete#custom#option({
+\ 'auto_complete_delay': 100,
+\ 'smart_case': v:true,
+\ })
 " use tab to forward cycle
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle

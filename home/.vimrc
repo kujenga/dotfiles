@@ -35,7 +35,7 @@ Plug 'tpope/vim-fugitive'
 " Helper for GitHub
 Plug 'tpope/vim-rhubarb'
 " fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " tree view of files, with git status
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -62,8 +62,8 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-" Python requirements.txt
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'}
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
+Plug 'psf/black' " formatting
 " Docker support
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
@@ -100,6 +100,12 @@ Plug 'keith/swift.vim'
 Plug 'PProvost/vim-ps1'
 " Cap'N Proto
 Plug 'cstrahan/vim-capnp'
+" Ansible, including .j2 Jinja template support
+Plug 'pearofducks/ansible-vim'
+" Jenkinsfile, adds some nice bits on top of groovy
+Plug 'martinda/Jenkinsfile-vim-syntax'
+" Helm syntax
+Plug 'towolf/vim-helm'
 
 " Initialize plugin system
 call plug#end()
@@ -163,8 +169,11 @@ map g/ <Plug>(incsearch-stay)
 "" Deoplete
 " Use deoplete for auto-completion.
 let g:deoplete#enable_at_startup = 1
-" Use smartcase.
-let g:deoplete#enable_smart_case = 1
+" Customize deoplete
+call deoplete#custom#option({
+\ 'auto_complete_delay': 100,
+\ 'smart_case': v:true,
+\ })
 " use tab to forward cycle
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " use tab to backward cycle
@@ -302,6 +311,8 @@ let g:ale_fixers['css'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
+" adhere to current line length choices
+let g:black_linelength = 80
 
 " Markdown customizations
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
@@ -321,37 +332,34 @@ let g:ale_fixers['bzl'] = ['BuildifierFix']
 " markdown line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
-""" Custom Commands
+" Terraform
+let g:terraform_fmt_on_save=1
 
-" Utility function for calling RipGrep with parameters. Supports similar
-" functionality to the :Ag command which exists by default.
-function! RipGrep(option, args, bang)
-  call fzf#vim#grep(
-    \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
-    \       '--hidden', '--glob', '!.git/*',
-    \       a:option, shellescape(a:args)], ' '),
-    \ 1,
-    \ a:bang ? fzf#vim#with_preview('up:60%')
-    \        : fzf#vim#with_preview('right:50%:hidden', '?'),
-    \ a:bang)
-endfunction
+""" Custom Commands
 
 " Use ripgrep for fzf, showing hidden files, ignoring git directories.
 let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"
 
 " Ripgrep support using fzf
 " https://github.com/junegunn/fzf.vim#advanced-customization
+
+" Utility function for calling RipGrep with parameters. Supports similar
+" functionality to the :Ag command which exists by default.
+function! RipGrep(option, args, bang)
+  call fzf#vim#grep(
+    \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
+    \       '--smart-case', '--hidden', '--glob', shellescape('!.git/*'),
+    \       a:option, shellescape(a:args)], ' '),
+    \ 1, fzf#vim#with_preview(), a:bang)
+endfunction
+
+" Specific commands for RipGrep with FZF
 command! -bang -nargs=* Rg
   \ call RipGrep('', <q-args>, <bang>0)
-command! -bang -nargs=* Rgi
-  \ call RipGrep('--ignore-case', <q-args>, <bang>0)
 command! -bang -nargs=* Rga
   \ call RipGrep('--no-ignore', <q-args>, <bang>0)
 command! -bang -nargs=* RgF
   \ call RipGrep('--fixed-strings', <q-args>, <bang>0)
-" Add matching files to the args list
-command! -bang -nargs=1 Rga
-  \ execute 'args `rg --files-with-matches ' . shellescape(<q-args>) . '`'
 
 " Copy search matches to clipboard
 " http://vim.wikia.com/wiki/Copy_search_matches

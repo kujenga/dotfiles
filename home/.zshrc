@@ -86,6 +86,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+# Ignore commands with a preceeding space.
+# https://unix.stackexchange.com/a/6104/386659
+setopt HIST_IGNORE_SPACE
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment

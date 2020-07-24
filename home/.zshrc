@@ -63,7 +63,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-export ZSH_CUSTOM="$HOME/Developer/personal/init/lib/zsh"
+export ZSH_CUSTOM="$HOME/Developer/init/lib/zsh"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -117,6 +117,12 @@ setopt HIST_IGNORE_SPACE
 # ref: https://support.apple.com/en-us/HT208050
 [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 
+# Profile location
+[[ -e "$HOME/Developer/init/lib/profile.sh" ]] && \
+  emulate sh -c "source $HOME/Developer/init/lib/profile.sh"
+
 # Disable double-verification on rm * actions
 # ref: https://unix.stackexchange.com/a/136144
 setopt rm_star_silent
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

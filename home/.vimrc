@@ -63,7 +63,7 @@ Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
-Plug 'psf/black' " formatting
+Plug 'psf/black', { 'for': 'python' } " formatting
 " Docker support
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -37,7 +37,7 @@ case $(uname) in
 Darwin)
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-    BREW_PKGS="$PKGS ripgrep vim go python fzf tmux"
+    BREW_PKGS="$PKGS ripgrep vim go python fzf tmux wget git autoconf testdisk imagemagick"
 
     for pkg in $BREW_PKGS; do
         echo "installing: $pkg"

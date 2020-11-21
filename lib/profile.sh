@@ -24,11 +24,26 @@ BLINK="$(tput blink)"
 REVERSE="$(tput smso)"
 UNDERLINE="$(tput smul)"
 
+# Set an environment for the development directory, by default using the
+# Mac-specified one with a pretty logo on the folder.
+DEV=${DEV:="$HOME/Developer"}
+
+# Path customizations
+if [ -d "$HOME/bin" ]; then
+    export PATH="$HOME/bin:$PATH"
+fi
+if [ -d "$DEV/bin" ]; then
+    export PATH="$DEV/bin:$PATH"
+fi
+
 # Default editor
 export EDITOR=vim
 # Editor aliases
 alias v='vim'
 alias vi='vim'
+
+# Navigation
+alias dv='cd $DEV'
 
 # Kubernetes
 alias k=kubectl
@@ -49,6 +64,19 @@ alias recwc='find . -type f | xargs wc -l'
 alias ll='ls -l'
 alias ds='du -hs * | gsort -h'
 alias showports='sudo lsof -iTCP -sTCP:LISTEN -n -P'
+
+# Golang
+export GOPATH="$DEV/go"
+export PATH="$PATH:$GOPATH/bin"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# Python
+# virtualenvwrapper setup (must initialize the script in the .zshrc)
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$DEV
+export VIRTUALENVWRAPPER_PYTHON=$(which python3)
 
 # Smart pwd command. References:
 # shorten path: https://superuser.com/a/180267/669334

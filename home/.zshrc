@@ -114,12 +114,13 @@ setopt HIST_IGNORE_SPACE
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Import overrides for other languages.
 # ref: https://support.apple.com/en-us/HT208050
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-
 # Profile location
 [[ -e "$HOME/Developer/init/lib/profile.sh" ]] && \
-  emulate sh -c "source $HOME/Developer/init/lib/profile.sh"
+  emulate bash -c "source $HOME/Developer/init/lib/profile.sh"
+# Computer-specific overrides
+[[ -e ~/.profile ]] && emulate bash -c 'source ~/.profile'
 
 # Disable double-verification on rm * actions
 # ref: https://unix.stackexchange.com/a/136144

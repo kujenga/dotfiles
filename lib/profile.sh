@@ -70,7 +70,7 @@ export GOPATH="$DEV/go"
 export PATH="$PATH:$GOPATH/bin"
 
 # Rust
-export PATH="$HOME/.cargo/bin:$PATH"
+[[ -e "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
 
 # Python
 # virtualenvwrapper setup (must initialize the script in the .zshrc)

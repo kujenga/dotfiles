@@ -64,6 +64,8 @@ alias recwc='find . -type f | xargs wc -l'
 alias ll='ls -l'
 alias ds='du -hs * | gsort -h'
 alias showports='sudo lsof -iTCP -sTCP:LISTEN -n -P'
+# ref: https://coderwall.com/p/ifxb-g/uuidgen-in-lowercase-on-mac-os-x
+alias uuidgenl='uuidgen | tr "[:upper:]" "[:lower:]"'
 
 # Golang
 export GOPATH="$DEV/go"
@@ -159,6 +161,14 @@ fco() {
     result="$(echo "$target" | awk '{print $2}')"
     history -s git checkout "$result"
     git checkout "$result"
+}
+
+# Misc
+
+# Use `jq` with both JSON and non-JSON lines.
+# from: https://github.com/stedolan/jq/issues/884#issuecomment-525574290
+function jjq {
+    jq -R -r "${1:-.} as \$line | try fromjson catch \$line"
 }
 
 ### Bash prompt configuration.

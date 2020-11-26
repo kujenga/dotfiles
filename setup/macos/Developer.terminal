@@ -82,11 +82,11 @@
 	<key>VisualBellOnlyWhenMuted</key>
 	<false/>
 	<key>columnCount</key>
-	<integer>165</integer>
+	<integer>175</integer>
 	<key>name</key>
 	<string>Developer</string>
 	<key>rowCount</key>
-	<integer>45</integer>
+	<integer>48</integer>
 	<key>shellExitAction</key>
 	<integer>2</integer>
 	<key>type</key>

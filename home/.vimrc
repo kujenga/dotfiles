@@ -318,6 +318,9 @@ let g:black_linelength = 80
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 
+" Docker
+autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+
 " Bazel
 " Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22
 " TODO: Contribute this back to ALE.

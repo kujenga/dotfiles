@@ -114,6 +114,10 @@ setopt HIST_IGNORE_SPACE
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Ref: https://soffes.blog/homebrew-on-apple-silicon
+export PATH="/opt/homebrew/bin:$PATH"
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
+
 # Import overrides for other languages.
 # ref: https://support.apple.com/en-us/HT208050
 # Profile location

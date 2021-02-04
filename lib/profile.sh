@@ -26,7 +26,14 @@ UNDERLINE="$(tput smul)"
 
 # Set an environment for the development directory, by default using the
 # Mac-specified one with a pretty logo on the folder.
-DEV=${DEV:="$HOME/Developer"}
+export DEV=${DEV:="$HOME/Developer"}
+
+export DATA="$DEV/data"
+if [ ! -d "$DATA" ]; then
+    mkdir -p "$DATA"
+fi
+# Specify sub-dirs for data downloads: https://www.nltk.org/data.html
+export NLTK_DATA="$DATA/nltk"
 
 # Path customizations
 if [ -d "$HOME/bin" ]; then

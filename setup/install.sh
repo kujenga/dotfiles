@@ -37,7 +37,9 @@ case $(uname) in
 Darwin)
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-    BREW_PKGS="$PKGS ripgrep vim go python fzf tmux wget git autoconf gnupg testdisk imagemagick shellcheck"
+    BREW_PKGS="
+        $PKGS ripgrep vim go python fzf tmux wget git autoconf gnupg testdisk
+        imagemagick shellcheck terraform"
 
     for pkg in $BREW_PKGS; do
         echo "installing: $pkg"

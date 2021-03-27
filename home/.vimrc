@@ -340,6 +340,9 @@ let g:terraform_fmt_on_save=1
 " Base64 decode current selection
 " from: https://stackoverflow.com/a/7849399
 vnoremap <leader>64 y:let @"=system('base64 --decode', @")<cr>gvP
+" JQ format current selection
+" from: https://stackoverflow.com/a/7849399
+vnoremap <leader>jq y:let @"=system('jq', @")<cr>gvP
 
 " Use ripgrep for fzf, showing hidden files, ignoring git directories.
 let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"

@@ -245,16 +245,13 @@ highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
 """ Language-Specific Customizations
 
 " Go customizations
-" ALE handles the fixin'
-" let g:go_mod_fmt_autosave = 1
-" let g:go_fmt_command = 'goimports'
-let g:ale_fixers['go'] = ['goimports']
-" Switch out golint for review
+" Use gopls for everything
+let g:go_fmt_command = 'gopls'
+let g:go_imports_mode = 'gopls'
+" Switch out golint for revive
 let g:ale_linters['go'] = ['gopls', 'revive', 'misspell']
-" Trying experimental Go language server
-" https://github.com/golang/go/wiki/gopls
-let g:go_def_mode = 'gopls'
-let g:go_info_mode='gopls'
+" Go template formatting for Helm template files.
+au BufRead,BufNewFile *.tpl set filetype=gohtmltmpl
 " works more reliably, but slower
 " let g:go_def_mode = 'godef'
 " faster golint alternative that works with Go modules

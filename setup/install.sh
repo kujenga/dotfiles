@@ -38,7 +38,9 @@ Darwin)
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
     BREW_PKGS="
-        $PKGS ripgrep vim go python fzf tmux wget git autoconf gnupg testdisk
+        $PKGS
+        coreutils ripgrep vim go python fzf tmux wget
+        git git-lfs autoconf gnupg testdisk
         imagemagick shellcheck terraform"
 
     for pkg in $BREW_PKGS; do
@@ -49,6 +51,10 @@ Darwin)
     echo "installing font: inconsolata"
     brew tap homebrew/cask-fonts
     brew cask install font-inconsolata
+
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/nomad
+    brew install hashicorp/tap/packer
 
     # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
     # configure mac files, since max proc defaults seem reasonable.

@@ -5,7 +5,9 @@ set -euxo pipefail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # Install Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+if ! which rustup 2>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -29,32 +31,47 @@ git config --global alias.dm "\!git branch --merged | grep -v '\\*' | xargs -n 1
 # https://gist.github.com/shurcooL/6927554
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 
-# desired packages to install
-PKGS='tree jq'
+# Universal packages to install
+PKGS='
+tree
+jq
+'
 
 # Platform specific setup
 case $(uname) in
 Darwin)
+    # Install Homebrew: https://github.com/Homebrew/install
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-    BREW_PKGS="
-        $PKGS
-        coreutils ripgrep vim go python fzf tmux wget
-        git git-lfs autoconf gnupg testdisk
-        imagemagick shellcheck terraform"
+    brew install \
+        $PKGS \
+        coreutils \
+        ripgrep \
+        vim \
+        go \
+        python \
+        fzf \
+        tmux \
+        wget \
+        git \
+        git-lfs \
+        autoconf \
+        gnupg \
+        testdisk \
+        imagemagick \
+        shellcheck
 
-    for pkg in $BREW_PKGS; do
-        echo "installing: $pkg"
-        brew install "$pkg"
-    done
-
-    echo "installing font: inconsolata"
+    # Install Inconsolata font
     brew tap homebrew/cask-fonts
     brew cask install font-inconsolata
 
+    # Install Hashicorp tools
+    # ref: https://github.com/hashicorp/homebrew-tap#why-should-i-install-packages-from-this-tap
     brew tap hashicorp/tap
-    brew install hashicorp/tap/nomad
-    brew install hashicorp/tap/packer
+    brew install \
+        hashicorp/tap/terraform \
+        hashicorp/tap/packer \
+        hashicorp/tap/nomad
 
     # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
     # configure mac files, since max proc defaults seem reasonable.
@@ -67,17 +84,10 @@ Darwin)
 Linux)
     type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
 
-    SYS_PKG='build-essential python3-dev'
-
-    for pkg in $SYS_PKG; do
-        echo "installing system package $pkg"
-        sudo apt-get install -y "$pkg"
-    done
-
-    for pkg in $PKGS; do
-        echo "installing: $pkg"
-        sudo apt-get install -y "$pkg"
-    done
+    sudo apt-get install -y \
+        $PKGS \
+        build-essential \
+        python3-dev
 
     ;;
 esac

@@ -1,5 +1,21 @@
+[init]
+	# Mirror GitHub conventions: https://github.com/github/renaming
+	defaultBranch = main
+
 [push]
 	default = simple
+[pull]
+	# Avoid unintentional merges
+	ff = only
+[rerere]
+	# Easier rebasing
+	enabled = true
+
+# Require commit signing by default
+[tag]
+	forceSignAnnotated = true
+[commit]
+	gpgsign = true
 
 [diff]
 	tool = vimdiff
@@ -61,10 +77,7 @@
 	pager = less -FRX
 	# editor = /usr/local/bin/vim
 
-# Behavioral customizations
-[tag]
-	forceSignAnnotated = true
-[pull]
-	ff = only
-[rerere]
-	enabled = true
+[url "git@github.com:"]
+	# Support private repo cloning for Go:
+	# https://golang.org/doc/faq#git_https
+	insteadOf = https://github.com/

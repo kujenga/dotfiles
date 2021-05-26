@@ -50,7 +50,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 " for Go
 Plug 'zchee/deoplete-go', { 'do': 'make' }
 " for Python (hopefully better than rope)
-Plug 'zchee/deoplete-jedi'
+Plug 'deoplete-plugins/deoplete-jedi'
 " for Rust
 Plug 'sebastianmarkow/deoplete-rust'
 " for JS (flow-based)
@@ -184,9 +184,12 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " deoplete Go customizations, boosting rank
 call deoplete#custom#source('go', 'rank', 1000)
 " deoplete Rust settings
+" Install with `rustup run nightly cargo install racer`
 let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
+" Install with `rustup component add rust-src`
 " ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
-let g:deoplete#sources#rust#rust_source_path=systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
+let g:deoplete#sources#rust#rust_source_path=
+\ systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
 " JS Customizations
 let g:deoplete#sources#ternjs#types = 1
 
@@ -283,7 +286,9 @@ endif
 let g:ale_rust_cargo_check_all_targets = 0
 " Linting with RLS
 let g:ale_linters['rust'] = ['rls']
-let g:ale_rust_rls_toolchain = 'stable'
+" The toolchain version that rls was installed with
+let g:ale_rust_rls_toolchain = split(system('rustup default'))[0]
+" let g:ale_rust_rls_toolchain = 'stable'
 
 " Disable rope because is is horrendously slow with big projects
 let g:pymode_rope = 0

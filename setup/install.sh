@@ -40,11 +40,15 @@ Darwin)
     # Install the brew bundle for my application.
     brew bundle --file="$DIR/Brewfile"
 
+    # NOTE: This is currently disabled because it does not seem to be needed on
+    # the latest macs for most use cases, but kept around for reference if
+    # needed in the future.
+    #
     # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
     # configure mac files, since max proc defaults seem reasonable.
-    echo 'Configuring file limits'
-    sudo cp "$DIR/macos/limit.maxfiles.plist" "/Library/LaunchDaemons/limit.maxfiles.plist"
-    sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+    # echo 'Configuring file limits'
+    # sudo cp "$DIR/macos/limit.maxfiles.plist" "/Library/LaunchDaemons/limit.maxfiles.plist"
+    # sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 
     ;;
 

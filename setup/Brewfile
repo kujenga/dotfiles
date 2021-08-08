@@ -1,0 +1,34 @@
+# A dependency manifest for Homebrew
+#
+# Walkthrough blog post explaining this tool:
+# https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew
+
+brew "coreutils"
+brew "tree"
+brew "jq"
+brew "ripgrep"
+brew "vim"
+brew "go"
+brew "python"
+brew "fzf"
+brew "tmux"
+brew "wget"
+brew "git"
+brew "git-lfs"
+brew "autoconf"
+brew "gnupg"
+brew "testdisk"
+brew "imagemagick"
+brew "shellcheck"
+brew "graphviz"
+
+# Install Inconsolata font
+tap "homebrew/cask-fonts"
+brew "font-inconsolata"
+
+# Install Hashicorp tools
+# ref: https://github.com/hashicorp/homebrew-tap#why-should-i-install-packages-from-this-tap
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"
+brew "hashicorp/tap/packer"
+brew "hashicorp/tap/nomad"

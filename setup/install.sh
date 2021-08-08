@@ -31,47 +31,14 @@ git config --global alias.dm "\!git branch --merged | grep -v '\\*' | xargs -n 1
 # https://gist.github.com/shurcooL/6927554
 git config --global url."git@github.com:".insteadOf "https://github.com/"
 
-# Universal packages to install
-PKGS='
-tree
-jq
-'
-
 # Platform specific setup
 case $(uname) in
 Darwin)
     # Install Homebrew: https://github.com/Homebrew/install
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
-    brew install \
-        $PKGS \
-        coreutils \
-        ripgrep \
-        vim \
-        go \
-        python \
-        fzf \
-        tmux \
-        wget \
-        git \
-        git-lfs \
-        autoconf \
-        gnupg \
-        testdisk \
-        imagemagick \
-        shellcheck
-
-    # Install Inconsolata font
-    brew tap homebrew/cask-fonts
-    brew cask install font-inconsolata
-
-    # Install Hashicorp tools
-    # ref: https://github.com/hashicorp/homebrew-tap#why-should-i-install-packages-from-this-tap
-    brew tap hashicorp/tap
-    brew install \
-        hashicorp/tap/terraform \
-        hashicorp/tap/packer \
-        hashicorp/tap/nomad
+    # Install the brew bundle for my application.
+    brew bundle --file="$DIR/Brewfile"
 
     # Based on: https://wilsonmar.github.io/maximum-limits/ except we only
     # configure mac files, since max proc defaults seem reasonable.
@@ -85,7 +52,8 @@ Linux)
     type apt-get >/dev/null 2>&1 || { echo >&2 "I require apt-get but it's not installed.  Aborting."; exit 1; }
 
     sudo apt-get install -y \
-        $PKGS \
+        tree \
+        jq \
         build-essential \
         python3-dev
 

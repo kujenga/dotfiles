@@ -199,6 +199,10 @@ let g:deoplete#sources#ternjs#types = 1
 "" Airline
 " ale in status line
 let g:airline#extensions#ale#enabled = 1
+" Display status line on top, so that it is not clipped with vertical panes.
+" https://vi.stackexchange.com/a/27347/19472
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_statusline_ontop = 1
 
 "" NERDTree
 " auto-close vim when NERDTree is the last one standing

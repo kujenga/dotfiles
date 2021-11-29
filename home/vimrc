@@ -60,6 +60,7 @@ Plug 'carlitux/deoplete-ternjs'
 """ Language Syntax Support
 " Go language support
 Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
+Plug 'sebdah/vim-delve', { 'for': 'go' }
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files

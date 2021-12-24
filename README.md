@@ -5,12 +5,19 @@ maintaining existing machines.
 
 ## Usage
 
-
+- Setup an SSH key with the following command:
+```sh
+ssh-keygen -o -a 100 -t ed25519
+```
+- Clone this repository into `~/Developer/dotfiles`
+- Run `./install.sh` from within that cloned repository
 
 ## Directories
 
-- `home` - files that are intended to go in the home directory
-- `setup` - files that are used for setup of the machine
+- `home` - files that are intended to go in the home directory.
+- `lib` - files that are imported to provide utilities and configuration for the
+  machine.
+- `macos` - files that are used for setup of a macOS machine.
 
 ## References
 

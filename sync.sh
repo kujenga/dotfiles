@@ -1,6 +1,7 @@
 #!/bin/sh
-
-# Sync local files into this repository
+#
+# Sync changes from local files into this repository so they can be committed
+# for use on other machines.
 
 set -e
 

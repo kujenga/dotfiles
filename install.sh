@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# This script installs configuration onto the current machine.
 
 set -euxo pipefail
 
@@ -38,7 +40,7 @@ Darwin)
     type brew >/dev/null 2>&1 || { echo >&2 "I require Homebrew but it's not installed.  Aborting."; exit 1; }
 
     # Install the brew bundle for my application.
-    brew bundle --file="$DIR/Brewfile"
+    brew bundle --file="$DIR/macos/Brewfile"
 
     # NOTE: This is currently disabled because it does not seem to be needed on
     # the latest macs for most use cases, but kept around for reference if

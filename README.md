@@ -3,6 +3,10 @@
 Shared configuration files and setup scripts files for setting up new and
 maintaining existing machines.
 
+## Usage
+
+
+
 ## Directories
 
 - `home` - files that are intended to go in the home directory

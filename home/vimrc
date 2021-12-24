@@ -88,6 +88,8 @@ Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'isobit/vim-caddyfile'
 " Pug template language
 Plug 'digitaltoad/vim-pug'
+" Hashicorp HCL
+Plug 'b4b4r07/vim-hcl'
 " Hashicorp Terraform
 Plug 'hashivim/vim-terraform'
 " Template highlighting
@@ -245,6 +247,10 @@ highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
 highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
 highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
 
+""" Homebrew
+" Brewfiles https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew
+autocmd BufEnter Brewfile :setlocal filetype=ruby
+
 """ Language-Specific Customizations
 
 " Go customizations
@@ -308,8 +314,12 @@ let g:ale_linters['javascript'] = ['eslint', 'flow']
 " JSON
 let g:ale_fixers['json'] = ['prettier']
 
+" HTML
+let g:ale_fixers['html'] = ['prettier']
+
 " CSS
 let g:ale_fixers['css'] = ['prettier']
+let g:ale_fixers['scss'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
@@ -319,6 +329,19 @@ let g:black_linelength = 80
 " Markdown customizations
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+" line width
+au BufRead,BufNewFile *.md setlocal textwidth=80
+" Previews on mac, from: https://stackoverflow.com/a/9214538/2528719
+function! s:setupMarkup()
+  nnoremap <leader>p :silent !open -a 'Marked 2.app' '%:p'<cr>
+endfunction
+au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
+let g:vim_markdown_math = 1
+" let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_toml_frontmatter = 1
+" let g:vim_markdown_json_frontmatter = 1
+" Spellchecking enabled. zg in normal mode to add words, :help spell for info
+autocmd FileType markdown setlocal spell
 
 " Docker
 autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
@@ -333,9 +356,6 @@ function! BuildifierFix(buffer) abort
   \}
 endfunction
 let g:ale_fixers['bzl'] = ['BuildifierFix']
-
-" markdown line width
-au BufRead,BufNewFile *.md setlocal textwidth=80
 
 " Terraform
 let g:terraform_fmt_on_save=1

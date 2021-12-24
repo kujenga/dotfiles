@@ -8,16 +8,18 @@ R="$(dirname "$0")"
 
 # files that are identical between here and the local copy
 HOME_FILES='
-.zshrc
-.vimrc
-.gitconfig
-.gitignore_global
-.editorconfig
-.prettierrc.yaml
-.tern-config
-.psqlrc
+zshrc
+vimrc
+gitconfig
+gitignore_global
+editorconfig
+prettierrc.yaml
+tern-config
+psqlrc
 '
 
 for f in $HOME_FILES; do
-	cp "$HOME/$f" "$R/home/$f";
+    # Copy the "." version from the home directory. We omit the "." here to
+    # make the times in the repo easier to work with.
+    cp "$HOME/.$f" "$R/home/$f";
 done

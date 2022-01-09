@@ -7,19 +7,8 @@ set -e
 
 R="$(dirname "$0")"
 
-# files that are identical between here and the local copy
-HOME_FILES='
-zshrc
-vimrc
-gitconfig
-gitignore_global
-editorconfig
-prettierrc.yaml
-tern-config
-psqlrc
-'
-
-for f in $HOME_FILES; do
+# Sync all files in the repo home/ directory already.
+for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
     # Copy the "." version from the home directory. We omit the "." here to
     # make the times in the repo easier to work with.
     cp "$HOME/.$f" "$R/home/$f";

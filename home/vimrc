@@ -327,21 +327,23 @@ let g:pymode_folding = 0
 let g:black_linelength = 80
 
 " Markdown customizations
+" See ~/.vim/after/syntax/markdown.vim for more customizations on this type.
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
-" line width
+let g:markdown_fenced_languages = [
+\ 'html',
+\ 'go',
+\ 'python',
+\ 'c',
+\ 'rust',
+\ 'bash=sh',
+\]
+" Specify line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 " Previews on mac, from: https://stackoverflow.com/a/9214538/2528719
 function! s:setupMarkup()
   nnoremap <leader>p :silent !open -a 'Marked 2.app' '%:p'<cr>
 endfunction
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
-let g:vim_markdown_math = 1
-" let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_toml_frontmatter = 1
-" let g:vim_markdown_json_frontmatter = 1
-" Spellchecking enabled. zg in normal mode to add words, :help spell for info
-autocmd FileType markdown setlocal spell
 
 " Docker
 autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile

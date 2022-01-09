@@ -4,10 +4,6 @@
 " Syntax tutorial:
 " https://vim.fandom.com/wiki/Creating_your_own_syntax_files#Install_the_syntax_file
 
-" Enable spell check by default.
-" zg in normal mode to add words, :help spell for info
-syn spell toplevel
-
 " Extensions for Hugo
 " Partly based on: https://github.com/fatih/vim-go/blob/master/syntax/gotexttmpl.vim
 

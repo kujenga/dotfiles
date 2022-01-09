@@ -328,6 +328,8 @@ let g:black_linelength = 80
 
 " Markdown customizations
 " See ~/.vim/after/syntax/markdown.vim for more customizations on this type.
+" Spellchecking enabled. zg in normal mode to add words, :help spell for info
+autocmd FileType markdown setlocal spell
 " from: https://github.com/tpope/vim-markdown/blob/master/README.markdown
 let g:markdown_fenced_languages = [
 \ 'html',

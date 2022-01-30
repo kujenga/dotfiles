@@ -7,6 +7,7 @@
 [pull]
 	# Avoid unintentional merges
 	ff = only
+	rebase = true
 [rerere]
 	# Easier rebasing
 	enabled = true
@@ -45,7 +46,7 @@
 	recent = log --pretty=medium --stat -5 HEAD
 	sl = stash list --format='%gd (%cr): %gs'
 	# TODO: add information like we have in the place alias to each of these rows, which may require some kind of shell interpolation.
-	bl = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:short)%(color:reset))'
+	bl = for-each-ref --sort=committerdate refs/heads/ --format='(%(color:green)%(committerdate:short)%(color:reset)) %(HEAD) %(refname:short) - %(color:yellow)%(contents:subject)%(color:reset) - %(color:blue)%(authorname)%(color:reset)'
 	amend = commit --amend --reuse-message=HEAD
 
 	place = "!f() { A=master; B=${1:-$(git rev-parse --abbrev-ref HEAD)}; echo \"$A\t$B\"; git rev-list --left-right --count $A...$B; }; f"
@@ -81,14 +82,3 @@
 	# Support private repo cloning for Go:
 	# https://golang.org/doc/faq#git_https
 	insteadOf = https://github.com/
-
-# Local customizations (DO NOT COMMIT)
-[user]
-	name = Aaron Taylor
-	email = git@ataylor.io
-	signingkey = 42B14D00D1915CE5
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process

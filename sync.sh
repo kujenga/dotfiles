@@ -11,5 +11,9 @@ R="$(dirname "$0")"
 for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
     # Copy the "." version from the home directory. We omit the "." here to
     # make the times in the repo easier to work with.
-    cp "$HOME/.$f" "$R/home/$f";
+    src="$HOME/.$f"
+    dst="$R/home/$f"
+    if [ -f "$src" ]; then
+        cp "$src" "$dst"
+    fi
 done

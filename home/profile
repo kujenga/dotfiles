@@ -1,5 +1,16 @@
 # Add this to the default with:
-# curl https://github.com/kujenga/init/blob/master/home/.profile >> ~/.profile
+# curl https://raw.githubusercontent.com/kujenga/dotfiles/main/home/profile >> ~/.profile
 
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+# Directory references
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export DEV="$HOME/Developer"
+else
+    export DEV="$HOME/dev"
+fi
+
+# Personal bin directory.
+export PATH="$PATH:$DEV/bin"
+
+# Golang setup
+export GOPATH="$DEV/go"
+export PATH="$PATH:$GOPATH/bin"

@@ -65,9 +65,6 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Would you like to use another custom folder than $ZSH/custom?
 export ZSH_CUSTOM="$HOME/Developer/dotfiles/lib/zsh"
 
-# Point to Homebrew installation directory.
-export FZF_BASE='/opt/homebrew/opt/fzf'
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -117,12 +114,9 @@ setopt HIST_IGNORE_SPACE
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Ref: https://soffes.blog/homebrew-on-apple-silicon
-export PATH="/opt/homebrew/bin:$PATH"
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
-
 # Import overrides for other languages.
 # ref: https://support.apple.com/en-us/HT208050
+
 # Profile location
 [[ -e "$HOME/Developer/dotfiles/lib/profile.sh" ]] && \
   emulate bash -c "source $HOME/Developer/dotfiles/lib/profile.sh"
@@ -136,7 +130,7 @@ setopt rm_star_silent
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/aaron/Developer/lib/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/aaron/Developer/lib/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$DEV/google-cloud-sdk/path.zsh.inc" ]; then . "$DEV/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/aaron/Developer/lib/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/aaron/Developer/lib/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$DEV/google-cloud-sdk/completion.zsh.inc" ]; then . "$DEV/google-cloud-sdk/completion.zsh.inc"; fi

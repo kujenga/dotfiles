@@ -7,5 +7,8 @@
   "go.goplsOptions": {
     // https://github.com/golang/tools/blob/master/gopls/doc/settings.md#experimentalworkspacemodule-bool
     "experimentalWorkspaceModule": true
-  }
+  },
+  // Use tsserver only for .ts files.
+  // https://github.com/neoclide/coc-tsserver/issues/135#issuecomment-609460607
+  "tsserver.enableJavascript": false
 }

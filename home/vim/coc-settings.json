@@ -1,0 +1,11 @@
+// vim: set filetype=jsonc
+//
+// coc.nvim Configuration file
+// https://github.com/neoclide/coc.nvim/wiki/Using-the-configuration-file
+{
+  // https://github.com/josa42/coc-go
+  "go.goplsOptions": {
+    // https://github.com/golang/tools/blob/master/gopls/doc/settings.md#experimentalworkspacemodule-bool
+    "experimentalWorkspaceModule": true
+  }
+}

@@ -387,21 +387,28 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"
 
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.
-function! RipGrep(option, args, bang)
+function! RipGrepRaw(option, args, bang)
   call fzf#vim#grep(
     \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
-    \       '--smart-case', '--hidden', '--glob', shellescape('!.git/*'),
-    \       a:option, shellescape(a:args)], ' '),
+    \       '--hidden', '--glob', shellescape('!.git/*'),
+    \       a:option, a:args], ' '),
     \ 1, fzf#vim#with_preview(), a:bang)
+endfunction
+function! RipGrep(option, args, bang)
+  call RipGrepRaw(a:option, shellescape(a:args), a:bang)
 endfunction
 
 " Specific commands for RipGrep with FZF
 command! -bang -nargs=* Rg
-  \ call RipGrep('', <q-args>, <bang>0)
+  \ call RipGrep('--smart-case', <q-args>, <bang>0)
+command! -bang -nargs=* Rgc
+  \ call RipGrep('--case-sensitive', <q-args>, <bang>0)
 command! -bang -nargs=* Rga
   \ call RipGrep('--no-ignore', <q-args>, <bang>0)
-command! -bang -nargs=* RgF
+command! -bang -nargs=* Rgf
   \ call RipGrep('--fixed-strings', <q-args>, <bang>0)
+command! -bang -nargs=* Rgr
+  \ call RipGrepRaw('', <q-args>, <bang>0)
 
 " Copy search matches to clipboard
 " http://vim.wikia.com/wiki/Copy_search_matches

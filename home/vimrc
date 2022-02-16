@@ -43,19 +43,9 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
 " Async linting while I type, fixing on save when I want
 Plug 'dense-analysis/ale'
+
 " Autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-" for Go
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-" for Python (hopefully better than rope)
-Plug 'deoplete-plugins/deoplete-jedi'
-" for Rust
-Plug 'sebastianmarkow/deoplete-rust'
-" for JS (flow-based)
-" Plug 'wokalski/autocomplete-flow'
-Plug 'carlitux/deoplete-ternjs'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 """ Language Syntax Support
 " Go language support
@@ -169,32 +159,43 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"" Deoplete
-" Use deoplete for auto-completion.
-let g:deoplete#enable_at_startup = 1
-" Customize deoplete
-call deoplete#custom#option({
-\ 'auto_complete_delay': 100,
-\ 'smart_case': v:true,
-\ })
-" use tab to forward cycle
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" use tab to backward cycle
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-" Close preview window after completion
-" https://github.com/Shougo/deoplete.nvim/issues/115#issuecomment-170237485
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-" deoplete Go customizations, boosting rank
-call deoplete#custom#source('go', 'rank', 1000)
-" deoplete Rust settings
-" Install with `rustup run nightly cargo install racer`
-let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
-" Install with `rustup component add rust-src`
-" ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
-let g:deoplete#sources#rust#rust_source_path=
-\ systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
-" JS Customizations
-let g:deoplete#sources#ternjs#types = 1
+"" COC
+" extensions: https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
+" - https://github.com/neoclide/coc-json
+" - https://github.com/neoclide/coc-git
+" - https://github.com/josa42/coc-go
+" - https://github.com/pappasam/coc-jedi
+" - https://github.com/neoclide/coc-tsserver
+" - https://github.com/amiralies/coc-flow
+let g:coc_global_extensions = [
+\ 'coc-json',
+\ 'coc-git',
+\ 'coc-go',
+\ 'coc-jedi',
+\ 'coc-tsserver',
+\ 'coc-flow',
+\]
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 "" Airline
 " ale in status line
@@ -240,7 +241,7 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 
 """ gitgutter
 " Faster update time for git gutter (default 4000ms)
-set updatetime=100
+set updatetime=200
 let g:gitgutter_grep = 'rg'
 " stubbornly sticking with macOS default terminal
 let g:gitgutter_terminal_reports_focus = 0

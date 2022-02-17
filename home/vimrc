@@ -226,31 +226,10 @@ autocmd BufEnter Brewfile :setlocal filetype=ruby
 " Use gopls for everything
 let g:go_fmt_command = 'gopls'
 let g:go_imports_mode = 'gopls'
-" Switch out golint for revive
-let g:ale_linters['go'] = ['gopls', 'revive', 'misspell']
 " Go template formatting for Helm template files.
 au BufRead,BufNewFile *.tpl set filetype=gohtmltmpl
 " works more reliably, but slower
 " let g:go_def_mode = 'godef'
-" faster golint alternative that works with Go modules
-call ale#linter#Define('go', {
-\   'name': 'revive',
-\   'output_stream': 'both',
-\   'executable': 'revive',
-\   'read_buffer': 0,
-\   'command': 'revive %t',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
-" Stop misspelling things...
-" wraps: https://github.com/client9/misspell
-call ale#linter#Define('go', {
-\   'name': 'misspell',
-\   'output_stream': 'both',
-\   'executable': 'misspell',
-\   'read_buffer': 0,
-\   'command': 'misspell %t',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
 
 " Rust customization
 let g:rustfmt_autosave = 1

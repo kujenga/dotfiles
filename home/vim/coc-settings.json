@@ -3,6 +3,44 @@
 // coc.nvim Configuration file
 // https://github.com/neoclide/coc.nvim/wiki/Using-the-configuration-file
 {
+  // https://github.com/neoclide/coc.nvim/wiki/Language-servers
+  "languageserver": {
+    // https://github.com/nametake/golangci-lint-langserver
+    "golangci-lint-languageserver": {
+      "command": "golangci-lint-langserver",
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "command": [
+          "golangci-lint",
+          "run",
+          "--out-format",
+          "json",
+          "--enable",
+          "asciicheck",
+          "bidichk",
+          "bodyclose",
+          "contextcheck",
+          "cyclop",
+          "dupl",
+          "durationcheck",
+          "errorlint",
+          "exhaustive",
+          "exhaustivestruct",
+          "exportloopref",
+          "gocognit",
+          "gosec",
+          "makezero",
+          "misspell",
+          "nilerr",
+          "nilnil",
+          "prealloc",
+          "promlinter",
+          "thelper"
+        ]
+      }
+    }
+  },
+
   // Filetypes for which formatting triggers after saving.
   "coc.preferences.formatOnSaveFiletypes": [
     "json",

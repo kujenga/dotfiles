@@ -157,6 +157,7 @@ map g/ <Plug>(incsearch-stay)
 " - https://github.com/neoclide/coc-json
 " - https://github.com/neoclide/coc-git
 " - https://github.com/josa42/coc-go
+" - https://github.com/neoclide/coc-rls
 " - https://github.com/pappasam/coc-jedi
 " - https://github.com/neoclide/coc-tsserver
 " - https://github.com/amiralies/coc-flow
@@ -167,6 +168,7 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ 'coc-git',
 \ 'coc-go',
+\ 'coc-rls',
 \ 'coc-jedi',
 \ 'coc-tsserver',
 \ 'coc-flow',
@@ -236,13 +238,6 @@ let g:rustfmt_autosave = 1
 if has('macunix')
   let g:rust_clip_command = 'pbcopy'
 endif
-" Working errors for binaries.
-let g:ale_rust_cargo_check_all_targets = 0
-" Linting with RLS
-let g:ale_linters['rust'] = ['rls']
-" The toolchain version that rls was installed with
-let g:ale_rust_rls_toolchain = split(system('rustup default'))[0]
-" let g:ale_rust_rls_toolchain = 'stable'
 
 " Disable rope because is is horrendously slow with big projects
 let g:pymode_rope = 0

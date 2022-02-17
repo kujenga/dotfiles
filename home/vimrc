@@ -28,8 +28,6 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'kujenga/vim-monokai'
 
 """ Additional UI Capabilities
-" git inline support
-Plug 'airblade/vim-gitgutter'
 " git wrapper
 Plug 'tpope/vim-fugitive'
 " Helper for GitHub
@@ -41,10 +39,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
-" Async linting while I type, fixing on save when I want
-Plug 'dense-analysis/ale'
-
-" Autocomplete
+" Language server support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 """ Language Syntax Support
@@ -59,8 +54,6 @@ Plug 'psf/black', { 'for': 'python' } " formatting
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
 Plug 'pangloss/vim-javascript'
-" Flow support
-Plug 'flowtype/vim-flow'
 " JSX support
 Plug 'mxw/vim-jsx'
 " JSON support
@@ -167,6 +160,9 @@ map g/ <Plug>(incsearch-stay)
 " - https://github.com/pappasam/coc-jedi
 " - https://github.com/neoclide/coc-tsserver
 " - https://github.com/amiralies/coc-flow
+" - https://github.com/neoclide/coc-prettier
+" - https://github.com/neoclide/coc-eslint
+" - https://github.com/iamcco/coc-diagnostic
 let g:coc_global_extensions = [
 \ 'coc-json',
 \ 'coc-git',
@@ -174,6 +170,9 @@ let g:coc_global_extensions = [
 \ 'coc-jedi',
 \ 'coc-tsserver',
 \ 'coc-flow',
+\ 'coc-prettier',
+\ 'coc-eslint',
+\ 'coc-diagnostic',
 \]
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
@@ -198,8 +197,6 @@ function! s:show_documentation()
 endfunction
 
 "" Airline
-" ale in status line
-let g:airline#extensions#ale#enabled = 1
 " Display status line on top, so that it is not clipped with vertical panes.
 " https://vi.stackexchange.com/a/27347/19472
 let g:airline#extensions#tabline#enabled = 1
@@ -218,40 +215,6 @@ let NERDTreeIgnore = ['\.pyc$']
 let g:NERDDefaultAlign = 'left'
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-
-"" ALE
-" always keep gutter open to avoid bouncing
-let g:ale_sign_column_always = 1
-" delay after which linters run in millis
-let g:ale_lint_delay = 500
-" enable location list
-let g:ale_set_loclist = 1
-" open loclist when errors are present, usually not needed
-" let g:ale_open_list = 1
-" Run configured fixers on file save.
-let g:ale_fix_on_save = 1
-" setup for ALE customizations.
-let g:ale_linters = {}
-let g:ale_fixers = {}
-" Map keys to navigate between lines with errors and warnings.
-nnoremap <leader>an :ALENextWrap<cr>
-nnoremap <leader>ap :ALEPreviousWrap<cr>
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-
-""" gitgutter
-" Faster update time for git gutter (default 4000ms)
-set updatetime=200
-let g:gitgutter_grep = 'rg'
-" stubbornly sticking with macOS default terminal
-let g:gitgutter_terminal_reports_focus = 0
-" override my color scheme
-let g:gitgutter_override_sign_column_highlight = 1
-" set the original gutter colors
-" ref: https://github.com/airblade/vim-gitgutter#signs-colours-and-symbols
-highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
-highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
-highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
 
 """ Homebrew
 " Brewfiles https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew
@@ -308,24 +271,7 @@ let g:pymode_rope_autoimport = 0
 let g:pymode_rope_lookup_project = 0
 
 " JS customizations
-let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_javascript_prettier_use_local_config = 1
 let g:javascript_plugin_flow = 1
-" disable flow checking, using ale instead
-let g:flow#enable = 0
-let g:flow#showquickfix = 0
-" Only use desired plugins for JS, avoids unwanted use of jshint.
-let g:ale_linters['javascript'] = ['eslint', 'flow']
-
-" JSON
-let g:ale_fixers['json'] = ['prettier']
-
-" HTML
-let g:ale_fixers['html'] = ['prettier']
-
-" CSS
-let g:ale_fixers['css'] = ['prettier']
-let g:ale_fixers['scss'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
@@ -358,21 +304,19 @@ autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
 
 " Bazel
 " Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22
-" TODO: Contribute this back to ALE.
+" TODO: Configure this for coc.nvim
 function! BuildifierFix(buffer) abort
   return {
   \ 'command': 'buildifier -showlog -mode=fix %t',
   \ 'read_temporary_file': 1,
   \}
 endfunction
-let g:ale_fixers['bzl'] = ['BuildifierFix']
 
 " markdown line width
 au BufRead,BufNewFile *.md setlocal textwidth=80
 
 " Terraform
 let g:terraform_fmt_on_save=1
-let g:ale_fixers['terraform'] = ['terraform']
 
 """ Custom Commands
 

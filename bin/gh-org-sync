@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Utiliy script to sync the repositories within a GitHub organization. Useful
+# for local explorations or archival purposes. Currently only supports public
+# orgs/repositories.
+
+ORG=$1
+if [ -z "$ORG" ]; then
+    echo "Usage: $0 <ORG>"
+    exit 1
+fi
+
+set -euo pipefail
+
+sync() {
+    name=$1
+    clone_url=$2
+    if [ -d "$name" ]; then
+        set -x
+        git -C "$name" pull --ff-only
+        set +x
+    else
+        set -x
+        git clone "$clone_url" "$name"
+        set +x
+    fi
+}
+
+page=1
+l=1
+while [ $l -gt 0 ]
+do
+    # docs: https://docs.github.com/en/rest/reference/repos
+    URL="https://api.github.com/orgs/$ORG/repos?page=$page"
+    echo "Fetching: $URL"
+    repos=$(curl -sSL "$URL")
+    l=$(echo "$repos" | jq '. | length')
+    ((page++))
+
+    # ref: https://stackoverflow.com/a/2711008
+    echo "$repos" | jq -r '.[] | .name, .clone_url' | while read -r name; read -r clone_url
+    do
+        sync "$name" "$clone_url"
+    done
+done

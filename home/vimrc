@@ -44,8 +44,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 """ Language Syntax Support
 " Go language support
-Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
-Plug 'sebdah/vim-delve', { 'for': 'go' }
+Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+Plug 'sebdah/vim-delve'
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files

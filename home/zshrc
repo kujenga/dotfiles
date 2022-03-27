@@ -76,10 +76,12 @@ plugins=(
   ripgrep
   golang
   rust
-  # docs: https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/vi-mode
+  # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
   vi-mode
   # Put this last so that it overrides much worse vim-mode ^r search
   fzf
+  # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/1password
+  1password
 )
 
 source $ZSH/oh-my-zsh.sh

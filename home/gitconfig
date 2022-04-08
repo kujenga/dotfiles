@@ -78,6 +78,17 @@
 	pager = less -FRX
 	# editor = /usr/local/bin/vim
 
+# Config for: https://git-lfs.github.com/
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+
+# Config for: https://github.com/tummychow/git-absorb
+[absorb]
+	maxStack=30
+
 [url "git@github.com:"]
 	# Support private repo cloning for Go:
 	# https://golang.org/doc/faq#git_https

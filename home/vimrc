@@ -28,8 +28,6 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'kujenga/vim-monokai'
 
 """ Additional UI Capabilities
-" git inline support
-Plug 'airblade/vim-gitgutter'
 " git wrapper
 Plug 'tpope/vim-fugitive'
 " Helper for GitHub
@@ -41,25 +39,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
-" Async linting while I type, fixing on save when I want
-Plug 'dense-analysis/ale'
-" Autocomplete
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-" for Go
-Plug 'zchee/deoplete-go', { 'do': 'make' }
-" for Python (hopefully better than rope)
-Plug 'deoplete-plugins/deoplete-jedi'
-" for Rust
-Plug 'sebastianmarkow/deoplete-rust'
-" for JS (flow-based)
-" Plug 'wokalski/autocomplete-flow'
-Plug 'carlitux/deoplete-ternjs'
+" Language server support
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 """ Language Syntax Support
 " Go language support
-Plug 'fatih/vim-go', { 'for': 'go' } " 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+Plug 'sebdah/vim-delve'
 " Python support
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
@@ -68,8 +54,6 @@ Plug 'psf/black', { 'for': 'python' } " formatting
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
 Plug 'pangloss/vim-javascript'
-" Flow support
-Plug 'flowtype/vim-flow'
 " JSX support
 Plug 'mxw/vim-jsx'
 " JSON support
@@ -168,36 +152,57 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"" Deoplete
-" Use deoplete for auto-completion.
-let g:deoplete#enable_at_startup = 1
-" Customize deoplete
-call deoplete#custom#option({
-\ 'auto_complete_delay': 100,
-\ 'smart_case': v:true,
-\ })
-" use tab to forward cycle
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" use tab to backward cycle
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-" Close preview window after completion
-" https://github.com/Shougo/deoplete.nvim/issues/115#issuecomment-170237485
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-" deoplete Go customizations, boosting rank
-call deoplete#custom#source('go', 'rank', 1000)
-" deoplete Rust settings
-" Install with `rustup run nightly cargo install racer`
-let g:deoplete#sources#rust#racer_binary=systemlist('which racer')[0]
-" Install with `rustup component add rust-src`
-" ref: https://github.com/rust-lang-nursery/rustup.rs/issues/37#issuecomment-242831800
-let g:deoplete#sources#rust#rust_source_path=
-\ systemlist('rustc --print sysroot')[0] . '/lib/rustlib/src/rust/src'
-" JS Customizations
-let g:deoplete#sources#ternjs#types = 1
+"" COC
+" extensions: https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
+" - https://github.com/neoclide/coc-json
+" - https://github.com/neoclide/coc-git
+" - https://github.com/josa42/coc-go
+" - https://github.com/neoclide/coc-rls
+" - https://github.com/pappasam/coc-jedi
+" - https://github.com/neoclide/coc-tsserver
+" - https://github.com/amiralies/coc-flow
+" - https://github.com/neoclide/coc-prettier
+" - https://github.com/neoclide/coc-eslint
+" - https://github.com/iamcco/coc-diagnostic
+let g:coc_global_extensions = [
+\ 'coc-json',
+\ 'coc-git',
+\ 'coc-go',
+\ 'coc-rls',
+\ 'coc-jedi',
+\ 'coc-tsserver',
+\ 'coc-flow',
+\ 'coc-prettier',
+\ 'coc-eslint',
+\ 'coc-diagnostic',
+\]
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
 
 "" Airline
-" ale in status line
-let g:airline#extensions#ale#enabled = 1
+" Display status line on top, so that it is not clipped with vertical panes.
+" https://vi.stackexchange.com/a/27347/19472
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_statusline_ontop = 1
 
 "" NERDTree
 " auto-close vim when NERDTree is the last one standing
@@ -213,40 +218,6 @@ let g:NERDDefaultAlign = 'left'
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
 
-"" ALE
-" always keep gutter open to avoid bouncing
-let g:ale_sign_column_always = 1
-" delay after which linters run in millis
-let g:ale_lint_delay = 500
-" enable location list
-let g:ale_set_loclist = 1
-" open loclist when errors are present, usually not needed
-" let g:ale_open_list = 1
-" Run configured fixers on file save.
-let g:ale_fix_on_save = 1
-" setup for ALE customizations.
-let g:ale_linters = {}
-let g:ale_fixers = {}
-" Map keys to navigate between lines with errors and warnings.
-nnoremap <leader>an :ALENextWrap<cr>
-nnoremap <leader>ap :ALEPreviousWrap<cr>
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-
-""" gitgutter
-" Faster update time for git gutter (default 4000ms)
-set updatetime=100
-let g:gitgutter_grep = 'rg'
-" stubbornly sticking with macOS default terminal
-let g:gitgutter_terminal_reports_focus = 0
-" override my color scheme
-let g:gitgutter_override_sign_column_highlight = 1
-" set the original gutter colors
-" ref: https://github.com/airblade/vim-gitgutter#signs-colours-and-symbols
-highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
-highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
-highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
-
 """ Homebrew
 " Brewfiles https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew
 autocmd BufEnter Brewfile :setlocal filetype=ruby
@@ -257,44 +228,16 @@ autocmd BufEnter Brewfile :setlocal filetype=ruby
 " Use gopls for everything
 let g:go_fmt_command = 'gopls'
 let g:go_imports_mode = 'gopls'
-" Switch out golint for revive
-let g:ale_linters['go'] = ['gopls', 'revive', 'misspell']
 " Go template formatting for Helm template files.
 au BufRead,BufNewFile *.tpl set filetype=gohtmltmpl
 " works more reliably, but slower
 " let g:go_def_mode = 'godef'
-" faster golint alternative that works with Go modules
-call ale#linter#Define('go', {
-\   'name': 'revive',
-\   'output_stream': 'both',
-\   'executable': 'revive',
-\   'read_buffer': 0,
-\   'command': 'revive %t',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
-" Stop misspelling things...
-" wraps: https://github.com/client9/misspell
-call ale#linter#Define('go', {
-\   'name': 'misspell',
-\   'output_stream': 'both',
-\   'executable': 'misspell',
-\   'read_buffer': 0,
-\   'command': 'misspell %t',
-\   'callback': 'ale#handlers#unix#HandleAsWarning',
-\})
 
 " Rust customization
 let g:rustfmt_autosave = 1
 if has('macunix')
   let g:rust_clip_command = 'pbcopy'
 endif
-" Working errors for binaries.
-let g:ale_rust_cargo_check_all_targets = 0
-" Linting with RLS
-let g:ale_linters['rust'] = ['rls']
-" The toolchain version that rls was installed with
-let g:ale_rust_rls_toolchain = split(system('rustup default'))[0]
-" let g:ale_rust_rls_toolchain = 'stable'
 
 " Disable rope because is is horrendously slow with big projects
 let g:pymode_rope = 0
@@ -302,24 +245,7 @@ let g:pymode_rope_autoimport = 0
 let g:pymode_rope_lookup_project = 0
 
 " JS customizations
-let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_javascript_prettier_use_local_config = 1
 let g:javascript_plugin_flow = 1
-" disable flow checking, using ale instead
-let g:flow#enable = 0
-let g:flow#showquickfix = 0
-" Only use desired plugins for JS, avoids unwanted use of jshint.
-let g:ale_linters['javascript'] = ['eslint', 'flow']
-
-" JSON
-let g:ale_fixers['json'] = ['prettier']
-
-" HTML
-let g:ale_fixers['html'] = ['prettier']
-
-" CSS
-let g:ale_fixers['css'] = ['prettier']
-let g:ale_fixers['scss'] = ['prettier']
 
 " Python customizations
 let g:pymode_folding = 0
@@ -352,14 +278,16 @@ autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
 
 " Bazel
 " Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22
-" TODO: Contribute this back to ALE.
+" TODO: Configure this for coc.nvim
 function! BuildifierFix(buffer) abort
   return {
   \ 'command': 'buildifier -showlog -mode=fix %t',
   \ 'read_temporary_file': 1,
   \}
 endfunction
-let g:ale_fixers['bzl'] = ['BuildifierFix']
+
+" markdown line width
+au BufRead,BufNewFile *.md setlocal textwidth=80
 
 " Terraform
 let g:terraform_fmt_on_save=1
@@ -381,21 +309,28 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/*'"
 
 " Utility function for calling RipGrep with parameters. Supports similar
 " functionality to the :Ag command which exists by default.
-function! RipGrep(option, args, bang)
+function! RipGrepRaw(option, args, bang)
   call fzf#vim#grep(
     \ join(['rg', '--column', '--line-number', '--no-heading', '--color=always',
-    \       '--smart-case', '--hidden', '--glob', shellescape('!.git/*'),
-    \       a:option, shellescape(a:args)], ' '),
+    \       '--hidden', '--glob', shellescape('!.git/*'),
+    \       a:option, a:args], ' '),
     \ 1, fzf#vim#with_preview(), a:bang)
+endfunction
+function! RipGrep(option, args, bang)
+  call RipGrepRaw(a:option, shellescape(a:args), a:bang)
 endfunction
 
 " Specific commands for RipGrep with FZF
 command! -bang -nargs=* Rg
-  \ call RipGrep('', <q-args>, <bang>0)
+  \ call RipGrep('--smart-case', <q-args>, <bang>0)
+command! -bang -nargs=* Rgc
+  \ call RipGrep('--case-sensitive', <q-args>, <bang>0)
 command! -bang -nargs=* Rga
   \ call RipGrep('--no-ignore', <q-args>, <bang>0)
-command! -bang -nargs=* RgF
+command! -bang -nargs=* Rgf
   \ call RipGrep('--fixed-strings', <q-args>, <bang>0)
+command! -bang -nargs=* Rgr
+  \ call RipGrepRaw('', <q-args>, <bang>0)
 
 " Copy search matches to clipboard
 " http://vim.wikia.com/wiki/Copy_search_matches

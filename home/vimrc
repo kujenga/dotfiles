@@ -54,8 +54,7 @@ Plug 'psf/black', { 'for': 'python' } " formatting
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
 Plug 'pangloss/vim-javascript'
-" JSX support
-Plug 'mxw/vim-jsx'
+Plug 'maxmellon/vim-jsx-pretty'
 " JSON support
 Plug 'elzr/vim-json', { 'for': 'json' }
 " jsonnet support
@@ -174,6 +173,7 @@ let g:coc_global_extensions = [
 \ 'coc-flow',
 \ 'coc-prettier',
 \ 'coc-eslint',
+\ 'coc-stylelint',
 \ 'coc-diagnostic',
 \]
 " Use tab for trigger completion with characters ahead and navigate.

@@ -45,6 +45,8 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "json",
     "html",
+    "javascript",
+    "javascriptreact",
     "css",
     "scss",
     "terraform"

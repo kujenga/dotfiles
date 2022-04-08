@@ -14,6 +14,9 @@ for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
     src="$HOME/.$f"
     dst="$R/home/$f"
     if [ -f "$src" ]; then
+        echo "Syncing: $src -> $dst"
         cp "$src" "$dst"
+    else
+        echo "Skipping sync for: $dst"
     fi
 done

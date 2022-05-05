@@ -1,11 +1,20 @@
 # A dependency manifest for Homebrew
 #
+# Install dependencies using this file with the following command:
+#
+#     brew bundle --verbose --no-upgrade
+#
+# If you wish to upgrade all dependencies specified here, run the following:
+#
+#     brew bundle --verbose
+#
 # Walkthrough blog post explaining this tool:
 # https://thoughtbot.com/blog/brewfile-a-gemfile-but-for-homebrew
 
 brew "coreutils"
 brew "tree"
 brew "jq"
+brew "jc"
 brew "ripgrep"
 brew "vim"
 brew "go"
@@ -15,6 +24,7 @@ brew "tmux"
 brew "wget"
 brew "git"
 brew "git-lfs"
+brew "git-absorb"
 brew "gh"
 brew "autoconf"
 brew "gnupg"
@@ -25,7 +35,7 @@ brew "graphviz"
 
 # Install Inconsolata font
 tap "homebrew/cask-fonts"
-brew "font-inconsolata"
+cask "font-inconsolata"
 
 # Install Hashicorp tools
 # ref: https://github.com/hashicorp/homebrew-tap#why-should-i-install-packages-from-this-tap

@@ -23,6 +23,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-surround'
 " Better incremental search
 Plug 'haya14busa/incsearch.vim'
+" tmux and vim together
+Plug 'christoomey/vim-tmux-navigator'
 
 " syntax highlighting
 Plug 'kujenga/vim-monokai'
@@ -39,10 +41,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
-" Language server support
+""" Language Support
+" Language server support, all languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-""" Language Syntax Support
 " Go language support
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 Plug 'sebdah/vim-delve'
@@ -91,6 +92,8 @@ Plug 'pearofducks/ansible-vim'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 " Helm syntax
 Plug 'towolf/vim-helm'
+" Markdown rendering
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 
 " Initialize plugin system
 call plug#end()
@@ -113,6 +116,9 @@ set nojoinspaces
 set nofoldenable
 " always keep open the sign column for consistency
 set signcolumn=yes
+" Ensure we use full color capabilities in tmux.
+" https://stackoverflow.com/a/66783132
+set term=xterm-256color
 
 " color customizations, less garish tab line
 hi TabLineFill ctermfg=243 ctermbg=235 guifg=#8F908A guibg=#2D2E27

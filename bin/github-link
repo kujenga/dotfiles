@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# This is a handly little script that accepts a file path and automatically
+# generates a github permalink for it (including line numbers, if given). If no
+# github remote could be found, then it exits with an error.
+#
+# The clipboard functionality is handy. For example,
+#
+#   github-link --clip foo.rs 20 30
+#
+# will automatically put the URL on your clipboard. (You'll need 'xcp' from
+# this repo as well.)
+
+usage() {
+  echo "Usage: $(basename "$0") <path> [<lineno1> [<lineno2>]]"
+}
+
+clip=
+while true; do
+  case "$1" in
+    -c|--clip) clip=1; shift; ;;
+    -*) usage >&2; exit 1 ;;
+    -h|--help) usage; exit 0 ;;
+    *) break
+  esac
+done
+path="$1"
+lineno1="$2"
+lineno2="$3"
+if [ -z "$path" ] || [ $# -gt 3 ]; then
+  echo "Usage: $(basename "$0") <path> [<lineno1> [<lineno2>]]" >&2
+  exit 1
+fi
+
+dir="$(dirname "$path")"
+gitroot="$(cd "$dir" && git rev-parse --show-toplevel)"
+if ! git -C "$gitroot" remote -v | grep -q -F 'github.com'; then
+  echo "git repo at '$gitroot' has no github remote" >&2
+  exit 1
+fi
+commit="$(cd "$gitroot" && git rev-parse HEAD)"
+urlbase="$(
+  cd "$gitroot" && git remote -v \
+    | grep -F github.com \
+    | grep fetch \
+    | awk '{print $2}' \
+    | sed 's/^git@//g' \
+    | sed 's/^.*github\.com/github.com/g' \
+    | sed 's/^github\.com:/github.com\//g' \
+    | sed 's/\.git$//g'
+)"
+urlpath="$(realpath --relative-to "$gitroot" "$path")"
+
+url="$(printf "https://%s/blob/%s/%s" "$urlbase" "$commit" "$urlpath")"
+if [ -n "$lineno1" ]; then
+  url="$(printf "%s#L%s" "$url" "$lineno1")"
+fi
+if [ -n "$lineno2" ]; then
+  url="$(printf "%s-L%s" "$url" "$lineno2")"
+fi
+if [ -n "$clip" ]; then
+  printf "%s" "$url" | xcp
+else
+  printf "%s\n" "$url"
+fi

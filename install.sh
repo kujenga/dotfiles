@@ -6,8 +6,20 @@ set -euxo pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# Install Homebrew
+# https://brew.sh/
+if [[ $(command -v brew) == "" ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Install oh-my-zsh
+# https://ohmyz.sh/#install
+if [ ! -e ~/.oh-my-zsh ]; then
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 # Install Rust
-if ! which rustup 2>/dev/null; then
+if [[ $(command -v rustup) == "" ]]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 

@@ -14,4 +14,4 @@ For mac, the following steps are followed:
 
 ### Setup GPG Keys
 
-TODO
+- `gpg --full-generate-key`

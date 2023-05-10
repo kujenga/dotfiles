@@ -65,6 +65,9 @@
     "dockerfile": "hadolint"
   },
 
+  // https://github.com/fannheyward/coc-rust-analyzer
+  "rust-analyzer.enable": true,
+
   // Use tsserver only for .ts files.
   // https://github.com/neoclide/coc-tsserver/issues/135#issuecomment-609460607
   "tsserver.enableJavascript": false

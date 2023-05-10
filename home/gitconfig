@@ -49,7 +49,7 @@
 	bl = for-each-ref --sort=committerdate refs/heads/ --format='(%(color:green)%(committerdate:short)%(color:reset)) %(HEAD) %(refname:short) - %(color:yellow)%(contents:subject)%(color:reset) - %(color:blue)%(authorname)%(color:reset)'
 	amend = commit --amend --reuse-message=HEAD
 
-	place = "!f() { A=master; B=${1:-$(git rev-parse --abbrev-ref HEAD)}; echo \"$A\t$B\"; git rev-list --left-right --count $A...$B; }; f"
+	place = "!f() { A=main; B=${1:-$(git rev-parse --abbrev-ref HEAD)}; echo \"$A\t$B\"; git rev-list --left-right --count $A...$B; }; f"
 
 	# from @jessfraz https://github.com/jessfraz/dotfiles/blob/master/.gitconfig
 

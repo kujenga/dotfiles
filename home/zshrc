@@ -83,6 +83,10 @@ plugins=(
   1password
 )
 
+# Homebrew path configuration
+eval "$(/opt/homebrew/bin/brew shellenv)"
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

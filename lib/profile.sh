@@ -48,6 +48,8 @@ export EDITOR=vim
 # Editor aliases
 alias v='vim'
 alias vi='vim'
+# Just:https://github.com/casey/just#shell-alias
+alias j=just
 
 # Pagination behavior of less
 export LESS="-F -X $LESS"

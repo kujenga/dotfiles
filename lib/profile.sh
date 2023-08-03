@@ -49,6 +49,9 @@ export EDITOR=vim
 alias v='vim'
 alias vi='vim'
 
+# Pagination behavior of less
+export LESS="-F -X $LESS"
+
 # Navigation
 alias dv='cd $DEV'
 
@@ -69,6 +72,7 @@ alias watch='watch '
 # Utility commands
 alias recwc='find . -type f | xargs wc -l'
 alias ll='ls -l'
+alias lla='ls -la'
 alias ds='du -hs * | gsort -h'
 alias showports='sudo lsof -iTCP -sTCP:LISTEN -n -P'
 # ref: https://coderwall.com/p/ifxb-g/uuidgen-in-lowercase-on-mac-os-x

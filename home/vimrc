@@ -94,6 +94,8 @@ Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'towolf/vim-helm'
 " Markdown rendering
 Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+" Elixir language support
+Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
 
 " Initialize plugin system
 call plug#end()

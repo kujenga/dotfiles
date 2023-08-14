@@ -54,8 +54,7 @@
 
   // https://github.com/josa42/coc-go
   "go.goplsOptions": {
-    // https://github.com/golang/tools/blob/master/gopls/doc/settings.md#experimentalworkspacemodule-bool
-    "experimentalWorkspaceModule": true
+    // https://github.com/golang/tools/blob/master/gopls/doc/settings.md
   },
 
   // https://github.com/iamcco/coc-diagnostic

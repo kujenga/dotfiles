@@ -39,11 +39,13 @@ brew "sqlite"
 brew "imagemagick"
 brew "shellcheck"
 brew "graphviz"
-brew "google-cloud-sdk"
 
 # Install Inconsolata font
 tap "homebrew/cask-fonts"
 cask "font-inconsolata"
+
+# Google Cloud
+cask "google-cloud-sdk"
 
 # Install Hashicorp tools
 # ref: https://github.com/hashicorp/homebrew-tap#why-should-i-install-packages-from-this-tap

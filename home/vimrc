@@ -96,6 +96,8 @@ Plug 'towolf/vim-helm'
 Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
 " Elixir language support
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+" RON (Rusty Object Notation)
+Plug 'ron-rs/ron.vim'
 
 " Initialize plugin system
 call plug#end()

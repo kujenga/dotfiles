@@ -10,33 +10,7 @@
       "command": "golangci-lint-langserver",
       "filetypes": ["go"],
       "initializationOptions": {
-        "command": [
-          "golangci-lint",
-          "run",
-          "--out-format",
-          "json",
-          "--enable",
-          "asciicheck",
-          "bidichk",
-          "bodyclose",
-          "contextcheck",
-          "cyclop",
-          "dupl",
-          "durationcheck",
-          "errorlint",
-          "exhaustive",
-          "exhaustivestruct",
-          "exportloopref",
-          "gocognit",
-          "gosec",
-          "makezero",
-          "misspell",
-          "nilerr",
-          "nilnil",
-          "prealloc",
-          "promlinter",
-          "thelper"
-        ]
+        "command": ["golangci-lint", "run", "--enable-all", "--disable", "lll", "--out-format", "json", "--issues-exit-code=1"]
       }
     }
   },

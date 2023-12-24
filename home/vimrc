@@ -47,10 +47,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Go language support
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 Plug 'sebdah/vim-delve'
-" Python support
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+" Python support (mostly in coc.nvim)
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
-Plug 'psf/black', { 'for': 'python' } " formatting
 " Docker support
 Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
 " Javascript support
@@ -166,8 +164,9 @@ map g/ <Plug>(incsearch-stay)
 " - https://github.com/neoclide/coc-json
 " - https://github.com/neoclide/coc-git
 " - https://github.com/josa42/coc-go
+" - https://github.com/yaegassy/coc-ruff
+" - https://github.com/fannheyward/coc-pyright
 " - https://github.com/fannheyward/coc-rust-analyzer
-" - https://github.com/pappasam/coc-jedi
 " - https://github.com/neoclide/coc-tsserver
 " - https://github.com/amiralies/coc-flow
 " - https://github.com/neoclide/coc-prettier
@@ -179,8 +178,9 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ 'coc-git',
 \ 'coc-go',
+\ '@yaegassy/coc-ruff',
+\ 'coc-pyright',
 \ 'coc-rust-analyzer',
-\ 'coc-jedi',
 \ 'coc-tsserver',
 \ 'coc-flow',
 \ 'coc-prettier',
@@ -281,8 +281,6 @@ let g:javascript_plugin_flow = 1
 
 " Python customizations
 let g:pymode_folding = 0
-" adhere to current line length choices
-let g:black_linelength = 80
 
 " Markdown customizations
 " See ~/.vim/after/syntax/markdown.vim for more customizations on this type.

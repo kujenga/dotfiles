@@ -23,8 +23,12 @@
     "javascriptreact",
     "css",
     "scss",
+    "python",
     "terraform"
   ],
+
+  // Python
+  "ruff.autoFixOnSave": true,
 
   // https://github.com/josa42/coc-go
   "go.goplsOptions": {

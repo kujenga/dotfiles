@@ -92,6 +92,8 @@ export PATH="$PATH:$GOPATH/bin"
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$DEV
 export VIRTUALENVWRAPPER_PYTHON=$(which python3)
+# pipx
+export PATH="$PATH:/Users/aaron/.local/bin"
 
 # Smart pwd command. References:
 # shorten path: https://superuser.com/a/180267/669334

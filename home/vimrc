@@ -104,7 +104,10 @@ call plug#end()
 
 " syntax highlighting
 syntax enable
-colorscheme monokai
+try
+  colorscheme monokai
+catch
+endtry
 " show line numbers
 set number
 " show line,column in status bar

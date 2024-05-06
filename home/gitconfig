@@ -89,7 +89,8 @@
 [absorb]
 	maxStack=30
 
-[url "git@github.com:"]
-	# Support private repo cloning for Go:
-	# https://golang.org/doc/faq#git_https
-	insteadOf = https://github.com/
+# Un-comment for working with private Go repositories.
+# [url "git@github.com:"]
+#	# Support private repo cloning for Go:
+#	# https://golang.org/doc/faq#git_https
+#	insteadOf = https://github.com/

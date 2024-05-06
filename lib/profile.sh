@@ -132,7 +132,7 @@ smart_pwd_fn() {
 ## cd
 
 # fd - cd to selected directory
-fd() {
+fcd() {
     local dir
     dir=$(rg --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
     history -s cd "$dir" &&
@@ -140,7 +140,7 @@ fd() {
 }
 
 # fda - including hidden directories
-fda() {
+fcda() {
     local dir
     dir=$(rg --hidden --files --null | xargs -0 gdirname | awk '!x[$0]++' | fzf +m --height 40%) &&
     history -s cd "$dir" &&

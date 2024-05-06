@@ -53,11 +53,11 @@ Linux)
     ;;
 esac
 
-# Install the brew bundle for my preferences.
-brew bundle --file="$DIR/Brewfile"
-
 # Sync configuration files
 $DIR/sync.sh -o
+
+# Install the brew bundle for my preferences.
+brew bundle --file="$DIR/Brewfile"
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \

@@ -47,6 +47,19 @@ install_rustup() {
     fi
 }
 
+setup_vim() {
+    if [[ $(command -v vim) != "" ]]; then
+        # Install vim-plug
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+        # Install vim dependencies.
+        vim -c 'PlugInstall | qa'
+    else
+        echo "vim not installed, skipping setup"
+    fi
+}
+
 
 # Install Process
 
@@ -74,9 +87,4 @@ install_oh_my_zsh
 # Sync configuration files
 "${DIR}/sync.sh" -o
 
-# Install vim-plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install vim dependencies.
-vim -c 'PlugInstall | qa'
+setup_vim

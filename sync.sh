@@ -10,17 +10,21 @@ R="$(dirname "$0")"
 DIRECTION='in'
 
 while getopts 'out:h' opt; do
-  case "$opt" in
-    o)
-      echo "Syncing files out to home directory..."
-      DIRECTION='out'
-      ;;
+    case "$opt" in
+        o)
+            echo "Copying missing files to home directory..."
+            DIRECTION='out'
+            ;;
+        O)
+            echo "Overwriting files in home directory..."
+            DIRECTION='overwrite'
+            ;;
 
-    ?|h)
-      echo "Usage: $(basename $0) [-a] [-b] [-c arg]"
-      exit 1
-      ;;
-  esac
+        ?|h)
+            echo "Usage: $(basename $0) [-a] [-b] [-c arg]"
+            exit 1
+            ;;
+    esac
 done
 shift "$(($OPTIND -1))"
 
@@ -33,8 +37,18 @@ for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
 
     case "$DIRECTION" in
         out)
-            echo "Syncing: $store -> $live"
-	    mkdir -p "$(dirname "$live")"
+            if [ ! -f "$live" ]; then
+                echo "Initializing: $store -> $live"
+                mkdir -p "$(dirname "$live")"
+                cp "$store" "$live"
+            else
+                echo "File already present: $store"
+            fi
+	    ;;
+
+        overwrite)
+            echo "Overwriting: $store -> $live"
+            mkdir -p "$(dirname "$live")"
             cp "$store" "$live"
 	    ;;
 

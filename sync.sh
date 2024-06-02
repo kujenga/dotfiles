@@ -42,7 +42,7 @@ for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
                 mkdir -p "$(dirname "$live")"
                 cp "$store" "$live"
             else
-                echo "File already present: $store"
+                echo "File already present: $live"
             fi
 	    ;;
 

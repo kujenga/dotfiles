@@ -1,3 +1,5 @@
 dist/
 
 Brewfile.lock.json
+
+.vscode/

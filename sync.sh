@@ -29,7 +29,7 @@ done
 shift "$(($OPTIND -1))"
 
 # Sync all files in the repo home/ directory already.
-for f in $(find ./home -type f -not -name ".*" -not -name "*.md" | cut -c8-); do
+for f in $(cd $R && find home -type f -not -name ".*" -not -name "*.md" | cut -c6-); do
     # Copy the "." version from the home directory. We omit the "." here to
     # make the times in the repo easier to work with.
     live="$HOME/.$f"

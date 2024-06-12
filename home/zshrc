@@ -61,31 +61,36 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # see 'man strftime' for details.
 HIST_STAMP="yyyy-mm-dd"
 
+# My dotfiles directory
+: "${DOTFILES:=$HOME/Developer/dotfiles}"
+
 # Would you like to use another custom folder than $ZSH/custom?
-export ZSH_CUSTOM="$HOME/Developer/dotfiles/lib/zsh"
+export ZSH_CUSTOM="$DOTFILES/lib/zsh"
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# See docs here: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins
 plugins=(
-  # git
-  gitfast
-  ripgrep
-  golang
-  rust
-  # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
-  vi-mode
-  # Put this last so that it overrides much worse vim-mode ^r search
-  fzf
-  # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/1password
-  1password
+    # git
+    gitfast
+    ripgrep
+    golang
+    rust
+    vi-mode
+    # Put this after vi-mode so that it overrides much worse vim-mode ^r search
+    fzf
+    1password
+    direnv
 )
 
 # Homebrew path configuration
-eval "$(/opt/homebrew/bin/brew shellenv)"
-fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,19 +128,21 @@ setopt HIST_IGNORE_SPACE
 # ref: https://support.apple.com/en-us/HT208050
 
 # Profile location
-[[ -e "$HOME/Developer/dotfiles/lib/profile.sh" ]] && \
-  emulate bash -c "source $HOME/Developer/dotfiles/lib/profile.sh"
-# Computer-specific overrides
+[[ -e "$DOTFILES/lib/profile.sh" ]] && \
+  emulate bash -c "source $DOTFILES/lib/profile.sh"
+# Machine-specific overrides
 [[ -e ~/.profile ]] && emulate bash -c 'source ~/.profile'
+[[ -e ~/.profile.local ]] && emulate bash -c 'source ~/.profile.local'
 
 # Disable double-verification on rm * actions
 # ref: https://unix.stackexchange.com/a/136144
 setopt rm_star_silent
 
+# https://github.com/junegunn/fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # The next line updates PATH for the Google Cloud SDK.
-: "${GCLOUD_SDK:=/opt/homebrew/share/google-cloud-sdk}"
-if [ -f "$GCLOUD_SDK=/path.zsh.inc" ]; then . "$GCLOUD_SDK/path.zsh.inc"; fi
+: "${GCLOUD_SDK:=$HOMEBREW_PREFIX/share/google-cloud-sdk}"
+if [ -f "$GCLOUD_SDK/path.zsh.inc" ]; then . "$GCLOUD_SDK/path.zsh.inc"; fi
 # The next line enables shell command completion for gcloud.
 if [ -f "$GCLOUD_SDK/completion.zsh.inc" ]; then . "$GCLOUD_SDK/completion.zsh.inc"; fi

@@ -48,15 +48,17 @@ install_rustup() {
 }
 
 setup_vim() {
-    if [[ $(command -v vim) != "" ]]; then
+    # "vi" is installed in more environments than "vim" and otherwise generally
+    # symlinked to vim, so we use that as the command name here.
+    if [[ $(command -v vi) != "" ]]; then
         # Install vim-plug
         curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
         # Install vim dependencies.
-        vim -c 'PlugInstall | qa'
+        vi -c 'PlugInstall | qa'
     else
-        echo "vim not installed, skipping setup"
+        echo "vim (vi) not installed, skipping setup"
     fi
 }
 

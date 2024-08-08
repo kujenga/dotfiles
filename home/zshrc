@@ -76,7 +76,6 @@ export ZSH_CUSTOM="$DOTFILES/lib/zsh"
 plugins=(
     # git
     gitfast
-    ripgrep
     golang
     rust
     vi-mode
@@ -114,6 +113,9 @@ setopt HIST_IGNORE_SPACE
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# Report the duration a command took to run when it exceeds the specified seconds.
+REPORTTIME=5
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

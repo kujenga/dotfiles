@@ -1,0 +1,6 @@
+# https://alacritty.org/config-alacritty.html
+
+[scrolling]
+# How many lines of scrollback to keep,
+# '0' will disable scrolling.
+history = 10000

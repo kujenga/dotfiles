@@ -78,9 +78,11 @@ plugins=(
     gitfast
     golang
     rust
+    # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
     vi-mode
     # Put this after vi-mode so that it overrides much worse vim-mode ^r search
     fzf
+    # docs: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/1password
     1password
     direnv
 )
@@ -88,6 +90,8 @@ plugins=(
 # Homebrew path configuration
 if [ -f /opt/homebrew/bin/brew ]; then
     eval "$(/opt/homebrew/bin/brew shellenv)"
+    # Enable Homebrew shell completion scripts
+    # https://docs.brew.sh/Shell-Completion
     fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
 fi
 
@@ -142,6 +146,9 @@ setopt rm_star_silent
 
 # https://github.com/junegunn/fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# https://rye.astral.sh/guide/installation/
+[ -f ~/.rye/env ] && source ~/.rye/env
 
 # The next line updates PATH for the Google Cloud SDK.
 : "${GCLOUD_SDK:=$HOMEBREW_PREFIX/share/google-cloud-sdk}"

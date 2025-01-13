@@ -43,6 +43,8 @@ brew "imagemagick"
 brew "shellcheck"
 brew "graphviz"
 brew "llm"
+brew "uv"
+brew "ruff"
 
 # Install Inconsolata font
 tap "homebrew/cask-fonts"

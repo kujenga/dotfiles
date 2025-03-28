@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Sync changes from local files into this repository so they can be committed
 # for use on other machines.

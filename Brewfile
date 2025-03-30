@@ -73,10 +73,18 @@ mas "Affinity Designer 2", id: 1616831348
 mas "Affinity Publisher 2", id: 1606941598
 mas "Final Cut Pro", id: 424389933
 mas "Compressor", id: 424390742
+mas "Motion", id: 434290957
 
+mas "Numbers", id: 409203825
+mas "Keynote", id: 409183694
+mas "Pages", id: 409201541
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Word", id: 462054704
+
+mas "Xcode", id: 497799835
+mas "WiFi Explorer", id: 494803304
+mas "UTM", id: 1538878817
 
 # Install Inconsolata font
 cask "font-inconsolata"

@@ -30,8 +30,9 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'kujenga/vim-monokai'
 
 """ Additional UI Capabilities
-" git wrapper
+" git
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 " Helper for GitHub
 Plug 'tpope/vim-rhubarb'
 " fuzzy finder
@@ -43,59 +44,62 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on':  'NERDTreeToggle' }
 
 """ Language Support
 " Language server support, all languages
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Go language support
-Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
-Plug 'sebdah/vim-delve'
-" Python support (mostly in coc.nvim)
-Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
-" Docker support
-Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
-" Javascript support
-Plug 'pangloss/vim-javascript'
-Plug 'maxmellon/vim-jsx-pretty'
-" JSON support
-Plug 'elzr/vim-json', { 'for': 'json' }
-" jsonnet support
-Plug 'google/vim-jsonnet', { 'for': 'jsonnet' }
-" Rust support
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-" HTML support
-Plug 'mattn/emmet-vim', { 'for': 'html' }
-" Apiary support
-Plug 'kylef/apiblueprint.vim', { 'for': 'apiblueprint' }
-" TOML support
-Plug 'cespare/vim-toml', { 'for': 'toml' }
-" Caddyfile support
-Plug 'isobit/vim-caddyfile'
-" Pug template language
-Plug 'digitaltoad/vim-pug'
-" Hashicorp HCL
-Plug 'b4b4r07/vim-hcl'
-" Hashicorp Terraform
-Plug 'hashivim/vim-terraform'
-" Template highlighting
-Plug 'mustache/vim-mustache-handlebars'
-" Ethereum Solidity
-Plug 'tomlion/vim-solidity'
-" Swift
-Plug 'keith/swift.vim'
-" Powershell
-Plug 'PProvost/vim-ps1'
-" Cap'N Proto
-Plug 'cstrahan/vim-capnp'
-" Ansible, including .j2 Jinja template support
-Plug 'pearofducks/ansible-vim'
-" Jenkinsfile, adds some nice bits on top of groovy
-Plug 'martinda/Jenkinsfile-vim-syntax'
-" Helm syntax
-Plug 'towolf/vim-helm'
-" Markdown rendering
-Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
-" Elixir language support
-Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
-" RON (Rusty Object Notation)
-Plug 'ron-rs/ron.vim'
+Plug 'dense-analysis/ale'
+" Plug 'prabirshrestha/vim-lsp'
+
+""" Archived Language Support
+" " Go language support
+" Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
+" Plug 'sebdah/vim-delve'
+" " Python support (mostly in coc.nvim)
+" Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " requirements files
+" " Docker support
+" Plug 'moby/moby' , { 'rtp': '/contrib/syntax/vim/' }
+" " Javascript support
+" Plug 'pangloss/vim-javascript'
+" Plug 'maxmellon/vim-jsx-pretty'
+" " JSON support
+" Plug 'elzr/vim-json', { 'for': 'json' }
+" " jsonnet support
+" Plug 'google/vim-jsonnet', { 'for': 'jsonnet' }
+" " Rust support
+" Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" " HTML support
+" Plug 'mattn/emmet-vim', { 'for': 'html' }
+" " Apiary support
+" Plug 'kylef/apiblueprint.vim', { 'for': 'apiblueprint' }
+" " TOML support
+" Plug 'cespare/vim-toml', { 'for': 'toml' }
+" " Caddyfile support
+" Plug 'isobit/vim-caddyfile'
+" " Pug template language
+" Plug 'digitaltoad/vim-pug'
+" " Hashicorp HCL
+" Plug 'b4b4r07/vim-hcl'
+" " Hashicorp Terraform
+" Plug 'hashivim/vim-terraform'
+" " Template highlighting
+" Plug 'mustache/vim-mustache-handlebars'
+" " Ethereum Solidity
+" Plug 'tomlion/vim-solidity'
+" " Swift
+" Plug 'keith/swift.vim'
+" " Powershell
+" Plug 'PProvost/vim-ps1'
+" " Cap'N Proto
+" Plug 'cstrahan/vim-capnp'
+" " Ansible, including .j2 Jinja template support
+" Plug 'pearofducks/ansible-vim'
+" " Jenkinsfile, adds some nice bits on top of groovy
+" Plug 'martinda/Jenkinsfile-vim-syntax'
+" " Helm syntax
+" Plug 'towolf/vim-helm'
+" " Markdown rendering
+" Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+" " Elixir language support
+" Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+" " RON (Rusty Object Notation)
+" Plug 'ron-rs/ron.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -123,7 +127,9 @@ set nofoldenable
 set signcolumn=yes
 " Ensure we use full color capabilities in tmux.
 " https://stackoverflow.com/a/66783132
-set term=xterm-256color
+if !has('nvim')
+  set term=xterm-256color
+endif
 " Default reasonable encoding, coc.nvim recommendation
 set encoding=utf-8
 " Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
@@ -167,71 +173,36 @@ map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"" COC
-" extensions: https://github.com/neoclide/coc.nvim/wiki/Using-coc-extensions#implemented-coc-extensions
-" - https://github.com/neoclide/coc-json
-" - https://github.com/neoclide/coc-git
-" - https://github.com/josa42/coc-go
-" - https://github.com/yaegassy/coc-ruff
-" - https://github.com/fannheyward/coc-pyright
-" - https://github.com/fannheyward/coc-rust-analyzer
-" - https://github.com/neoclide/coc-tsserver
-" - https://github.com/amiralies/coc-flow
-" - https://github.com/neoclide/coc-prettier
-" - https://github.com/neoclide/coc-eslint
-" - https://github.com/iamcco/coc-diagnostic
-" - https://github.com/clangd/coc-clangd
-" - https://github.com/klaaspieter/coc-sourcekit
-let g:coc_global_extensions = [
-\ 'coc-json',
-\ 'coc-git',
-\ 'coc-go',
-\ '@yaegassy/coc-ruff',
-\ 'coc-pyright',
-\ 'coc-rust-analyzer',
-\ 'coc-tsserver',
-\ 'coc-flow',
-\ 'coc-prettier',
-\ 'coc-eslint',
-\ 'coc-stylelint',
-\ 'coc-diagnostic',
-\ 'coc-clangd',
-\ 'coc-sourcekit',
-\]
+""" ALE
+" Run configured fixers on file save.
+let g:ale_fix_on_save = 1
+" Linter and fixer configurations
+" https://github.com/dense-analysis/ale/blob/master/supported-tools.md
+let g:ale_linters = {
+\  'python': ['pyright', 'ruff'],
+\}
+let g:ale_fixers = {
+\  'python': ['ruff_format'],
+\}
+" Map keys to navigate between lines with errors and warnings.
+nnoremap <leader>an :ALENextWrap<cr>
+nnoremap <leader>ap :ALEPreviousWrap<cr>
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-" Use <c-space> to trigger completion
-inoremap <silent><expr> <c-@> coc#refresh()
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-" Tag function support, if wanted
-" set tagfunc=CocTagFunc
+""" gitgutter
+" Faster update time for git gutter (default 4000ms)
+set updatetime=100
+let g:gitgutter_grep = 'rg'
+" stubbornly sticking with macOS default terminal
+let g:gitgutter_terminal_reports_focus = 0
+" override my color scheme
+let g:gitgutter_override_sign_column_highlight = 1
+" set the original gutter colors
+" ref: https://github.com/airblade/vim-gitgutter#signs-colours-and-symbols
+" highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
+" highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
+" highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call ShowDocumentation()<CR>
@@ -326,7 +297,6 @@ autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
 
 " Bazel
 " Based on: https://github.com/w0rp/ale/blob/master/autoload/ale/fixers/goimports.vim#L7:22
-" TODO: Configure this for coc.nvim
 function! BuildifierFix(buffer) abort
   return {
   \ 'command': 'buildifier -showlog -mode=fix %t',

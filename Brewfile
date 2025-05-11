@@ -40,6 +40,7 @@ brew "llm"
 brew "mas"
 brew "hugo"
 brew "caddy"
+cask "docker"
 
 # Languages
 brew "python"
@@ -56,17 +57,20 @@ brew "gh"
 
 # Apps
 cask "istat-menus"
-cask "zotero"
+cask "zotero@beta"
 cask "calibre"
 cask "1password-cli"
 cask "wireshark"
 cask "tailscale"
 cask "anki"
 cask "zed"
+cask "claude"
+cask "chatgpt"
 mas "Evernote", id: 406056744
 mas "Remote Desktop", id: 409907375
 mas "Kindle", id: 302584613
 mas "Kiwix", id: 997079563
+mas "1Password for Safari", id: 1569813296
 
 mas "Affinity Photo 2", id: 1616822987
 mas "Affinity Designer 2", id: 1616831348

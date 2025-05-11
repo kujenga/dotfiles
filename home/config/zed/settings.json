@@ -7,10 +7,26 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "context_servers": {
+    // https://github.com/kujenga/zotero-mcp
+    "zotero": {
+      "command": {
+        "path": "uvx",
+        "args": ["--upgrade", "zotero-mcp"],
+        "env": {
+          "ZOTERO_LOCAL": "true"
+        }
+      },
+      "settings": {}
+    }
+  },
+  "features": {
+    "edit_prediction_provider": "zed"
+  },
   "assistant": {
     "default_model": {
-      "provider": "openai",
-      "model": "gpt-4o"
+      "provider": "google",
+      "model": "gemini-2.5-pro-preview-05-06"
     },
     // https://github.com/zed-industries/zed/pull/19900#issue-2621396380
     "enable_experimental_live_diffs": true,
@@ -21,7 +37,7 @@
   "buffer_font_size": 16,
   "theme": {
     "mode": "system",
-    "light": "Atelier Savanna Dark",
-    "dark": "One Dark"
+    "light": "Ayu Mirage",
+    "dark": "Ayu Dark"
   }
 }

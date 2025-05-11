@@ -48,6 +48,7 @@ export EDITOR=vim
 # Editor aliases
 alias v='vim'
 alias vi='vim'
+alias nv='nvim'
 # Just:https://github.com/casey/just#shell-alias
 alias j=just
 

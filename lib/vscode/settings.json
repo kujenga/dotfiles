@@ -1,0 +1,53 @@
+{
+  // General VSCode configuration
+
+  "editor.inlineSuggest.enabled": true,
+  "editor.scrollBeyondLastLine": false,
+  "editor.padding.bottom": 240,
+  "editor.minimap.enabled": false,
+
+  "explorer.confirmDelete": false,
+  "explorer.autoReveal": "focusNoScroll",
+
+  "files.insertFinalNewline": true,
+
+  "window.title": "${activeEditorMedium}${separator}${rootName}${separator}${profileName}",
+  "window.commandCenter": true,
+
+  "telemetry.telemetryLevel": "off",
+
+  "workbench.colorTheme": "Monokai",
+  "workbench.tree.indent": 12,
+  "workbench.editor.showTabs": "none",
+
+  "terminal.integrated.sendKeybindingsToShell": true,
+  "terminal.integrated.persistentSessionScrollback": 10000,
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "terminal.integrated.scrollback": 50000,
+  "terminal.integrated.confirmOnExit": "hasChildProcesses",
+
+  "remote.SSH.connectTimeout": 1800,
+
+  // Git configuration
+
+  "git.autofetch": true,
+  "githubPullRequests.pullBranch": "never",
+
+  "gitlens.codeLens.enabled": false,
+  "gitlens.plusFeatures.enabled": false,
+  "gitlens.currentLine.enabled": false,
+
+  // Language configuration
+
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    }
+  },
+
+  // Other
+
+}

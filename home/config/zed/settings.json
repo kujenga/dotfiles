@@ -7,37 +7,54 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "file_finder": {
+    "git_status": true,
+  },
   "context_servers": {
     // https://github.com/kujenga/zotero-mcp
     "zotero": {
-      "command": {
-        "path": "uvx",
-        "args": ["--upgrade", "zotero-mcp"],
-        "env": {
-          "ZOTERO_LOCAL": "true"
-        }
+      "enabled": true,
+      "command": "uvx",
+      "args": ["--upgrade", "zotero-mcp"],
+      "env": {
+        "ZOTERO_LOCAL": "true",
       },
-      "settings": {}
-    }
+    },
   },
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "zed",
   },
-  "assistant": {
+  "agent": {
+    "default_profile": "ask",
+    "always_allow_tool_actions": true,
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.5-pro-preview-05-06"
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-5",
     },
-    // https://github.com/zed-industries/zed/pull/19900#issue-2621396380
-    "enable_experimental_live_diffs": true,
-    "version": "2"
   },
   "vim_mode": true,
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
+  // Disable tabs, vim-style
+  // "max_tabs": 1,
+  // "tab_bar": {
+  //   "show": false,
+  // },
+  "ui_font_size": 14,
+  "buffer_font_size": 13,
   "theme": {
     "mode": "system",
-    "light": "Ayu Mirage",
-    "dark": "Ayu Dark"
-  }
+    "light": "KTRZ Monokai",
+    "dark": "KTRZ Monokai",
+  },
+  "languages": {
+    // https://zed.dev/docs/languages/python
+    "Python": {
+      // "language_servers": [
+      //   // Disable basedpyright and enable Ty, and otherwise
+      //   // use the default configuration.
+      //   "ty",
+      //   "!basedpyright",
+      //   "..."
+      // ]
+    },
+  },
 }

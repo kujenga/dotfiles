@@ -41,6 +41,9 @@ brew "mas"
 brew "hugo"
 brew "caddy"
 cask "docker"
+brew "codex"
+brew "gemini-cli"
+brew "prek"
 
 # Languages
 brew "python"

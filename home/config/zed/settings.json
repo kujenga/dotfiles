@@ -7,8 +7,55 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  // UI
+  "ui_font_size": 14,
+  "buffer_font_size": 14,
+  "theme": {
+    "mode": "system",
+    "light": "KTRZ Monokai",
+    "dark": "KTRZ Monokai",
+  },
+  // Disable tabs, vim-style
+  // "max_tabs": 1,
+  // "tab_bar": {
+  //   "show": false,
+  // },
   "file_finder": {
     "git_status": true,
+  },
+
+  // Editor behavior
+  "base_keymap": "VSCode",
+  "vim_mode": true,
+  "ensure_final_newline_on_save": true,
+  "terminal": {
+    "max_scroll_history_lines": 50000,
+  },
+
+  // Extensions
+  "auto_install_extensions": {
+    "caddyfile": true,
+    "git-firefly": true,
+    "dockerfile": true,
+    "html": true,
+    "ktrz-monokai": true,
+    "python-requirements": true,
+    "toml": true,
+    "scheme": true,
+    "ruby": true,
+  },
+
+  // AI
+  "agent": {
+    "default_profile": "ask",
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-sonnet-4-6",
+    },
+  },
+  "show_edit_predictions": true,
+  "edit_predictions": {
+    "provider": "zed",
   },
   "context_servers": {
     // https://github.com/kujenga/zotero-mcp
@@ -21,30 +68,8 @@
       },
     },
   },
-  "features": {
-    "edit_prediction_provider": "zed",
-  },
-  "agent": {
-    "default_profile": "ask",
-    "always_allow_tool_actions": true,
-    "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-5",
-    },
-  },
-  "vim_mode": true,
-  // Disable tabs, vim-style
-  // "max_tabs": 1,
-  // "tab_bar": {
-  //   "show": false,
-  // },
-  "ui_font_size": 14,
-  "buffer_font_size": 13,
-  "theme": {
-    "mode": "system",
-    "light": "KTRZ Monokai",
-    "dark": "KTRZ Monokai",
-  },
+
+  // Languages
   "languages": {
     // https://zed.dev/docs/languages/python
     "Python": {
@@ -56,5 +81,8 @@
       //   "..."
       // ]
     },
+  },
+  "file_types": {
+    "Shell Script": [".*.env"],
   },
 }

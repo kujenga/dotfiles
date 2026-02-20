@@ -44,6 +44,10 @@ cask "docker"
 brew "codex"
 brew "gemini-cli"
 brew "prek"
+brew "hexyl"
+brew "ast-grep"
+brew "mise"
+brew "watchexec"
 
 # Languages
 brew "python"

@@ -1,6 +1,10 @@
 ### Personal Preferences
 tmp/
 
+### Agents
+.claude/*.local.*
+.agents/*.local.*
+
 ### XCode
 build/
 *.pbxuser

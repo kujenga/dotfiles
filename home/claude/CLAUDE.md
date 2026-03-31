@@ -20,6 +20,45 @@
 - Include links to issues, docs, or RFCs for context
 - Place comments immediately above the relevant code
 
+## Search & Navigation
+
+### Use ripgrep (`rg`) instead of `grep`
+
+Always prefer `rg` over `grep` for searching the codebase. ripgrep is faster, respects `.gitignore` automatically, and has better defaults for code search.
+
+**Common patterns:**
+```bash
+# Search for a string
+rg "pattern"
+
+# Search in specific file types only
+rg "pattern" --type py
+rg "pattern" --type ts
+
+# Case-insensitive
+rg -i "pattern"
+
+# Show context lines around matches
+rg -C 3 "pattern"
+
+# Search for a whole word
+rg -w "myFunction"
+
+# List only filenames with matches
+rg -l "pattern"
+
+# Search including normally-ignored files
+rg --no-ignore "pattern"
+
+# Multiline search
+rg --multiline "pattern"
+
+# Search with a regex, show only the match (not full line)
+rg -o "pattern"
+```
+
+**Never use plain `grep -r`** — it will scan `node_modules`, `.git`, build artifacts, and other ignored directories, producing slow and noisy results.
+
 ## Package Management
 
 **Always use modern, project-specific package managers.** Choose the tool appropriate for your ecosystem:
@@ -57,40 +96,22 @@ When you need to reference library APIs or best practices:
 3. Query with specific questions about API usage
 4. Reference returned code snippets and documentation in implementation
 
+### Notion
+
+When a Notion link appears in context (e.g., referenced in CLAUDE.md, AGENTS.md, or user messages), always use the Notion MCP tools (`notion-fetch`, `notion-search`) to retrieve the content rather than fetching via WebFetch. The Notion MCP has authenticated access and returns structured content; WebFetch will fail on Notion's authenticated pages.
+
 ## Commit Guidelines
 
-### When to Commit
-- After completing each logical unit of work (feature implementation, bug fix, refactoring)
-- When code reaches a stable, working state
-- Before switching to a new task
+### Commit As You Go
 
-### Commit Message Format
-```
-<type>: <concise summary in imperative mood>
+Commit incrementally as each logical unit of work is completed — don't batch everything into one commit at the end. Each commit should represent a coherent, working state.
 
-<optional body explaining context and rationale>
-```
-**Types:** `feat`, `fix`, `refactor`, `test`, `docs`, `perf`, `chore`
+- **Commit after completing each task or logical unit** (a new module, a bug fix, a config change)
+- **Group related changes** into a single commit (e.g., a model + its tests, a config fix across multiple files)
+- **Separate unrelated changes** into distinct commits (e.g., a housekeeping fix shouldn't be bundled with a feature)
+- **Absorb mistakes into the relevant commit** — if a commit introduced a typo or broke something *in its own changes*, amend it rather than creating a "fix typo" follow-up. Use `git commit --amend` for the most recent commit, or `git rebase -i` to fixup an earlier one. **Only amend when the fix is directly related to the commit being amended** — never fold unrelated changes into an existing commit, even if the user asks to amend. If the change is unrelated, make a separate commit.
 
-### What to Include
-
-**Focus on WHY, not WHAT:**
-- Rationale and design decisions
-- Tradeoffs or alternatives considered
-- Non-obvious implications of the change
-- Context useful for future code review or git blame
-- Links to relevant tutorials, issues, or documentation
-
-**Avoid:**
-- Describing what changed (the diff shows this)
-- Obvious implementation details
-- Information better suited or covered by inline code comments
-
-### Attribution
-If using AI/agentic tools to generate commits, attribute appropriately:
-```
-Co-Authored-By: <Tool Name> <email-or-identifier>
-```
+When creating commits, use the `/commit` skill for message formatting and command syntax.
 
 ## Development Workflow
 

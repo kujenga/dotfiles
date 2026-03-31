@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Claude Code status line — shows cwd (with ~ shorthand) and git branch + dirty state.
+# Reads JSON from stdin with a "cwd" field, as provided by Claude Code's statusLine hook.
+#
+# Config (settings.json):
+#   "statusLine": { "type": "command", "command": "/path/to/claude-statusline" }
+input=$(cat)
+cwd=$(echo "$input" | jq -r '.cwd')
+branch=$(git --no-optional-locks -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null)
+display_dir=$(echo "$cwd" | sed "s|$HOME|~|")
+if [ -n "$branch" ]; then
+  dirty=""
+  if ! git --no-optional-locks -C "$cwd" diff --quiet HEAD 2>/dev/null || \
+     [ -n "$(git --no-optional-locks -C "$cwd" ls-files --others --exclude-standard 2>/dev/null)" ]; then
+    dirty="*"
+  fi
+  printf "%s (%s%s)" "$display_dir" "$branch" "$dirty"
+else
+  printf "%s" "$display_dir"
+fi

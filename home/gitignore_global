@@ -3,7 +3,9 @@ tmp/
 
 ### Agents
 .claude/*.local.*
+.*/worktrees/
 .agents/*.local.*
+.antigravitycli/*
 
 ### XCode
 build/

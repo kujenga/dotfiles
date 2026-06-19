@@ -193,7 +193,6 @@ nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 """ gitgutter
 " Faster update time for git gutter (default 4000ms)
 set updatetime=100
-let g:gitgutter_grep = 'rg'
 " stubbornly sticking with macOS default terminal
 let g:gitgutter_terminal_reports_focus = 0
 " override my color scheme
@@ -203,19 +202,6 @@ let g:gitgutter_override_sign_column_highlight = 1
 " highlight GitGutterAdd    guifg=#009900 guibg=#2D2E27 ctermfg=2 ctermbg=235
 " highlight GitGutterChange guifg=#bbbb00 guibg=#2D2E27 ctermfg=3 ctermbg=235
 " highlight GitGutterDelete guifg=#ff2222 guibg=#2D2E27 ctermfg=1 ctermbg=235
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocActionAsync('format')
 
 "" Airline
 " Display status line on top, so that it is not clipped with vertical panes.

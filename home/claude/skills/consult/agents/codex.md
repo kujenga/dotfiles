@@ -6,6 +6,10 @@ Independent review / consultation via OpenAI Codex, run non-interactively.
 - **Reasoning effort:** `xhigh` for reviews
 - Always read-only: `--sandbox read-only`, `--ephemeral` (no session files).
 - Set `timeout: 600000` on the Bash call.
+- **Background:** `codex exec` already captures the final message with `-o
+  $output_file`, so to run in the background just add `run_in_background: true`
+  and `Read` `$output_file` when the job completes. For `codex review`, redirect
+  stdout to a temp file (`codex review --uncommitted > "$out_file" 2>&1`).
 
 ## A. Code review (preferred for the default consult)
 
@@ -15,11 +19,30 @@ Codex has a purpose-built reviewer that returns clean findings to stdout:
 codex review --uncommitted            # working tree (staged + unstaged + untracked)
 codex review --base <branch>          # diff against a base branch
 codex review --commit <sha>           # a single commit
-codex review --uncommitted "Focus on security and auth boundaries."  # custom instructions
+codex review --uncommitted "Focus on security and auth boundaries."  # focus / custom instructions
 ```
 
 Custom instructions can also be piped: `… | codex review -`. Return its stdout
 to the user; do not paraphrase.
+
+**Review modes** (see SKILL.md → Review Modes) map onto the custom-instructions
+argument:
+
+- *Standard* — no extra instructions.
+- *Security / Custom focus* — pass a focus line, e.g. `"Focus on security and
+  auth boundaries."`
+- *Adversarial* — pass the adversarial prompt below as the instructions:
+  `codex review --uncommitted "$(cat <<'EOF' … EOF)"` (or use B/C with it).
+
+Adversarial prompt (use instead of the defect prompt for design-challenge mode):
+
+```
+You are acting as a skeptical senior reviewer challenging a proposed change. Do NOT just hunt for bugs.
+Question whether this is the right approach: interrogate the design choices, tradeoffs, and assumptions the change depends on.
+Identify where the design could fail or fail to scale, hidden coupling or implicit invariants, and simpler or alternative approaches that were not taken.
+For each point, explain the risk concretely and cite the affected file and line range.
+End with a verdict on whether the chosen approach is sound, with a confidence score between 0 and 1. Propose nothing as an edit — this is review-only.
+```
 
 ## B. Structured findings (when you want parseable JSON)
 

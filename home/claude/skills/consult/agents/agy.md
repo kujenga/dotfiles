@@ -20,6 +20,8 @@ argument. (agy print mode takes the prompt as an argument, not stdin.)
 ```bash
 prompt="$(
   printf '%s\n\n' 'You are reviewing a proposed code change. Report only actionable issues affecting correctness, security, performance, maintainability, or DX. Cite file and line for each. Do not modify any files; this is review-only.'
+  # Optional project context (when the user opts in and CLAUDE.md/AGENTS.md exists):
+  # printf 'Project conventions and standards:\n---\n'; cat CLAUDE.md; printf '\n---\n\n'
   printf 'Diff to review:\n---\n'
   git diff HEAD
   printf '\n---\n'
@@ -27,12 +29,27 @@ prompt="$(
 agy -p "$prompt"
 ```
 
-For a **custom question**, swap the first paragraph for the user's question
-verbatim and keep the diff/context block. For **branch/commit** scope, replace
-`git diff HEAD` with the matching diff command (see SKILL.md Scope Helpers).
+Swap the first paragraph depending on the job (see SKILL.md → Review Modes):
+
+- **Custom question** — replace it with the user's question verbatim.
+- **Security / Custom focus** — append a focus line to it.
+- **Adversarial** — replace it with the design-challenge instruction: *"You are a
+  skeptical senior reviewer. Do not just hunt for bugs — question whether this is
+  the right approach: interrogate the design choices, tradeoffs, and assumptions;
+  identify where it could fail or fail to scale, hidden coupling, and simpler
+  alternatives not taken. Cite file and line. End with a verdict on whether the
+  approach is sound and a confidence score 0–1. Review-only; propose no edits."*
+
+For **branch/commit** scope, replace `git diff HEAD` with the matching diff
+command (see SKILL.md Scope Helpers). Uncomment the project-context lines to
+include conventions.
 
 Return agy's stdout to the user; don't paraphrase. Attribute findings to
 Antigravity.
+
+**Background:** redirect stdout to a temp file and pass `run_in_background:
+true`: `agy -p "$prompt" > "$out_file" 2>&1`. `Read` `$out_file` when the job
+completes.
 
 ## Caveats
 

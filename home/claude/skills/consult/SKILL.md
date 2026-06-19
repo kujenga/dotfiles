@@ -54,25 +54,43 @@ drop a new `agents/<key>.md` following the same shape and list it above.
    Default to Codex when the user clearly wants a review but doesn't care which.
 
 3. **Determine the job.**
-   - **Default (no custom question):** general second-opinion review. Ask
-     scope + focus in the same `AskUserQuestion` call if not already known:
+   - **Default (no custom question):** a second-opinion review. Ask scope, mode,
+     and (conditionally) project context in the same `AskUserQuestion` call if
+     not already known:
      - Scope: "Uncommitted changes" (default) · "Branch diff vs main" ·
        "Specific commit"
-     - Focus: "General" (default) · "Security" · "Performance" · "Error handling"
+     - Review mode: "Standard review" (default) · "Security focus" · "Adversarial
+       — challenge the design" · "Custom focus" (then they name it, e.g.
+       performance, error handling). See [Review Modes](#review-modes).
+     - Project context — **only if** a `CLAUDE.md` or `AGENTS.md` exists in the
+       repo root: "Include it (check against our standards)" · "Standard review".
+       See [Project Context](#project-context).
    - **Custom question:** forward the user's question to the agent(s) verbatim,
-     attaching the relevant diff/files as context. Skip the focus question.
+     attaching the relevant diff/files as context. Skip the mode question (still
+     offer project context if a conventions file exists and it's relevant).
 
-   Combine all needed questions into a single `AskUserQuestion` (max 4). If the
-   user's invocation already answered everything, ask nothing and run.
+   Combine all needed questions into a single `AskUserQuestion` (max 4). Detect
+   answers the user already gave in their invocation (e.g. "adversarial",
+   "security", "vs main", "--background") and skip those questions. If everything
+   is already answered, ask nothing and run.
 
 4. **Show the diff preview** (for review/scoped jobs) — see Scope Helpers. Stop
    if empty; warn + confirm if very large (>2000 lines changed).
 
-5. **Run** the agent(s) per their `agents/<key>.md`. Set `timeout: 600000` on
-   the Bash call. For "Both", issue both Bash calls in one response (parallel) —
-   all invocations are read-only, so there's no contention.
+5. **Foreground or background?** See [Background Execution](#background-execution).
+   Honor an explicit `--wait` (foreground) or `--background`. Otherwise estimate
+   from the preview: a tiny diff (1–2 files) → recommend foreground; anything
+   larger or unclear → recommend background. Ask with a 2-option
+   `AskUserQuestion` (recommended option first). Skip this for a quick custom Q&A
+   that's obviously fast.
 
-6. **Present results** (see Output Handling).
+6. **Run** the agent(s) per their `agents/<key>.md`. Set `timeout: 600000` on
+   the Bash call. For "Both", issue both Bash calls in one response (parallel) —
+   all invocations are read-only, so there's no contention. For background, pass
+   `run_in_background: true` and write output to temp files (see Background
+   Execution).
+
+7. **Present results** (see Output Handling).
 
 ## Scope Helpers
 
@@ -99,6 +117,54 @@ misses new files:
   done
 }
 ```
+
+## Review Modes
+
+The review mode sets which prompt the agent runs with. Each `agents/<key>.md`
+carries the exact prompt text for both modes.
+
+- **Standard review** (default) — defect-finding: flag actionable issues that
+  impact correctness, security, performance, maintainability, or DX, with
+  `file:line` citations and an overall correctness verdict.
+- **Security focus / Custom focus** — the standard review prompt plus a focus
+  line ("Focus: …") steering it at one area (security, performance, error
+  handling, or whatever the user named).
+- **Adversarial — challenge the design** — a *different* job: instead of hunting
+  defects, question whether the chosen approach is the right one. Probe the
+  design choices, tradeoffs, and assumptions; identify where the design could
+  fail, what it implicitly depends on, and what simpler/alternative approaches
+  exist. Still **review-only** — propose nothing as an edit. Use the adversarial
+  prompt from the agent file rather than the defect prompt.
+
+## Project Context
+
+When the user opts in (and a conventions file exists), prepend it to the prompt
+so the review checks against the project's standards. Read `CLAUDE.md` first,
+else `AGENTS.md`, from the repo root, and insert it before the diff:
+
+```
+Project conventions and standards:
+---
+<contents of CLAUDE.md or AGENTS.md>
+---
+```
+
+Both agents support this — it's just a block in the prompt text.
+
+## Background Execution
+
+For anything beyond a tiny/fast job, run the consult in the background so the
+user isn't blocked.
+
+- **Foreground:** run normally; present results when the Bash call returns.
+- **Background:** pass `run_in_background: true` on the Bash call and **write the
+  agent's output to a temp file** (Codex already uses `-o $output_file`; for agy,
+  redirect stdout: `agy -p "$prompt" > "$out_file" 2>&1`). Tell the user it's
+  running and that you'll report back when it finishes — they can keep working.
+  When the background job completes you'll be re-invoked; `Read` the temp file(s)
+  and present results then.
+- **Both agents in background:** launch each as its own background Bash call,
+  each writing to its own temp file.
 
 ## Output Handling
 
@@ -145,14 +211,20 @@ misses new files:
 
 ```
 User: /consult
-→ ask agent + scope + focus → preview diff → run → present
+→ ask agent + scope + mode (+ project context if CLAUDE.md exists)
+→ preview diff → pick foreground/background → run → present
 
 User: consult codex on the uncommitted changes
-→ agent=codex, scope=uncommitted known → ask focus (or default General) → run
+→ agent=codex, scope=uncommitted known → ask mode (+ context) → preview
+→ foreground/background → run
 
 User: ask agy whether this retry logic could deadlock
-→ agent=agy, custom question, attach relevant diff → run → present verbatim
+→ agent=agy, custom question, attach relevant diff → (likely foreground) → present verbatim
+
+User: adversarial review of my branch vs main, in the background
+→ agents=?, scope=branch, mode=adversarial, background known
+→ ask agent only → preview → run with run_in_background → report when done
 
 User: get a second opinion from both on my branch vs main, security focus
-→ agents=both, scope=branch, focus=security → run in parallel → compare
+→ agents=both, scope=branch, mode=security → preview → run in parallel → compare
 ```

@@ -22,6 +22,10 @@
 
 ## Search & Navigation
 
+### Never search the whole home directory
+
+**Never run recursive searches/finds over the entire home directory** (`~`, `/Users/<name>`, or `/`). It is slow and crosses into sensitive, private data. To inspect configuration, start with `ls -l ~/` to see what exists, then search only specific, relevant, non-sensitive subdirectories.
+
 ### Use ripgrep (`rg`) instead of `grep`
 
 Always prefer `rg` over `grep` for searching the codebase. ripgrep is faster, respects `.gitignore` automatically, and has better defaults for code search.

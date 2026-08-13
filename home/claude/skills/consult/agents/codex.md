@@ -2,7 +2,7 @@
 
 Independent review / consultation via OpenAI Codex, run non-interactively.
 
-- **Model:** `gpt-5.3-codex` (fallback `gpt-5.2-codex` on auth error)
+- **Model:** `gpt-5.6-sol` (fallback latest default on error)
 - **Reasoning effort:** `xhigh` for reviews
 - Always read-only: `--sandbox read-only`, `--ephemeral` (no session files).
 - Set `timeout: 600000` on the Bash call.

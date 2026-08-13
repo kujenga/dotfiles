@@ -178,7 +178,7 @@ user isn't blocked.
   **agree** and **diverge**.
 
 ```
-## Codex (gpt-5.3-codex)
+## Codex (<MODEL>)
 <findings>
 
 ## Antigravity (agy)

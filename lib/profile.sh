@@ -196,6 +196,12 @@ if [ -n "$BASH_VERSION" ]; then
     # PS1="$GRAY\h$NC:$LIGHT_PURPLE\w$NC \u\$(__git_ps1)$NC \$ "
     # PS1="\h:\W \u\$(__git_ps1) \$ "
     # PS1="\h:\$(smart_pwd) \u\$(__git_ps1) \$ "
-    PS1="\[$GRAY\]\h\[$NC\]:\[$LIGHT_PURPLE\]\$(smart_pwd_fn)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
+    PS1="\[$LIGHT_PURPLE\]\$(smart_pwd_fn)\[$NC\] \u\$(__git_ps1)\[$NC\]\$ "
     # PS1="\t \h:\W \u\$(__git_ps1) \$ "
+    # Only show the hostname in remote sessions, matching the zsh theme.
+    if [ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] \
+        || [ -n "$CODESPACES" ] || [ -f /.dockerenv ] || [ -f /run/.containerenv ] \
+        || [[ "$(ps -o comm= -p $PPID 2>/dev/null)" == *mosh-server* ]]; then
+        PS1="\[$GRAY\]\h\[$NC\]:$PS1"
+    fi
 fi

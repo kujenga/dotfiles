@@ -9,9 +9,13 @@ local ret_status="%(?:%{$fg_bold[green]%}➜ :%{$fg_bold[red]%}➜ )"
 
 PROMPT='${ret_status} %{$light_purple%}$(smart_pwd_fn)%{$reset_color%} $(git_prompt_info)'
 
-# When we are in an SSH session, add user and hostname information.
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    PROMPT="%n@%m $PROMPT"
+# When we are in a remote session (SSH, mosh, Codespaces, containers), add user
+# and hostname information. mosh-server doesn't set any SSH_* variables, so it
+# is detected via the parent process instead (macOS `ps` reports its full path).
+if [ -n "$SSH_CONNECTION" ] || [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] \
+    || [ -n "$CODESPACES" ] || [ -f /.dockerenv ] || [ -f /run/.containerenv ] \
+    || [[ "$(ps -o comm= -p $PPID 2>/dev/null)" == *mosh-server* ]]; then
+    PROMPT="%{$light_gray%}%n@%m%{$reset_color%} $PROMPT"
 fi
 
 # Overrides for theme variables

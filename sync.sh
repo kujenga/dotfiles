@@ -9,7 +9,7 @@ R="$(dirname "$0")"
 
 DIRECTION='in'
 
-while getopts 'out:h' opt; do
+while getopts 'oOh' opt; do
     case "$opt" in
         o)
             echo "Copying missing files to home directory..."

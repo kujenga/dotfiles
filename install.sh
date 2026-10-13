@@ -32,7 +32,11 @@ install_linuxbrew() {
 # https://ohmyz.sh/#install
 install_oh_my_zsh() {
     if [ ! -e ~/.oh-my-zsh ]; then
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+        # --keep-zshrc: the installer otherwise replaces ~/.zshrc with its
+        # template, clobbering the one synced from this repo.
+        # --unattended: skips chsh and the exec into zsh at the end, which
+        # would stall the rest of this script until that shell exits.
+        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
     else
         echo "oh-my-zsh already installed"
     fi
@@ -82,9 +86,10 @@ if [ "${INSTALL_ALL}" = "yes" ]; then
     brew bundle --file="$DIR/Brewfile"
 fi
 
-install_oh_my_zsh
-
-# Sync configuration files
+# Sync configuration files. This must run before the oh-my-zsh install so that
+# ~/.zshrc from this repo is already in place for it to keep.
 "${DIR}/sync.sh" -o
+
+install_oh_my_zsh
 
 setup_vim

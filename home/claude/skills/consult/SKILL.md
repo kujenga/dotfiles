@@ -159,7 +159,7 @@ user isn't blocked.
 - **Foreground:** run normally; present results when the Bash call returns.
 - **Background:** pass `run_in_background: true` on the Bash call and **write the
   agent's output to a temp file** (Codex already uses `-o $output_file`; for agy,
-  redirect stdout: `agy -p "$prompt" > "$out_file" 2>&1`). Tell the user it's
+  redirect stdout: `agy --model <model> -p "$prompt" > "$out_file" 2>&1`). Tell the user it's
   running and that you'll report back when it finishes — they can keep working.
   When the background job completes you'll be re-invoked; `Read` the temp file(s)
   and present results then.
@@ -181,7 +181,7 @@ user isn't blocked.
 ## Codex (<MODEL>)
 <findings>
 
-## Antigravity (agy)
+## Antigravity (<MODEL>)
 <findings>
 
 **Agreement:** …   **Divergence:** …

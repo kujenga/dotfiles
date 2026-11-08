@@ -1,6 +1,6 @@
 ---
 name: consult
-description: "Consult external coding agents (OpenAI Codex, Google Antigravity/agy) for a second opinion, code review, or any custom question. Runs them via CLI and reports back. Use when the user says consult, second opinion, external review, ask codex/antigravity/agy, or mentions /consult."
+description: "Consult external coding agents and frontier models (OpenAI Codex, Google Antigravity/agy, and pi for Gemini 4 Argon, GPT-6 Astra, Grok, Kimi, GLM, Qwen) for a second opinion, code review, or any custom question. Runs them via CLI and reports back. Use when the user says consult, second opinion, external review, ask codex/antigravity/agy/pi/gemini/argon/grok, or mentions /consult."
 allowed-tools:
   - Bash
   - Read
@@ -21,6 +21,7 @@ the current changes, but the user can ask any agent any custom question.
 |-----|-------|-----|---------|
 | `codex` | OpenAI Codex | `codex` | [agents/codex.md](agents/codex.md) |
 | `agy` | Google Antigravity | `agy` | [agents/agy.md](agents/agy.md) |
+| `pi` | pi, a multi-provider CLI (Gemini 4 Argon, GPT-6 Astra, Grok, open-weights models) | `pi` | [agents/pi.md](agents/pi.md) |
 
 Each agent file is self-contained: it documents how to invoke that CLI for both
 review and free-form consultation, plus its error handling. To add an agent,
@@ -45,13 +46,17 @@ drop a new `agents/<key>.md` following the same shape and list it above.
 1. **Parse the request.** Pull out anything the user already gave: agent(s),
    scope, and a custom question/focus. Only ask about what's missing.
 
-2. **Pick the agent(s).** If the user named one (or "both"/"all"), use it. If
-   not, ask with `AskUserQuestion` (header "Agent"):
+2. **Pick the agent(s).** If the user named an agent or a model (or "both"/"all"),
+   use it. A model name maps to its agent: Gemini 4 Argon, Astra, Grok, Kimi,
+   GLM or Qwen → `pi` with that model (see [agents/pi.md](agents/pi.md#models)).
+   If they named none, ask with `AskUserQuestion` (header "Agent", multiSelect):
    - "Codex (Recommended)" → `codex`
+   - "Gemini 4 Argon (pi)" → `pi` with `argon`
    - "Antigravity (agy)" → `agy`
-   - "Both" → run in parallel
+   - "Other pi model" → `pi`, then they pick a key from the pi models table
 
-   Default to Codex when the user clearly wants a review but doesn't care which.
+   Several selections → run them in parallel. Default to Codex when the user
+   clearly wants a review but doesn't care which.
 
 3. **Determine the job.**
    - **Default (no custom question):** a second-opinion review. Ask scope, mode,
@@ -85,7 +90,7 @@ drop a new `agents/<key>.md` following the same shape and list it above.
    that's obviously fast.
 
 6. **Run** the agent(s) per their `agents/<key>.md`. Set `timeout: 600000` on
-   the Bash call. For "Both", issue both Bash calls in one response (parallel) —
+   the Bash call. For several agents/models, issue all Bash calls in one response (parallel) —
    all invocations are read-only, so there's no contention. For background, pass
    `run_in_background: true` and write output to temp files (see Background
    Execution).
@@ -149,7 +154,7 @@ Project conventions and standards:
 ---
 ```
 
-Both agents support this — it's just a block in the prompt text.
+All agents support this — it's just a block in the prompt text.
 
 ## Background Execution
 
@@ -163,7 +168,7 @@ user isn't blocked.
   running and that you'll report back when it finishes — they can keep working.
   When the background job completes you'll be re-invoked; `Read` the temp file(s)
   and present results then.
-- **Both agents in background:** launch each as its own background Bash call,
+- **Several agents in background:** launch each as its own background Bash call,
   each writing to its own temp file.
 
 ## Output Handling
@@ -184,13 +189,17 @@ user isn't blocked.
 ## Antigravity (<MODEL>)
 <findings>
 
+## pi: Gemini 4 Argon
+<findings>
+
 **Agreement:** …   **Divergence:** …
 ```
 
 ## Safety
 
 - All invocations are **read-only**: Codex runs `--sandbox read-only`; agy is
-  fed the diff as text so it needs no tool calls and can't edit files. Never
+  fed the diff as text so it needs no tool calls and can't edit files; pi runs
+  with `--no-tools`. Never
   pass write-sandbox or `--dangerously-*` flags for a consult.
 - Don't let a consulted agent's output drive file changes on its own — surface
   it to the user; they decide what to act on.
@@ -201,6 +210,7 @@ user isn't blocked.
 |-------|--------|
 | `codex: command not found` | Tell user: `npm i -g @openai/codex` |
 | `agy: command not found` | Tell user: install Antigravity CLI (`agy`) |
+| `pi: command not found` | Tell user: `npm i -g @earendil-works/pi-coding-agent` |
 | Auth / not-logged-in | Tell user to authenticate that CLI (`codex login`, etc.) |
 | Empty diff | Tell user there's nothing to review |
 | Very large diff (>2000 lines) | Warn and confirm before running |
@@ -217,6 +227,9 @@ User: /consult
 User: consult codex on the uncommitted changes
 → agent=codex, scope=uncommitted known → ask mode (+ context) → preview
 → foreground/background → run
+
+User: ask gemini 4 argon to challenge the design of my branch
+→ agent=pi, model=argon, scope=branch, mode=adversarial → preview → run → present
 
 User: ask agy whether this retry logic could deadlock
 → agent=agy, custom question, attach relevant diff → (likely foreground) → present verbatim

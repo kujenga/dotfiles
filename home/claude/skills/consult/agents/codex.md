@@ -2,7 +2,8 @@
 
 Independent review / consultation via OpenAI Codex, run non-interactively.
 
-- **Model:** `gpt-5.6-sol` (fallback latest default on error)
+- **Model:** `gpt-6.1-sol`
+- **Fallback model:** `gpt-6-sol` (if the primary errors, e.g. unavailable on the account)
 - **Reasoning effort:** `xhigh` for reviews
 - Always read-only: `--sandbox read-only`, `--ephemeral` (no session files).
 - Set `timeout: 600000` on the Bash call.
@@ -16,10 +17,11 @@ Independent review / consultation via OpenAI Codex, run non-interactively.
 Codex has a purpose-built reviewer that returns clean findings to stdout:
 
 ```bash
-codex review --uncommitted            # working tree (staged + unstaged + untracked)
-codex review --base <branch>          # diff against a base branch
-codex review --commit <sha>           # a single commit
-codex review --uncommitted "Focus on security and auth boundaries."  # focus / custom instructions
+m=(-c model='"gpt-6.1-sol"' -c model_reasoning_effort='"xhigh"')
+codex review "${m[@]}" --uncommitted            # working tree (staged + unstaged + untracked)
+codex review "${m[@]}" --base <branch>          # diff against a base branch
+codex review "${m[@]}" --commit <sha>           # a single commit
+codex review "${m[@]}" --uncommitted "Focus on security and auth boundaries."  # focus / custom instructions
 ```
 
 Custom instructions can also be piped: `… | codex review -`. Return its stdout
@@ -70,7 +72,7 @@ prompt_file="$(mktemp)"; output_file="$(mktemp)"; stderr_log="$(mktemp)"
 # ... write $prompt_file (instructions + diff) ...
 
 codex exec \
-  -c model='"gpt-5.3-codex"' \
+  -c model='"gpt-6.1-sol"' \
   -c model_reasoning_effort='"xhigh"' \
   --sandbox read-only \
   --ephemeral \
@@ -94,7 +96,7 @@ prompt_file="$(mktemp)"
 { printf '%s\n\n' '<the user question>'
   printf 'Context (diff to consider):\n---\n'; git diff HEAD; printf '\n---\n'; } > "$prompt_file"
 
-codex exec -c model='"gpt-5.3-codex"' --sandbox read-only --ephemeral \
+codex exec -c model='"gpt-6.1-sol"' --sandbox read-only --ephemeral \
   -o /tmp/codex-out.txt - < "$prompt_file" > /dev/null 2>/tmp/codex-err.txt
 ```
 
@@ -117,7 +119,7 @@ A unless you need structured JSON (B) or a non-review answer (C).
 | Error | Action |
 |-------|--------|
 | `codex: command not found` | `npm i -g @openai/codex` |
-| Auth error ("not supported … ChatGPT account") | Retry with `-c model='"gpt-5.2-codex"'`; log the fallback |
+| `model_not_found` / "not supported … ChatGPT account" | Often an outdated CLI (new models need a recent `codex`): suggest `brew upgrade codex` / `npm i -g @openai/codex`. Meanwhile retry with `-c model='"gpt-6-sol"'`; log the fallback |
 | `EPERM` / sandbox errors in logs | Expected — `codex exec` is sandboxed. Ignore. |
 | Empty/missing `$output_file` | Read `$stderr_log` to diagnose |
 | Timeout | Narrow the diff scope |

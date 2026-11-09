@@ -4,6 +4,9 @@ Independent review / consultation via Google's Antigravity CLI, run
 non-interactively in print mode. Backed by Gemini (and optionally Claude / OSS)
 models depending on the user's plan.
 
+- **Model:** `gemini-3.8-flash-high` (`agy models` lists what the account has;
+  drop `--model` to use agy's default if this one is unavailable)
+
 - **Non-interactive flag:** `-p` / `--print` (alias `--prompt`) — runs one prompt
   and prints the response, then exits.
 - **Print timeout:** defaults to 5m; override with `--print-timeout` if needed.
@@ -26,7 +29,7 @@ prompt="$(
   git diff HEAD
   printf '\n---\n'
 )"
-agy -p "$prompt"
+agy --model gemini-3.8-flash-high -p "$prompt"
 ```
 
 Swap the first paragraph depending on the job (see SKILL.md → Review Modes):
@@ -48,7 +51,7 @@ Return agy's stdout to the user; don't paraphrase. Attribute findings to
 Antigravity.
 
 **Background:** redirect stdout to a temp file and pass `run_in_background:
-true`: `agy -p "$prompt" > "$out_file" 2>&1`. `Read` `$out_file` when the job
+true`: `agy --model gemini-3.8-flash-high -p "$prompt" > "$out_file" 2>&1`. `Read` `$out_file` when the job
 completes.
 
 ## Caveats

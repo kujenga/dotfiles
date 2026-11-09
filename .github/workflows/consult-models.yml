@@ -1,0 +1,45 @@
+name: Update /consult models
+
+on:
+  schedule:
+    # Mondays 15:00 UTC
+    - cron: "0 15 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+
+      # Model catalogs ship inside these CLIs, so always take the newest
+      # releases. No auth needed; agy is skipped (it requires a signed-in user).
+      - name: Install Codex and pi CLIs
+        run: npm install --global @openai/codex@latest @earendil-works/pi-coding-agent@latest
+
+      - name: Update model pointers
+        run: .github/scripts/update-consult-models.sh
+
+      # Requires "Allow GitHub Actions to create and approve pull requests"
+      # under Settings → Actions → General.
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/consult-models
+          delete-branch: true
+          commit-message: "skills: update /consult model pointers"
+          title: "skills: update /consult model pointers"
+          body: |
+            Weekly bump of the models referenced by the `/consult` skill, from
+            the model catalogs in the latest `@openai/codex` and
+            `@earendil-works/pi-coding-agent` releases.
+
+            agy's model isn't checked here (it needs a signed-in CLI); run
+            `.github/scripts/update-consult-models.sh` locally to refresh it.
